@@ -12,6 +12,6 @@ public interface StaffService
 
     ArrayList<Staff> findAllStaffMembers();
 
-    List<Staff> findStaffMemeberById(long id);
+    Staff findStaffMemeberById(long id);
 
 }

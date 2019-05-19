@@ -2,12 +2,12 @@ package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.model.Client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface ClientService
 {
 
-    List<Client> findAllClients();
+    ArrayList<Client> findAllClients();
 
     Client findClientById(long id);
 

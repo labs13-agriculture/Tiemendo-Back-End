@@ -1,22 +1,35 @@
 package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.model.Client;
+import com.lambdaschool.tiemendo.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
+
+@Service(value = "clientService")
 public class ClientServiceImpl implements ClientService
 {
 
+    @Autowired
+    private ClientRepository clientrepos;
+
     @Override
-    public List<Client> findAllClients()
+    public ArrayList<Client> findAllClients()
     {
-        return null;
+        ArrayList<Client> list = new ArrayList<>();
+        clientrepos.findAll().iterator().forEachRemaining(list::add);
+        return list;
     }
 
     @Override
-    public Client findClientById(long id)
+    public Client findClientById(long id) throws EntityNotFoundException
     {
-        return null;
+        return clientrepos.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 
     @Override

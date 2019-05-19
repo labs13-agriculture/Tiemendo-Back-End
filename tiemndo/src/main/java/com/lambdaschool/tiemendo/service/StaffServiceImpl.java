@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 
 
@@ -32,8 +33,9 @@ public class StaffServiceImpl implements StaffService
     }
 
     @Override
-    public ArrayList<Staff> findStaffMemeberById(long id)
+    public Staff findStaffMemeberById(long id) throws EntityNotFoundException
     {
-        return null;
+        return staffrepos.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 }
