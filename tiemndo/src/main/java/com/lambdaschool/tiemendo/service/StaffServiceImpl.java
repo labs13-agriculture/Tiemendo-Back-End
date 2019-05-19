@@ -4,6 +4,7 @@ import com.lambdaschool.tiemendo.model.Staff;
 import com.lambdaschool.tiemendo.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityNotFoundException;
@@ -18,10 +19,16 @@ public class StaffServiceImpl implements StaffService
     @Autowired
     private StaffRepository staffrepos;
 
+
+    @Transactional
     @Override
     public Staff addNewStaffMember(Staff staff)
     {
-        return null;
+        Staff newStaffMember = new Staff();
+
+        newStaffMember.setStaffname(staff.getStaffname());
+
+        return staffrepos.save(newStaffMember);
     }
 
     @Override

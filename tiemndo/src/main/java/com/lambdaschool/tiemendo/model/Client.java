@@ -14,21 +14,21 @@ public class Client
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long clientid;
 
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String firstname;
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String lastname;
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String village;
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String loanamount;
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String lid; // LOAN INITIATION DATE
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private String ldd; // LOAN DUE DATE
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private int maizeinventory;
-    @Column(nullable = false)
+    @Column//(nullable = false)
     private int maizegoal;
 
     @ManyToOne

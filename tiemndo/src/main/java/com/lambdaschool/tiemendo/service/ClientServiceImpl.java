@@ -4,6 +4,7 @@ import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -32,10 +33,22 @@ public class ClientServiceImpl implements ClientService
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 
+    @Transactional
     @Override
     public Client addNewClient(Client client)
     {
-        return null;
+       Client newClient = new Client();
+
+       newClient.setFirstname(client.getFirstname());
+       newClient.setLastname(client.getLastname());
+       newClient.setVillage(client.getVillage());
+       newClient.setLoanamount(client.getLoanamount());
+       newClient.setLid(client.getLid());
+       newClient.setLdd(client.getLdd());
+       newClient.setMaizeinventory(client.getMaizeinventory());
+       newClient.setMaizegoal(client.getMaizegoal());
+
+       return clientrepos.save(newClient);
     }
 
     @Override
