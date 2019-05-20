@@ -91,6 +91,6 @@ public class ClientServiceImpl implements ClientService
     @Override
     public void deleteClient(long id)
     {
-
+        clientrepos.delete(findClientById(id));
     }
 }
