@@ -1,5 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
+
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +53,39 @@ public class ClientServiceImpl implements ClientService
        return clientrepos.save(newClient);
     }
 
+
+    @Transactional
     @Override
     public Client updateClient(Client client, long id)
     {
-        return null;
+        var current = clientrepos.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find client with the id \"" + id + "\" to update"));
+                if (client.getFirstname() != null)
+                    current.setFirstname(client.getFirstname());
+
+                if (client.getLastname() != null)
+                    current.setLastname(client.getLastname());
+
+                if (client.getVillage() != null)
+                    current.setVillage(client.getVillage());
+
+                if (client.getLoanamount() != null)
+                    current.setLoanamount(client.getLoanamount());
+
+                if (client.getLid() != null)
+                    current.setLid(client.getLid());
+
+                if (client.getLdd() != null)
+                    current.setLdd(client.getLdd());
+
+                if (client.getMaizeinventory() > 0)
+                    current.setMaizeinventory(client.getMaizeinventory());
+
+                if (client.getMaizegoal() >= 0)
+                    current.setMaizegoal(client.getMaizegoal());
+
+                return clientrepos.save(current);
+
     }
 
     @Override

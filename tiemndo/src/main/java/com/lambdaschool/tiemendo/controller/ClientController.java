@@ -63,6 +63,15 @@ public class ClientController
     }
     // ###########################################################################################
 
+    // ###########################################################################################
+
+    @PutMapping(value = "clients/{id}")
+    public ResponseEntity<?> updateClientWithId(@Valid @RequestBody Client client, @PathVariable long id)
+    {
+    return new ResponseEntity<>(clientService.updateClient(client, id), HttpStatus.OK);
+    }
+
+    // ###########################################################################################
 
 
 

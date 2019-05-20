@@ -112,6 +112,45 @@
             <version>2.3.2</version>
         </dependency>
 
+
+        <!--       ### SECURITY ###   -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.5.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <!--   ### SECURITY ###-->
+
+
         <!--   ###   TESTING   ###   -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -143,6 +182,26 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Heroku Maven Plugin Configuration -->
+            <!-- https://cwiki.apache.org/confluence/display/MAVEN/Maven+Properties+Guide -->
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>2.0.3</version>
+                <configuration>
+                    <appName>chasegarsee-tiemendo</appName>
+                    <includeTarget>false</includeTarget>
+                    <includes>
+                        <include>${project.build.directory}/${project.build.finalName}.jar</include>
+                    </includes>
+                    <jdkVersion>${java.version}</jdkVersion>
+                    <processTypes>
+                        <web>java $JAVA_OPTS -Dserver.port=$PORT -jar target/${project.build.finalName}.jar</web>
+                    </processTypes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
