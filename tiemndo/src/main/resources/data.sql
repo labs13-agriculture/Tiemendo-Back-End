@@ -22,4 +22,6 @@ INSERT INTO users(userid, username, password)
            (11, 'vlad', '$2a$10$bBPJjROovkaNyLDbjBT1cenWf/cqZzlE6.GKqS47CEAzB3ZHVmWrW');
 
 
+
+
 alter sequence hibernate_sequence restart with 20;
