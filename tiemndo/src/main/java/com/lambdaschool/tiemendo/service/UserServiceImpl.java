@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.model.Role;
 import com.lambdaschool.tiemendo.model.User;
 import com.lambdaschool.tiemendo.model.UserRoles;
 import com.lambdaschool.tiemendo.repository.RoleRepository;
@@ -75,14 +76,21 @@ public class UserServiceImpl implements UserDetailsService, UserService
         newUser.setPasswordNoEncrypt(user.getPassword());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
-        for (UserRoles ur : user.getUserRoles())
-        {
-            newRoles.add(new UserRoles(newUser, ur.getRole()));
-        }
-        newUser.setUserRoles(newRoles);
+
+        Role r = rolerepos.findRoleByName("user");
+        newRoles.add(new UserRoles(newUser, r));
 
         return userrepos.save(newUser);
+
     }
+
+        //        for (UserRoles ur : user.getUserRoles())
+//        {
+//            newRoles.add(new UserRoles(newUser, ur.getRole()));
+//        }
+//        newUser.setUserRoles(newRoles);
+//
+//        return userrepos.save(newUser);
 
     @Transactional
     @Override
