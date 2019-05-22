@@ -1,9 +1,9 @@
-INSERT INTO staff(staffid, staffname)
+INSERT INTO staffmembers(staffid, staffname)
         VALUES  (1, 'Frank'),
                 (2, 'Bill'),
                 (3, 'Willie');
 
-INSERT INTO client(clientid, firstname, lastname, village, loanamount, lid, ldd, maizeinventory, maizegoal)
+INSERT INTO clients(clientid, firstname, lastname, village, loanamount, lid, ldd, maizeinventory, maizegoal)
         VALUES (1, 'Elon', 'Musk', 'Las Angeles, CA', '$100,000,000', 'January 1st', 'December 31st', 1000, 1),
                (2, 'Jordan', 'Belfort', 'The Bronx, NY', '$50,000,000', 'February 6th', 'March 31st', 0, 100000),
                (3, 'Robert', 'Downy', 'Malibu, CA', '$10,500,000', 'July 4th', 'October 1st', 426, 265),
@@ -22,6 +22,12 @@ INSERT INTO users(userid, username, password)
            (11, 'vlad', '$2a$10$bBPJjROovkaNyLDbjBT1cenWf/cqZzlE6.GKqS47CEAzB3ZHVmWrW');
 
 
+INSERT INTO staffclients(staffid, clientid) VALUES (1, 1);
+INSERT INTO staffclients(staffid, clientid) VALUES (1, 2);
+INSERT INTO staffclients(staffid, clientid) VALUES (2, 3);
+INSERT INTO staffclients(staffid, clientid) VALUES (2, 4);
+INSERT INTO staffclients(staffid, clientid) VALUES (3, 5);
+INSERT INTO staffclients(staffid, clientid) VALUES (3, 6);
 
 
 alter sequence hibernate_sequence restart with 20;
