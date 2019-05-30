@@ -4,38 +4,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "client")
-public class Client
+@Table(name = "clients")
+public class Client extends Auditable
 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long clientid;
 
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String firstname;
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String lastname;
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String village;
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String loanamount;
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String lid; // LOAN INITIATION DATE
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private String ldd; // LOAN DUE DATE
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private int maizeinventory;
-    @Column//(nullable = false)
+    @Column(nullable = false)
     private int maizegoal;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "clients")
     @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
-    @JoinColumn(name = "staffid")
     @JsonIgnore
-    private Staff staff;
+    private List<Staff> staffmembers = new ArrayList<>();
 
 
     public Client()
@@ -43,7 +44,7 @@ public class Client
     }
 
 
-    public Client(String firstname, String lastname, String village, String loanamount, String lid, String ldd, int maizeinventory, int maizegoal, Staff staff)
+    public Client(String firstname, String lastname, String village, String loanamount, String lid, String ldd, int maizeinventory, int maizegoal, List<Staff> staffmembers)
     {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -53,7 +54,7 @@ public class Client
         this.ldd = ldd;
         this.maizeinventory = maizeinventory;
         this.maizegoal = maizegoal;
-        this.staff = staff;
+        this.staffmembers = staffmembers;
     }
 
     public long getClientid()
@@ -146,13 +147,13 @@ public class Client
         this.maizegoal = maizegoal;
     }
 
-    public Staff getStaff()
+    public List<Staff> getStaff()
     {
-        return staff;
+        return staffmembers;
     }
 
-    public void setStaff(Staff staff)
+    public void setStaff(List<Staff> staffmembers)
     {
-        this.staff = staff;
+        this.staffmembers = staffmembers;
     }
 }

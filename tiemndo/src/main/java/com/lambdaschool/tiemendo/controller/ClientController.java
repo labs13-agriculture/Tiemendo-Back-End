@@ -63,6 +63,29 @@ public class ClientController
     }
     // ###########################################################################################
 
+    // ###########################################################################################
+
+    @PutMapping(value = "client/{id}")
+    public ResponseEntity<?> updateClientWithId(@Valid @RequestBody Client client, @PathVariable long id)
+    {
+    return new ResponseEntity<>(clientService.updateClient(client, id), HttpStatus.OK);
+    }
+
+    // ###########################################################################################
+
+    // ###########################################################################################
+
+    @DeleteMapping(value = "client/{id}")
+    public ResponseEntity<?> deleteClient(@PathVariable long id)
+    {
+        clientService.deleteClient(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // ###########################################################################################
+
+
+
 
 
 

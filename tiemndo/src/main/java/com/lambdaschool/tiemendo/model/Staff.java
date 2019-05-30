@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "staff")
-public class Staff
+@Table(name = "staffmembers")
+public class Staff extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +17,10 @@ public class Staff
 
     private String staffname;
 
-    @OneToMany(mappedBy = "staff")
+    @ManyToMany
+    @JoinTable(name = "staffclients",
+        joinColumns = {@JoinColumn(name="staffid")},
+        inverseJoinColumns = {@JoinColumn(name="clientid")})
     @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
     @JsonIgnore
     private List<Client> clients = new ArrayList<>();
