@@ -1,3 +1,4 @@
+SELECT * FROM users WHERE userid=0
 -- INSERT INTO staffmembers(staffid, staffname)
 --         VALUES  (1, 'Frank'),
 --                 (2, 'Bill'),
