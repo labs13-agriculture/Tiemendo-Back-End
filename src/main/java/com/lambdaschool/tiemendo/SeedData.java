@@ -64,7 +64,7 @@ public class SeedData implements CommandLineRunner
         {
             ArrayList<UserRoles> admin = new ArrayList<>();
             admin.add(new UserRoles(new User(), role1));
-            User newUser = new User(faker.name().firstName(), "password", admin);
+            User newUser = new User(faker.name().firstName() + i, "password", admin);
             seedAdmins.add(newUser);
 //            userrepos.save(newUser);
         }
@@ -77,7 +77,7 @@ public class SeedData implements CommandLineRunner
         {
             ArrayList<UserRoles> user = new ArrayList<>();
             user.add(new UserRoles(new User(), role2));
-            User newUser = new User(faker.name().username(), "password", user);
+            User newUser = new User(faker.name().username() + i, "password", user);
             seedUsers.add(newUser);
 //            userrepos.save(newUser);
         }
