@@ -1,4 +1,7 @@
 SELECT * FROM users WHERE userid=0
+-- this is a hacky way to get rid of these actions without
+
+
 -- INSERT INTO staffmembers(staffid, staffname)
 --         VALUES  (1, 'Frank'),
 --                 (2, 'Bill'),
