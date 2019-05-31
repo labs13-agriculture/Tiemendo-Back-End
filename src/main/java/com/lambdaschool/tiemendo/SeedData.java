@@ -73,7 +73,7 @@ public class SeedData implements CommandLineRunner
         System.out.println("Made it past first faker loop");
         //adding 475 seeded users, all with password "password"
         ArrayList<User> seedUsers = new ArrayList<>();
-        for(int i = 0; i < 475; i++)
+        for(int i = 0; i < 25; i++)
         {
             ArrayList<UserRoles> user = new ArrayList<>();
             user.add(new UserRoles(new User(), role2));
