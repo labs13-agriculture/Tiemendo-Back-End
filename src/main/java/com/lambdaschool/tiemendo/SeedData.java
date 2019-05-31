@@ -21,6 +21,7 @@ public class SeedData implements CommandLineRunner
     RetailerContactRepository retailerContactRepository;
     RetailerLocationRepository retailerLocationRepository;
     
+    
     public SeedData(RoleRepository rolerepos, UserRepository userrepos, StaffRepository staffrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository)
     {
         this.rolerepos = rolerepos;
@@ -102,6 +103,9 @@ public class SeedData implements CommandLineRunner
         rl1.setRetailer(r1);
     
         retailerRepository.save(r1);
+        
+        
+        //ORGANIZATION TESTING BELOW
         
 
     }
