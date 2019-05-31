@@ -2,8 +2,7 @@ package com.lambdaschool.tiemendo;
 
 import com.github.javafaker.Faker;
 import com.lambdaschool.tiemendo.model.*;
-import com.lambdaschool.tiemendo.repository.RoleRepository;
-import com.lambdaschool.tiemendo.repository.UserRepository;
+import com.lambdaschool.tiemendo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +15,19 @@ public class SeedData implements CommandLineRunner
 {
     RoleRepository rolerepos;
     UserRepository userrepos;
-
-    public SeedData(RoleRepository rolerepos, UserRepository userrepos)
+    RetailerRepository retailerRepository;
+    RetailerContactRepository retailerContactRepository;
+    RetailerLocationRepository retailerLocationRepository;
+    
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository)
     {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
+        this.retailerRepository = retailerRepository;
+        this.retailerContactRepository = retailerContactRepository;
+        this.retailerLocationRepository = retailerLocationRepository;
     }
-
+    
     @Override
     public void run(String[] args) throws Exception
     {
@@ -79,7 +84,21 @@ public class SeedData implements CommandLineRunner
         }
         userrepos.saveAll(seedUsers);
         System.out.println("Finished seed data");
-
+    
+    
+        //ADDING RETAILERS WITH CONTACTS AND LOCATIONS
+        RetailerLocation rl1 = new RetailerLocation("123 main street", "North", "District 2", "Downtown", "Crooked tree", new Retailer());
+        //retailerLocationRepository.save(rl1);
+    
+        RetailerContact rc1 = new RetailerContact("Mr", "John Doe", "M", "Ghanaian", "01/01/2010", "PhD", "Manager", "555-555-5555", "email@example.com", new Retailer());
+        //retailerContactRepository.save(rc1);
+    
+        Retailer r1 = new Retailer("Lowes", 1989, false, rl1, rc1);
+    
+        rc1.setRetailer(r1);
+        rl1.setRetailer(r1);
+    
+        retailerRepository.save(r1);
         
 
     }
