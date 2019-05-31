@@ -3,13 +3,11 @@ package com.lambdaschool.tiemendo;
 import com.github.javafaker.Faker;
 import com.lambdaschool.tiemendo.model.*;
 import com.lambdaschool.tiemendo.repository.RoleRepository;
-import com.lambdaschool.tiemendo.repository.StaffRepository;
 import com.lambdaschool.tiemendo.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Transactional
@@ -18,13 +16,11 @@ public class SeedData implements CommandLineRunner
 {
     RoleRepository rolerepos;
     UserRepository userrepos;
-    StaffRepository staffrepos;
 
-    public SeedData(RoleRepository rolerepos, UserRepository userrepos, StaffRepository staffrepos)
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos)
     {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
-        this.staffrepos = staffrepos;
     }
 
     @Override
