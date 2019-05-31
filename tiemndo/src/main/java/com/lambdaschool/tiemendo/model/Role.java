@@ -23,7 +23,7 @@ public class Role extends Auditable
     String name;
 
     @OneToMany(mappedBy = "role")
-    @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
+    @Cascade(CascadeType.ALL)
     @JsonIgnoreProperties("role")
     private List<UserRoles> userRoles = new ArrayList<>();
 
