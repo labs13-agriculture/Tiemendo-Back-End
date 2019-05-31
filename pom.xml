@@ -167,10 +167,10 @@
             <scope>test</scope>
         </dependency>
         <!--   ###   LOGGER   ###   -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
+<!--        </dependency>-->
         <!--   ###   LOGGER   ###   -->
 
     </dependencies>
@@ -192,7 +192,7 @@
                     <appName>tieme-ndo-api</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
-                        <include>${project.build.directory}\${project.build.finalName}.jar</include>
+                        <include>${project.build.directory}/${project.build.finalName}.jar</include>
                     </includes>
                     <jdkVersion>${java.version}</jdkVersion>
                     <processTypes>
