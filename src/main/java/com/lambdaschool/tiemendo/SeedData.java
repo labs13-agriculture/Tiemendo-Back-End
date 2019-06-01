@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class SeedData implements CommandLineRunner
 {
     RoleRepository rolerepos;
     UserRepository userrepos;
-    StaffRepository staffrepos;
     RetailerRepository retailerRepository;
     RetailerContactRepository retailerContactRepository;
     RetailerLocationRepository retailerLocationRepository;
@@ -25,12 +23,12 @@ public class SeedData implements CommandLineRunner
     OrganizationContactRepository organizationContactRepository;
     OrganizationLocationRepository organizationLocationRepository;
     
+
     
-    public SeedData(RoleRepository rolerepos, UserRepository userrepos, StaffRepository staffrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository, OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository, OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
     {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
-        this.staffrepos = staffrepos;
         this.retailerRepository = retailerRepository;
         this.retailerContactRepository = retailerContactRepository;
         this.retailerLocationRepository = retailerLocationRepository;
