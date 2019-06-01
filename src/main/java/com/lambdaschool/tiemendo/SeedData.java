@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Component
@@ -20,9 +21,12 @@ public class SeedData implements CommandLineRunner
     RetailerRepository retailerRepository;
     RetailerContactRepository retailerContactRepository;
     RetailerLocationRepository retailerLocationRepository;
+    OrganizationRepository organizationRepository;
+    OrganizationContactRepository organizationContactRepository;
+    OrganizationLocationRepository organizationLocationRepository;
     
     
-    public SeedData(RoleRepository rolerepos, UserRepository userrepos, StaffRepository staffrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository)
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos, StaffRepository staffrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository, OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
     {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
@@ -30,6 +34,9 @@ public class SeedData implements CommandLineRunner
         this.retailerRepository = retailerRepository;
         this.retailerContactRepository = retailerContactRepository;
         this.retailerLocationRepository = retailerLocationRepository;
+        this.organizationRepository = organizationRepository;
+        this.organizationContactRepository = organizationContactRepository;
+        this.organizationLocationRepository = organizationLocationRepository;
     }
     
     @Override
@@ -106,6 +113,22 @@ public class SeedData implements CommandLineRunner
         
         
         //ORGANIZATION TESTING BELOW
+        OrganizationContact oc1 = new OrganizationContact("Denise", "111-555-1234", "email@example.com", "Fundraising director", new Organization());
+        List<OrganizationContact> oc1list = new ArrayList<>();
+        oc1list.add(oc1);
+        
+        OrganizationLocation ol1 = new OrganizationLocation("555 Organization Road", "Org town", "North side", "4-way intersection", new Organization());
+        List<OrganizationLocation> ol1list = new ArrayList<>();
+        ol1list.add(ol1);
+        
+        Organization o1 = new Organization(ol1list, "", 17, false, oc1list);
+        
+        oc1.setOrganization(o1);
+        ol1.setOrganization(o1);
+        
+        organizationRepository.save(o1);
+        organizationContactRepository.save(oc1);
+        organizationLocationRepository.save(ol1);
         
 
     }
