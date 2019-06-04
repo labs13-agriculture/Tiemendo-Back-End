@@ -23,6 +23,7 @@ public class InventoryItem {
 
     @Column(unique = true, nullable = false)
     private String name;
+    private boolean active = true;
 
     @OneToMany(mappedBy = "item")
     private List<TransactionItem> transactions = new ArrayList<>();
@@ -50,11 +51,19 @@ public class InventoryItem {
         this.name = name;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public List<TransactionItem> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(ArrayList<TransactionItem> transactions) {
+    public void setTransactions(List<TransactionItem> transactions) {
         this.transactions = transactions;
     }
 }
