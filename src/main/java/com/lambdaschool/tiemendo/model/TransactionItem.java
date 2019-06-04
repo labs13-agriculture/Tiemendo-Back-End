@@ -16,6 +16,7 @@ public class TransactionItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int quantity;
+    private double unitPrice;
 
     @ManyToOne
     @JoinColumn(name="item")

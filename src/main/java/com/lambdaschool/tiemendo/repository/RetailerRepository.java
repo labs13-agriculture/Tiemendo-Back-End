@@ -7,4 +7,5 @@ public interface RetailerRepository extends CrudRepository<Retailer, Long>
 {
     Retailer findRetailerByRetailerid(long id);
     
+    Retailer findByName(String name);
 }
