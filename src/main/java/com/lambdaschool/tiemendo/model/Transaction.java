@@ -29,6 +29,10 @@ public class Transaction {
 //    Sales personnel (officer who make the payments for the farmer)
     private String personnel;
 
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private Client client;
+
     public Transaction() {
     }
 
@@ -86,5 +90,17 @@ public class Transaction {
 
     public void setPersonnel(String personnel) {
         this.personnel = personnel;
+    }
+
+    public void setInputs(List<TransactionItem> inputs) {
+        this.inputs = inputs;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
