@@ -104,4 +104,8 @@ public class User extends Auditable
         }
         return rtnList;
     }
+    public String getCreator()
+    {
+        return this.createdBy;
+    }
 }
