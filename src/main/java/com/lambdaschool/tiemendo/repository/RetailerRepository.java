@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface RetailerRepository extends CrudRepository<Retailer, Long>
 {
+    Retailer findByRetailername(String name);
 }

@@ -22,10 +22,11 @@ public class SeedData implements CommandLineRunner
     OrganizationRepository organizationRepository;
     OrganizationContactRepository organizationContactRepository;
     OrganizationLocationRepository organizationLocationRepository;
+    InventoryItemRepository inventoryItemRepository;
     
 
     
-    public SeedData(RoleRepository rolerepos, UserRepository userrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository, OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos, RetailerRepository retailerRepository, RetailerContactRepository retailerContactRepository, RetailerLocationRepository retailerLocationRepository, OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository, InventoryItemRepository inventoryItemRepository)
     {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
@@ -35,6 +36,8 @@ public class SeedData implements CommandLineRunner
         this.organizationRepository = organizationRepository;
         this.organizationContactRepository = organizationContactRepository;
         this.organizationLocationRepository = organizationLocationRepository;
+        this.inventoryItemRepository = inventoryItemRepository;
+
     }
     
     @Override
@@ -127,7 +130,16 @@ public class SeedData implements CommandLineRunner
         organizationRepository.save(o1);
         organizationContactRepository.save(oc1);
         organizationLocationRepository.save(ol1);
-        
+
+
+        //INVENTORY ITEM TESTING BELOW
+        InventoryItem ii1 = new InventoryItem("Shovel");
+
+        inventoryItemRepository.save(ii1);
+
+
+
+
 
     }
 }
