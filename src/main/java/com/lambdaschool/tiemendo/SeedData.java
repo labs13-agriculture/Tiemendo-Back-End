@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -126,6 +127,9 @@ public class SeedData implements CommandLineRunner
         
         oc1.setOrganization(o1);
         ol1.setOrganization(o1);
+
+        Installment i = new Installment(10.50, new Date(), "CASH", "Joshua");
+        o1.getInstallments().add(i);
         
         organizationRepository.save(o1);
         organizationContactRepository.save(oc1);
@@ -134,12 +138,7 @@ public class SeedData implements CommandLineRunner
 
         //INVENTORY ITEM TESTING BELOW
         InventoryItem ii1 = new InventoryItem("Shovel");
-
         inventoryItemRepository.save(ii1);
-
-
-
-
 
     }
 }

@@ -4,13 +4,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="installment")
-public class Installment {
+public class Installment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 //    Amount paid
-    private double paid;
+    private double amountPaid;
 //    Date paid
     private Date datePaid;
 //    Mode of payment
@@ -19,11 +18,18 @@ public class Installment {
 //    Officer who logged the farmer’s payment
     private String officer;
 
-//    @ManyToOne
-//    @JoinColumn(name="client_id")
-//    private Client client;
+    @ManyToOne
+    @JoinColumn(name="client")
+    private Client client;
 
     public Installment() {
+    }
+
+    public Installment(double amountPaid, Date datePaid, String mode, String officer) {
+        this.amountPaid = amountPaid;
+        this.datePaid = datePaid;
+        this.mode = mode;
+        this.officer = officer;
     }
 
     public long getId() {
@@ -34,12 +40,12 @@ public class Installment {
         this.id = id;
     }
 
-    public double getPaid() {
-        return paid;
+    public double getAmountPaid() {
+        return amountPaid;
     }
 
-    public void setPaid(double paid) {
-        this.paid = paid;
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     public Date getDatePaid() {
@@ -66,11 +72,4 @@ public class Installment {
         this.officer = officer;
     }
 
-//    public Client getClient() {
-//        return client;
-//    }
-//
-//    public void setClient(Client client) {
-//        this.client = client;
-//    }
 }

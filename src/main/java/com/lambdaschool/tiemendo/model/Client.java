@@ -6,25 +6,26 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
+@Entity
+@Table(name= "client")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Client extends Auditable {
     // Unique ID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private boolean isLead;
     private String type;
 
     // Transactions
-    @OneToMany(/*mappedBy="client"*/)
-//    @JsonIgnoreProperties("client")
+    @OneToMany(mappedBy="client")
+    @JsonIgnoreProperties("client")
     private List<Transaction> transactions = new ArrayList<>();
     // Installments
 
-    @OneToMany(/*mappedBy="client"*/)
-//    @JsonIgnoreProperties("client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("client")
     private List<Installment> installments = new ArrayList<>();
 
     //TODO Contact
