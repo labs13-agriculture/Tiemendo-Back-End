@@ -33,6 +33,7 @@ public class InventoryItem {
 
     public InventoryItem(String name) {
         this.name = name;
+        this.active = true;
     }
 
     public long getId() {
