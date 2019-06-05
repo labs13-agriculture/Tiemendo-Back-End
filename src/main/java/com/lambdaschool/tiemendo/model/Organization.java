@@ -1,16 +1,21 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 @Entity
 @Table(name = "organizations")
 public class Organization extends Client
 {
     @OneToMany(mappedBy = "organization")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JsonIgnoreProperties("organization")
     private List<OrganizationLocation> organizationlocations = new ArrayList<>();
     
@@ -18,13 +23,14 @@ public class Organization extends Client
     private int beneficiaries;
     
     @OneToMany(mappedBy = "organization")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JsonIgnoreProperties("organization")
     private List<OrganizationContact> organizationcontacts = new ArrayList<>();
 
     public Organization() {
     }
 
-    public Organization(String name, boolean isLead, List<OrganizationLocation> organizationlocations, String headquarters, int beneficiaries, List<OrganizationContact> organizationcontacts) {
+    public Organization( String name, boolean isLead, List<OrganizationLocation> organizationlocations, String headquarters, int beneficiaries, List<OrganizationContact> organizationcontacts) {
         super("", false);
         this.organizationlocations = organizationlocations;
         this.headquarters = headquarters;

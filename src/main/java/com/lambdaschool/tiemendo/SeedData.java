@@ -138,6 +138,7 @@ public class SeedData implements CommandLineRunner
 
         //INVENTORY ITEM TESTING BELOW
         InventoryItem ii1 = new InventoryItem("Shovel");
+
         inventoryItemRepository.save(ii1);
 
     }
