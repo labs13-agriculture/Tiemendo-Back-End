@@ -15,7 +15,7 @@ public interface RetailerService
 
     Retailer save(Retailer newRetailer);
     
-    Retailer update(long id, Retailer update);
+    Retailer update(long id, Retailer update) throws Exception;
     
     void delete(long id);
 }

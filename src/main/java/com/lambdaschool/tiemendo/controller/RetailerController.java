@@ -49,11 +49,12 @@ public class RetailerController
     
     //Must include contact and location id numbers if one exists (see retailerserviceimpl)
     @PutMapping(value = "/update/{id}", produces = {"application/json"}, consumes = {"application/json"})
-    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer)
+    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer) throws Exception
     {
-        retailerService.update(id, updatedRetailer);
         
-        return new ResponseEntity<>(retailerService.findRetailerById(id), HttpStatus.OK);
+        //attempting sleep to make sure database has time to update before returning retailer
+//        Thread.sleep(750);
+        return new ResponseEntity<>(retailerService.update(id, updatedRetailer), HttpStatus.OK);
     }
     
     @DeleteMapping(value = "/delete/{id}")
