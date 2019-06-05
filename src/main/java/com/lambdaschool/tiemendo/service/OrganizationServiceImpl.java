@@ -11,6 +11,7 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springfox.documentation.service.Contact;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -38,6 +39,22 @@ public class OrganizationServiceImpl implements OrganizationService
         return list;
     }
 
+    @Override
+    public List<OrganizationContact> findAllContacts()
+    {
+        List<OrganizationContact> list = new ArrayList<>();
+        organizationContactRepos.findAll().iterator().forEachRemaining(list::add);
+        return list;
+    }
+
+
+    @Override
+    public List<OrganizationLocation> findAllLocations()
+    {
+        List<OrganizationLocation> list = new ArrayList<>();
+        organizationLocationRepos.findAll().iterator().forEachRemaining(list::add);
+        return list;
+    }
 
     @Override
     public Organization findOrganizationById(long id) throws EntityNotFoundException
