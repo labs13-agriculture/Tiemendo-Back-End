@@ -3,6 +3,9 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cascade;
 
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
+import static org.hibernate.annotations.CascadeType.DELETE;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +18,8 @@ import java.util.List;
 public class Organization extends Client
 {
     @OneToMany(mappedBy = "organization")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+            //, cascade = CascadeType.ALL)
+
     @JsonIgnoreProperties("organization")
     private List<OrganizationLocation> organizationlocations = new ArrayList<>();
     
