@@ -85,4 +85,44 @@ public class OrganizationServiceImpl implements OrganizationService
     {
         return null;
     }
+
+
+    @Transactional
+    @Override
+    public void delete(long id) throws EntityNotFoundException
+    {
+        if (organizationRepos.findById(id).isPresent())
+        {
+            organizationRepos.deleteById(id);
+        } else
+        {
+            throw new EntityNotFoundException(Long.toString(id));
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteContact(long id) throws EntityNotFoundException
+    {
+        if(organizationContactRepos.findById(id).isPresent())
+        {
+            organizationContactRepos.deleteById(id);
+        } else
+        {
+            throw new EntityNotFoundException(Long.toString(id));
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteLocation(long id) throws EntityNotFoundException
+    {
+        if(organizationLocationRepos.findById(id).isPresent())
+        {
+            organizationLocationRepos.deleteById(id);
+        } else
+        {
+            throw new EntityNotFoundException(Long.toString(id));
+        }
+    }
 }

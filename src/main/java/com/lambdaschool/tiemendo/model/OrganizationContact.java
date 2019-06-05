@@ -1,8 +1,12 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+
+import static org.hibernate.annotations.CascadeType.DELETE;
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Entity
 @Table(name = "organizationcontacts")
@@ -18,8 +22,10 @@ public class OrganizationContact
     private String position;
     
     @ManyToOne
+            //(cascade = CascadeType.ALL)
     @JoinColumn(name = "organizationcontacts")
     @JsonIgnoreProperties("organizationcontacts")
+
     private Organization organization;
     
     public OrganizationContact()

@@ -49,4 +49,24 @@ public class OrganizationController
     }
 
 
+    @DeleteMapping("/organization/{organizationId}")
+    public ResponseEntity<?> deleteOrganizationById(@PathVariable Long organizationId)
+    {
+        organizationService.delete(organizationId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/contact/{contactId}")
+    public ResponseEntity<?> deleteContactById(@PathVariable Long contactId)
+    {
+        organizationService.deleteContact(contactId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<?> deleteLocationById(@PathVariable Long locationId)
+    {
+        organizationService.deleteLocation(locationId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

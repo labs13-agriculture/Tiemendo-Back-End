@@ -16,4 +16,10 @@ public interface OrganizationService
 
     Organization update(Organization organization, long id);
 
+    void delete(long id);
+
+    void deleteContact(long id);
+
+    void deleteLocation(long id);
+
 }
