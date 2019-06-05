@@ -3,11 +3,11 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
+
 
 @Entity
 @Table(name="transactions")
