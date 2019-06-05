@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service(value = "inventoryItemService")
-public class InventoryItemServiceImpl implements InventoryItemService
+public class ItemTypeServiceImpl implements ItemTypeService
 {
     @Autowired
-    private ItemTypeRepository inventoryrepos;
+    private ItemTypeRepository itemTypeRepository;
 
     @Transactional
     @Override
     public List<ItemType> findAll()
     {
         List<ItemType> list = new ArrayList<>();
-        inventoryrepos.findAll().iterator().forEachRemaining(list::add);
+        itemTypeRepository.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
 }
