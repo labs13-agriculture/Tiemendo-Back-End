@@ -13,4 +13,9 @@ public interface RetailerService
     
     Retailer findRetailerById(long id);
 
+    Retailer save(Retailer newRetailer);
+    
+    Retailer update(long id, Retailer update);
+    
+    void delete(long id);
 }

@@ -38,9 +38,29 @@ public class RetailerController
     @GetMapping(value = "/{id}", produces = {"application/json"})
     public ResponseEntity<?> findRetailerById(@PathVariable long id)
     {
-    
+        return new ResponseEntity<>(retailerService.findRetailerById(id), HttpStatus.OK);
     }
     
+    @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
+    public ResponseEntity<?> addNewRetailer(@RequestBody Retailer newRetailer)
+    {
+        return new ResponseEntity<>(retailerService.save(newRetailer), HttpStatus.OK);
+    }
     
+    //Must include contact and location id numbers if one exists (see retailerserviceimpl)
+    @PutMapping(value = "/update/{id}", produces = {"application/json"}, consumes = {"application/json"})
+    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer)
+    {
+        retailerService.update(id, updatedRetailer);
+        
+        return new ResponseEntity<>(retailerService.findRetailerById(id), HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> deleteRetailer(@PathVariable long id)
+    {
+        retailerService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

@@ -71,5 +71,14 @@ public class Installment{
     public void setOfficer(String officer) {
         this.officer = officer;
     }
-
+    
+    public Client getClient()
+    {
+        return client;
+    }
+    
+    public void setClient(Client client)
+    {
+        this.client = client;
+    }
 }

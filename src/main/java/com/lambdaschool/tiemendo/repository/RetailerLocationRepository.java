@@ -7,5 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface RetailerLocationRepository extends PagingAndSortingRepository<RetailerLocation, Long>
 {
-
+    @Query(value = "UPDATE retailerlocations SET address=:address, community=:community, district=:district, landmark=:landmark, region=:region WHERE retailerlocationid=:id", nativeQuery = true)
+    void updateLocation(long id, String address, String community, String district, String landmark, String region);
 }

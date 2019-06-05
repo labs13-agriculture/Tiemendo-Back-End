@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -130,6 +131,7 @@ public class SeedData implements CommandLineRunner
 
         Installment i = new Installment(10.50, new Date(), "CASH", "Joshua");
         o1.getInstallments().add(i);
+        i.setClient(o1);
         
         organizationRepository.save(o1);
         organizationContactRepository.save(oc1);
