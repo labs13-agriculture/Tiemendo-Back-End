@@ -11,6 +11,7 @@ import com.lambdaschool.tiemendo.repository.RetailerLocationRepository;
 import com.lambdaschool.tiemendo.repository.RetailerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -42,11 +43,21 @@ public class RetailerServiceImpl implements RetailerService
     }
     
     @Override
-    public List<Retailer> searchRetailer(String name, String location, boolean lead)
+    public List<Retailer> searchRetailer(String name, String location, boolean lead) throws ResourceNotFoundException
     {
-        List<Retailer> list = new ArrayList<>();
-        //retailerRepos.searchRetailers(name, location, lead).forEachRemaining(list::add);
-        return list;
+        //SELECT * FROM retailers r, client c, retailerlocations l WHERE c.id = r.id AND r.retailerlocationid = l.retailerlocationid AND c.name ILIKE 'a%' AND (l.address ILIKE 'AB%' OR l.community ILIKE 'AB%' OR l.district ILIKE 'AB%' OR l.landmark ILIKE 'AB%' OR l.region ILIKE 'AB%')
+        // % is a wildcard, so other characters can exist before and after search parameter
+        String nameSearchParam = "%" + name + "%";
+        String locationSearchParam = "%" + location + "%";
+        List<Retailer> results = retailerRepos.searchRetailers(nameSearchParam, locationSearchParam, lead);
+        if (results.size() != 0)
+        {
+            return results;
+        }
+        else
+        {
+            throw new ResourceNotFoundException("No Retailers found matching search terms");
+        }
     }
     
     @Override
@@ -71,20 +82,14 @@ public class RetailerServiceImpl implements RetailerService
         return retailerRepos.save(newRetailer);
     }
     
-    @Transactional
+    @Transactional(propagation= Propagation.REQUIRES_NEW)
     @Override
-    public Retailer update(long id, Retailer update) throws ResourceNotFoundException
+    public Retailer update(long id, Retailer update) throws Exception
     {
         //make sure the retailer we're looking to update exists
         if (retailerRepos.findById(id).isPresent())
         {
-            //Only startyear is in retailers table
-            //System.out.println("Running retailer update");
-            retailerRepos.updateRetailer(id, update.getStartyear());
             
-            //Update the rest of retailer in client table
-            //System.out.println("Running client update");
-            clientRepository.updateClient(id, update.isLead(), update.getName());
             
             //update the retailercontacts table - HERE'S WHY WE NEED ID INCLUDED
             //make sure there is a retailercontact with a valid id
@@ -105,20 +110,33 @@ public class RetailerServiceImpl implements RetailerService
             {
                 System.out.println(rl.getAddress() + " " + rl.getCommunity() + " " + rl.getDistrict());
                 System.out.println("Running location update");
-                retailerLocationRepository.updateLocation(id, rl.getAddress(), rl.getCommunity(), rl.getDistrict(), rl.getLandmark(), rl.getRegion());
+                retailerLocationRepository.updateLocation(rl.getRetailerlocationid(), rl.getAddress(), rl.getCommunity(), rl.getDistrict(), rl.getLandmark(), rl.getRegion());
             }
             else
             {
                 //System.out.println("Running location save");
                 retailerLocationRepository.save(rl);
             }
+            //Update the rest of retailer in client table
+            //System.out.println("Running client update");
+            clientRepository.updateClient(id, update.isLead(), update.getName());
+            
+            //Only startyear is in retailers table
+            //System.out.println("Running retailer update");
+            return retailerRepos.save(update);
+    
+            
             
         }
         else
         {
             throw new ResourceNotFoundException("Could not find retailer with id: " + id);
         }
-        return null;
+//        Thread.sleep(750);
+    
+        
+        
+//        return null;
     }
     
     @Override

@@ -30,9 +30,9 @@ public class RetailerController
     {//todo: sql search query once db structure finalized
         //Lead parameter must be string, but can be converted to boolean. Only "true" (not case sensitive) will evaluate to true with Boolean.parseBoolean()
         boolean isLead = Boolean.parseBoolean(lead);
-        //Will need to figure out search once database shape is finalized
         
-        return new ResponseEntity<>(retailerService.findAll(), HttpStatus.OK);
+        
+        return new ResponseEntity<>(retailerService.searchRetailer(name, location, isLead), HttpStatus.OK);
     }
     
     @GetMapping(value = "/{id}", produces = {"application/json"})
@@ -49,11 +49,12 @@ public class RetailerController
     
     //Must include contact and location id numbers if one exists (see retailerserviceimpl)
     @PutMapping(value = "/update/{id}", produces = {"application/json"}, consumes = {"application/json"})
-    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer)
+    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer) throws Exception
     {
-        retailerService.update(id, updatedRetailer);
         
-        return new ResponseEntity<>(retailerService.findRetailerById(id), HttpStatus.OK);
+        //attempting sleep to make sure database has time to update before returning retailer
+//        Thread.sleep(750);
+        return new ResponseEntity<>(retailerService.update(id, updatedRetailer), HttpStatus.OK);
     }
     
     @DeleteMapping(value = "/delete/{id}")
