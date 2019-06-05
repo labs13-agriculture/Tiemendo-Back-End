@@ -18,6 +18,7 @@ public class OrganizationLocation
     private String landmark;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    //, cascade = CascadeType.ALL)
     @JoinColumn(name = "organizationid")
     @JsonIgnoreProperties("organizationlocations")
     private Organization organization;
