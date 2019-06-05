@@ -5,6 +5,7 @@ import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Retailer;
 import com.lambdaschool.tiemendo.model.RetailerContact;
 import com.lambdaschool.tiemendo.model.RetailerLocation;
+import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.repository.RetailerContactRepository;
 import com.lambdaschool.tiemendo.repository.RetailerLocationRepository;
 import com.lambdaschool.tiemendo.repository.RetailerRepository;
@@ -27,6 +28,9 @@ public class RetailerServiceImpl implements RetailerService
     
     @Autowired
     private RetailerLocationRepository retailerLocationRepository;
+    
+    @Autowired
+    private ClientRepository clientRepository;
     
     @Transactional
     @Override
@@ -75,18 +79,23 @@ public class RetailerServiceImpl implements RetailerService
         if (retailerRepos.findById(id).isPresent())
         {
             //Only startyear is in retailers table
+            //System.out.println("Running retailer update");
             retailerRepos.updateRetailer(id, update.getStartyear());
             
             //Update the rest of retailer in client table
+            //System.out.println("Running client update");
+            clientRepository.updateClient(id, update.isLead(), update.getName());
             
             //update the retailercontacts table - HERE'S WHY WE NEED ID INCLUDED
             //make sure there is a retailercontact with a valid id
             RetailerContact rc = update.getRetailercontact();
             if(rc.getRetailercontactid() != 0)
             {//id,  dob,  education,  email, gender,  name,  nationality,  phone,  position,  title
+                //System.out.println("Running retailercontact repository");
                 retailerContactRepository.update(rc.getRetailercontactid(), rc.getDateofbirth(), rc.getEducationlevel(), rc.getEmail(), rc.getGender(), rc.getName(), rc.getNationality(), rc.getPhone(), rc.getPosition(), rc.getTitle());
             }
             else{ // it is a new retailer contact
+                //System.out.println("Running retailercontact save");
                 retailerContactRepository.save(rc);
             }
             
@@ -94,10 +103,13 @@ public class RetailerServiceImpl implements RetailerService
             RetailerLocation rl = update.getRetailerlocation();
             if(rl.getRetailerlocationid() != 0)
             {
+                System.out.println(rl.getAddress() + " " + rl.getCommunity() + " " + rl.getDistrict());
+                System.out.println("Running location update");
                 retailerLocationRepository.updateLocation(id, rl.getAddress(), rl.getCommunity(), rl.getDistrict(), rl.getLandmark(), rl.getRegion());
             }
             else
             {
+                //System.out.println("Running location save");
                 retailerLocationRepository.save(rl);
             }
             
