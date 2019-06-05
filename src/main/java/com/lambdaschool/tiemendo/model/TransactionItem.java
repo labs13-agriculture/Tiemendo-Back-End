@@ -38,7 +38,7 @@ public class TransactionItem {
 
     //didn't have a constructor with unitProce
 
-    public TransactionItem(int quantity, double unitPrice, InventoryItem item, Transaction transaction) {
+    public TransactionItem(int quantity, double unitPrice, ItemType item, Transaction transaction) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.item = item;
@@ -85,11 +85,5 @@ public class TransactionItem {
         this.transaction = transaction;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
+   
 }
