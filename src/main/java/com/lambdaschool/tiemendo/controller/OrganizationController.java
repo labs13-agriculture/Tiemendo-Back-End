@@ -2,6 +2,7 @@ package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationContact;
+import com.lambdaschool.tiemendo.model.OrganizationLocation;
 import com.lambdaschool.tiemendo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.service.Contact;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -23,11 +25,25 @@ public class OrganizationController
     private OrganizationService organizationService;
 
 
-    @GetMapping(value = "organizations-list", produces = {"application/json"})
+    @GetMapping(value = "/organizations-list", produces = {"application/json"})
     public ResponseEntity<?> listAllOrganizations()
     {
         List<Organization> myOrganization = organizationService.findAll();
         return new ResponseEntity<>(myOrganization, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/contacts-list", produces = {"application/json"})
+    public ResponseEntity<?> listAllContacts()
+    {
+        List<OrganizationContact> myContact = organizationService.findAllContacts();
+        return new ResponseEntity<>(myContact, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/locations-list", produces = {"application/json"})
+    public ResponseEntity<?> listAllLocations()
+    {
+        List<OrganizationLocation> myLocation = organizationService.findAllLocations();
+        return new ResponseEntity<>(myLocation, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{organizationId}", produces = {"application/json"})
