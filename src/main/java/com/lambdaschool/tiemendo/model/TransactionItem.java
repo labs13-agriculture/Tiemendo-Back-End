@@ -36,6 +36,23 @@ public class TransactionItem {
         this.transaction = transaction;
     }
 
+    //didn't have a constructor with unitProce
+
+    public TransactionItem(int quantity, double unitPrice, ItemType item, Transaction transaction) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.item = item;
+        this.transaction = transaction;
+    }
+    //didn't have getters or setters for price
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
     public long getId() {
         return id;
     }
@@ -68,11 +85,5 @@ public class TransactionItem {
         this.transaction = transaction;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
-    }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
 }
