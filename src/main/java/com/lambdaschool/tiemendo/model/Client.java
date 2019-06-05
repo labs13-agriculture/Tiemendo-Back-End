@@ -19,7 +19,7 @@ public abstract class Client extends Auditable {
     private String type;
 
     // Transactions
-    @OneToMany(mappedBy="client")
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("client")
     private List<Transaction> transactions = new ArrayList<>();
     // Installments

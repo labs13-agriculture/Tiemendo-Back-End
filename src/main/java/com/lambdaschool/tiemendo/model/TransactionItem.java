@@ -20,7 +20,7 @@ public class TransactionItem {
 
     @ManyToOne
     @JoinColumn(name="item")
-    private InventoryItem item;
+    private ItemType item;
 
     @ManyToOne
     @JoinColumn(name="transaction")
@@ -29,9 +29,10 @@ public class TransactionItem {
     public TransactionItem() {
     }
 
-    public TransactionItem(int quantity, InventoryItem item, Transaction transaction) {
+    public TransactionItem(int quantity, ItemType item, double unitPrice, Transaction transaction) {
         this.quantity = quantity;
         this.item = item;
+        this.unitPrice = unitPrice;
         this.transaction = transaction;
     }
 
@@ -68,11 +69,11 @@ public class TransactionItem {
         this.quantity = quantity;
     }
 
-    public InventoryItem getItem() {
+    public ItemType getItem() {
         return item;
     }
 
-    public void setItem(InventoryItem item) {
+    public void setItem(ItemType item) {
         this.item = item;
     }
 
@@ -82,5 +83,13 @@ public class TransactionItem {
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 }

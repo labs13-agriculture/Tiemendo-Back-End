@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Entity
-@Table(name="transaction")
+@Table(name="transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,24 +26,23 @@ public class Transaction {
     @OneToMany(mappedBy="transaction")
     @JsonIgnoreProperties("transaction")
     private List<TransactionItem> inputs = new ArrayList<>();
-//    Total amount
-    private double total;
 //    Sales personnel (officer who make the payments for the farmer)
     private String personnel;
 
     @ManyToOne
-    @JoinColumn(name="client_id")
+    @JoinColumn(name="client")
     private Client client;
 
     public Transaction() {
     }
 
-    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, double total, String personnel) {
+    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, String personnel, Client client) {
         this.type = type;
         this.date = date;
         this.inputs = inputs;
-        this.total = total;
         this.personnel = personnel;
+
+        this.client = client;
 
     }
 
@@ -80,22 +79,15 @@ public class Transaction {
     }
 
     public double getTotal() {
+        var total = 0;
+        if(inputs.size() > 0) {
+            for(TransactionItem i: inputs) {
+                total += (i.getQuantity() * i.getUnitPrice());
+            }
+        }
         return total;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public void  computeTotal(){
-
-        double sum = 0;
-        for(TransactionItem d : this.getInputs())
-            sum += d.getUnitPrice();
-        this.setTotal(sum);
-
-
-    }//added function for totaling TransactionItems
 
     public String getPersonnel() {
         return personnel;
