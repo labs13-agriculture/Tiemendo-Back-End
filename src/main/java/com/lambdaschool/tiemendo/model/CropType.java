@@ -20,9 +20,9 @@ public class CropType {
     public CropType() {
     }
 
-    public CropType(String cropName, boolean active) {
+    public CropType(String cropName) {
         this.cropName = cropName;
-        this.active = active;
+        this.active = true;
     }
 
     public long getId() {
