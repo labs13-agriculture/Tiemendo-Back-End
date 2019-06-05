@@ -100,7 +100,7 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Organization update(Organization organization, long id)
     {
-        return null;
+        return organizationRepos.save(organization);
     }
 
 
