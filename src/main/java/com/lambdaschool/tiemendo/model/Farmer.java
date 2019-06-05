@@ -3,6 +3,8 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "farmers")
@@ -21,10 +23,36 @@ public class Farmer extends Client
     @JsonIgnoreProperties("farmer")
     private FarmerContact farmercontact;
 
+    @OneToMany(mappedBy="farmer")
+    @JsonIgnoreProperties("farmer")
+    private List<Yield> yieldHistory = new ArrayList<>();
+
     //TODO payment schedule
     //TODO Yields
 
     public Farmer() {
+    }
+
+    public Farmer(long startyear, FarmerLocation farmerlocation, FarmerContact farmercontact, List<Yield> yieldHistory) {
+        this.startyear = startyear;
+        this.farmerlocation = farmerlocation;
+        this.farmercontact = farmercontact;
+        this.yieldHistory = yieldHistory;
+    }
+
+    public Farmer(String name, long startyear, FarmerLocation farmerlocation, FarmerContact farmercontact) {
+        super(name);
+        this.startyear = startyear;
+        this.farmerlocation = farmerlocation;
+        this.farmercontact = farmercontact;
+    }
+
+    public Farmer(String name, boolean isLead, long startyear, FarmerLocation farmerlocation, FarmerContact farmercontact, List<Yield> yieldHistory) {
+        super(name, isLead);
+        this.startyear = startyear;
+        this.farmerlocation = farmerlocation;
+        this.farmercontact = farmercontact;
+        this.yieldHistory = yieldHistory;
     }
 
     public long getStartyear() {

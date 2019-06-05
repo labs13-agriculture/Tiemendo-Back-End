@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name= "client")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Client extends Auditable {
     // Unique ID
     @Id

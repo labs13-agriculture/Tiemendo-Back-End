@@ -92,10 +92,6 @@ public class Transaction {
         this.personnel = personnel;
     }
 
-    public void setInputs(List<TransactionItem> inputs) {
-        this.inputs = inputs;
-    }
-
     public Client getClient() {
         return client;
     }
