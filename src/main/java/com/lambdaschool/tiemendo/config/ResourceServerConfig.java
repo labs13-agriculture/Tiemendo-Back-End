@@ -34,8 +34,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                                    "/configuration/ui",       // swagger
                                    "/configuration/security", // swagger
                                    "/swagger-ui.html",        // swagger
-                                   "/webjars/**",              // swagger"
-                                   "/**"
+                                   "/webjars/**",              // swagger
+                                   "/users/**",
+                                   "/retailer/**"
                         ).permitAll()
                 .antMatchers("/actuator/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
