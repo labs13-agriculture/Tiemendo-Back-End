@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name="inventory_item")
-public class InventoryItem {
+public class ItemType {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
@@ -28,12 +28,11 @@ public class InventoryItem {
     @OneToMany(mappedBy = "item")
     private List<TransactionItem> transactions = new ArrayList<>();
 
-    public InventoryItem() {
+    public ItemType() {
     }
 
-    public InventoryItem(String name) {
+    public ItemType(String name) {
         this.name = name;
-        this.active = true;
     }
 
     public long getId() {
@@ -67,4 +66,6 @@ public class InventoryItem {
     public void setTransactions(List<TransactionItem> transactions) {
         this.transactions = transactions;
     }
+
+
 }
