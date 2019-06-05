@@ -3,9 +3,11 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Entity
 @Table(name="transaction")
@@ -42,6 +44,7 @@ public class Transaction {
         this.inputs = inputs;
         this.total = total;
         this.personnel = personnel;
+
     }
 
     public long getId() {
@@ -83,6 +86,16 @@ public class Transaction {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public void  computeTotal(){
+
+        double sum = 0;
+        for(TransactionItem d : this.getInputs())
+            sum += d.getUnitPrice();
+        this.setTotal(sum);
+
+
+    }//added function for totaling TransactionItems
 
     public String getPersonnel() {
         return personnel;
