@@ -30,9 +30,9 @@ public class RetailerController
     {//todo: sql search query once db structure finalized
         //Lead parameter must be string, but can be converted to boolean. Only "true" (not case sensitive) will evaluate to true with Boolean.parseBoolean()
         boolean isLead = Boolean.parseBoolean(lead);
-        //Will need to figure out search once database shape is finalized
         
-        return new ResponseEntity<>(retailerService.findAll(), HttpStatus.OK);
+        
+        return new ResponseEntity<>(retailerService.searchRetailer(name, location, isLead), HttpStatus.OK);
     }
     
     @GetMapping(value = "/{id}", produces = {"application/json"})

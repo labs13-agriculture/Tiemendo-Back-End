@@ -43,11 +43,21 @@ public class RetailerServiceImpl implements RetailerService
     }
     
     @Override
-    public List<Retailer> searchRetailer(String name, String location, boolean lead)
+    public List<Retailer> searchRetailer(String name, String location, boolean lead) throws ResourceNotFoundException
     {
-        List<Retailer> list = new ArrayList<>();
-        //retailerRepos.searchRetailers(name, location, lead).forEachRemaining(list::add);
-        return list;
+        //SELECT * FROM retailers r, client c, retailerlocations l WHERE c.id = r.id AND r.retailerlocationid = l.retailerlocationid AND c.name ILIKE 'a%' AND (l.address ILIKE 'AB%' OR l.community ILIKE 'AB%' OR l.district ILIKE 'AB%' OR l.landmark ILIKE 'AB%' OR l.region ILIKE 'AB%')
+        // % is a wildcard, so other characters can exist before and after search parameter
+        String nameSearchParam = "%" + name + "%";
+        String locationSearchParam = "%" + location + "%";
+        List<Retailer> results = retailerRepos.searchRetailers(nameSearchParam, locationSearchParam, lead);
+        if (results.size() != 0)
+        {
+            return results;
+        }
+        else
+        {
+            throw new ResourceNotFoundException("No Retailers found matching search terms");
+        }
     }
     
     @Override
