@@ -62,6 +62,8 @@ public class RetailerServiceImpl implements RetailerService
     @Override
     public Retailer save(Retailer newRetailer)
     {
+        retailerLocationRepository.save(newRetailer.getRetailerlocation());
+        retailerContactRepository.save(newRetailer.getRetailercontact());
         return retailerRepos.save(newRetailer);
     }
     
@@ -72,8 +74,10 @@ public class RetailerServiceImpl implements RetailerService
         //make sure the retailer we're looking to update exists
         if (retailerRepos.findById(id).isPresent())
         {
-            //update the retailer table
-            retailerRepos.updateRetailer(id, update.isLead(), update.getName(), update.getStartyear());
+            //Only startyear is in retailers table
+            retailerRepos.updateRetailer(id, update.getStartyear());
+            
+            //Update the rest of retailer in client table
             
             //update the retailercontacts table - HERE'S WHY WE NEED ID INCLUDED
             //make sure there is a retailercontact with a valid id
