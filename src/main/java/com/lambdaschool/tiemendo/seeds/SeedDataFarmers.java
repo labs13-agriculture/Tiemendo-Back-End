@@ -75,7 +75,7 @@ public class SeedDataFarmers implements CommandLineRunner
 
         f1.getTransactions().addAll(Arrays.asList(t1, t2));
 
-        System.out.println("adding installment history fro farmer");
+        System.out.println("adding installment history for farmer");
         Installment insstall1 = new Installment(10.50, new Date(), "MTN", "Joshua", f1);
         Installment insstall2 = new Installment(11.15, new Date(), "BANK", "Joshua", f1);
         Installment insstall3 = new Installment(10.25, new Date(), "CASH", "Joshua", f1);

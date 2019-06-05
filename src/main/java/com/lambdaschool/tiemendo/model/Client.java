@@ -24,9 +24,8 @@ public abstract class Client extends Auditable {
     private List<Transaction> transactions = new ArrayList<>();
     // Installments
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("client")
-    @JoinColumn(name = "id")
     private List<Installment> installments = new ArrayList<>();
 
     //TODO Contact
