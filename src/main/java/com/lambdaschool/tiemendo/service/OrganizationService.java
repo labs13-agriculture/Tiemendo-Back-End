@@ -9,4 +9,11 @@ public interface OrganizationService
 
     List<Organization> findAll();
 
+
+    Organization findOrganizationById(long id);
+
+    Organization save (Organization organization);
+
+    Organization update(Organization organization, long id);
+
 }
