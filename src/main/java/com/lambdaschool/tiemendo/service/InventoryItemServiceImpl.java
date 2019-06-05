@@ -1,8 +1,8 @@
 package com.lambdaschool.tiemendo.service;
 
 
-import com.lambdaschool.tiemendo.model.InventoryItem;
-import com.lambdaschool.tiemendo.repository.InventoryItemRepository;
+import com.lambdaschool.tiemendo.model.ItemType;
+import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +14,13 @@ import java.util.List;
 public class InventoryItemServiceImpl implements InventoryItemService
 {
     @Autowired
-    private InventoryItemRepository inventoryrepos;
+    private ItemTypeRepository inventoryrepos;
 
     @Transactional
     @Override
-    public List<InventoryItem> findAll()
+    public List<ItemType> findAll()
     {
-        List<InventoryItem> list = new ArrayList<>();
+        List<ItemType> list = new ArrayList<>();
         inventoryrepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
