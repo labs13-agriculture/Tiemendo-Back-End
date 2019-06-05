@@ -2,10 +2,7 @@ package com.lambdaschool.tiemendo.seeds;
 
 import com.github.javafaker.Faker;
 import com.lambdaschool.tiemendo.model.*;
-import com.lambdaschool.tiemendo.repository.CropTypeRepository;
-import com.lambdaschool.tiemendo.repository.FarmerRepository;
-import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
-import com.lambdaschool.tiemendo.repository.YieldRepository;
+import com.lambdaschool.tiemendo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +17,12 @@ public class SeedDataFarmers implements CommandLineRunner
 {
     private FarmerRepository farmerRepo;
     private CropTypeRepository cropRepo;
-    private YieldRepository yieldRepo;
     private ItemTypeRepository itemRepo;
 
 
-    public SeedDataFarmers(FarmerRepository farmerRepo, CropTypeRepository cropRepo, YieldRepository yieldRepo, ItemTypeRepository itemRepo) {
+    public SeedDataFarmers(FarmerRepository farmerRepo, CropTypeRepository cropRepo, ItemTypeRepository itemRepo) {
         this.farmerRepo = farmerRepo;
         this.cropRepo = cropRepo;
-        this.yieldRepo = yieldRepo;
         this.itemRepo = itemRepo;
     }
 
@@ -67,8 +62,18 @@ public class SeedDataFarmers implements CommandLineRunner
         ArrayList<TransactionItem> inputs = new ArrayList<>(Arrays.asList(ti1, ti2, ti3));
 
         // build transaction and add transaction to inputs
-        Transaction t1 = new Transaction("CASH", new Date(), inputs, "Joshua");
+        Transaction t1 = new Transaction("CASH", new Date(), inputs, "Joshua", f1);
         inputs.iterator().forEachRemaining(x -> x.setTransaction(t1));
+
+        TransactionItem ti4 = new TransactionItem(5, sack, 3.30, new Transaction());
+        TransactionItem ti5 = new TransactionItem(3, urea, 2.50, new Transaction());
+        ArrayList<TransactionItem> inputs2 = new ArrayList<>(Arrays.asList(ti4, ti5));
+
+        Transaction t2 = new Transaction("CREDIT", new Date(), inputs2, "Joshua", f1);
+        inputs2.iterator().forEachRemaining(x -> x.setTransaction(t2));
+
+
+        f1.getTransactions().addAll(Arrays.asList(t1, t2));
 
         System.out.println("adding installment history fro farmer");
         Installment insstall1 = new Installment(10.50, new Date(), "MTN", "Joshua", f1);

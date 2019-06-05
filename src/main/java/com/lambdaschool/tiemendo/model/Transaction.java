@@ -28,17 +28,18 @@ public class Transaction {
     private String personnel;
 
     @ManyToOne
-    @JoinColumn(name="client_id")
+    @JoinColumn(name="client")
     private Client client;
 
     public Transaction() {
     }
 
-    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, String personnel) {
+    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, String personnel, Client client) {
         this.type = type;
         this.date = date;
         this.inputs = inputs;
         this.personnel = personnel;
+        this.client = client;
     }
 
     public long getId() {
