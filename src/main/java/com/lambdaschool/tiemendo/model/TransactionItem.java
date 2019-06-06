@@ -15,12 +15,12 @@ public class TransactionItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int quantity;
-    private double unitPrice;
+    private Integer quantity;
+    private Double unitPrice;
 
     @ManyToOne
     @JoinColumn(name="item")
-    private InventoryItem item;
+    private ItemType item;
 
     @ManyToOne
     @JoinColumn(name="transaction")
@@ -29,10 +29,29 @@ public class TransactionItem {
     public TransactionItem() {
     }
 
-    public TransactionItem(int quantity, InventoryItem item, Transaction transaction) {
+    //needed to change quantity and unit price to class/object type instead of primitive or update Controller null check
+    public TransactionItem(Integer quantity, ItemType item, Double unitPrice, Transaction transaction) {
         this.quantity = quantity;
         this.item = item;
+        this.unitPrice = unitPrice;
         this.transaction = transaction;
+    }
+
+    //didn't have a constructor with unitProce
+
+    public TransactionItem(Integer quantity, Double unitPrice, ItemType item, Transaction transaction) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.item = item;
+        this.transaction = transaction;
+    }
+    //didn't have getters or setters for price
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public long getId() {
@@ -43,19 +62,19 @@ public class TransactionItem {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public InventoryItem getItem() {
+    public ItemType getItem() {
         return item;
     }
 
-    public void setItem(InventoryItem item) {
+    public void setItem(ItemType item) {
         this.item = item;
     }
 
@@ -66,4 +85,6 @@ public class TransactionItem {
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
+
+
 }

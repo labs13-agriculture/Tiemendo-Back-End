@@ -3,12 +3,14 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity
-@Table(name="transaction")
+@Table(name="transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,24 +26,24 @@ public class Transaction {
     @OneToMany(mappedBy="transaction")
     @JsonIgnoreProperties("transaction")
     private List<TransactionItem> inputs = new ArrayList<>();
-//    Total amount
-    private double total;
 //    Sales personnel (officer who make the payments for the farmer)
     private String personnel;
 
     @ManyToOne
-    @JoinColumn(name="client_id")
+    @JoinColumn(name="client")
     private Client client;
 
     public Transaction() {
     }
 
-    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, double total, String personnel) {
+    public Transaction(String type, Date date, ArrayList<TransactionItem> inputs, String personnel, Client client) {
         this.type = type;
         this.date = date;
         this.inputs = inputs;
-        this.total = total;
         this.personnel = personnel;
+
+        this.client = client;
+
     }
 
     public long getId() {
@@ -77,12 +79,15 @@ public class Transaction {
     }
 
     public double getTotal() {
+        var total = 0;
+        if(inputs.size() > 0) {
+            for(TransactionItem i: inputs) {
+                total += (i.getQuantity() * i.getUnitPrice());
+            }
+        }
         return total;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
 
     public String getPersonnel() {
         return personnel;

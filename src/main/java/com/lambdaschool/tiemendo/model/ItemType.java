@@ -1,5 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,24 +18,24 @@ import java.util.List;
 
 @Entity
 @Table(name="inventory_item")
-public class InventoryItem {
+public class ItemType {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     @Column(unique = true, nullable = false)
     private String name;
-    private boolean active = true;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "item")
+    @JsonIgnoreProperties("item")
     private List<TransactionItem> transactions = new ArrayList<>();
 
-    public InventoryItem() {
+    public ItemType() {
     }
 
-    public InventoryItem(String name) {
+    public ItemType(String name) {
         this.name = name;
-        this.active = true;
     }
 
     public long getId() {
@@ -52,11 +54,11 @@ public class InventoryItem {
         this.name = name;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
-    }
+    }//changed name for Service impl
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -67,4 +69,7 @@ public class InventoryItem {
     public void setTransactions(List<TransactionItem> transactions) {
         this.transactions = transactions;
     }
+
+
+
 }

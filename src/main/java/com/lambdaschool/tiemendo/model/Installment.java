@@ -25,11 +25,12 @@ public class Installment{
     public Installment() {
     }
 
-    public Installment(double amountPaid, Date datePaid, String mode, String officer) {
+    public Installment(double amountPaid, Date datePaid, String mode, String officer, Client client) {
         this.amountPaid = amountPaid;
         this.datePaid = datePaid;
         this.mode = mode;
         this.officer = officer;
+        this.client = client;
     }
 
     public long getId() {

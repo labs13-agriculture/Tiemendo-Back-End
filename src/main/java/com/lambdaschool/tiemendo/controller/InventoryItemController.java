@@ -1,8 +1,8 @@
 package com.lambdaschool.tiemendo.controller;
 
 
-import com.lambdaschool.tiemendo.model.InventoryItem;
-import com.lambdaschool.tiemendo.service.InventoryItemService;
+import com.lambdaschool.tiemendo.model.ItemType;
+import com.lambdaschool.tiemendo.service.ItemTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class InventoryItemController
 {
 
     @Autowired
-    private InventoryItemService inventoryItemService;
+    private ItemTypeService inventoryItemService;
 
     @GetMapping(value = "/inventory-items", produces = {"application/json"})
     public ResponseEntity<?> listAllInventoryItems()
     {
-        List<InventoryItem> myInventory = inventoryItemService.findAll();
+        List<ItemType> myInventory = inventoryItemService.findAll();
         return new ResponseEntity<>(myInventory, HttpStatus.OK);
     }
 

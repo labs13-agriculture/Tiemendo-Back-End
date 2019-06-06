@@ -79,5 +79,11 @@ public class Farmer extends Client
         this.farmercontact = farmercontact;
     }
 
+    public List<Yield> getYieldHistory() {
+        return yieldHistory;
+    }
 
+    public void setYieldHistory(List<Yield> yieldHistory) {
+        this.yieldHistory = yieldHistory;
+    }
 }
