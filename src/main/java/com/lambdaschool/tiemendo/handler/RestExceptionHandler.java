@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.handler;
 
+import com.lambdaschool.tiemendo.exception.IllegalDeleteException;
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.ErrorDetail;
 import org.springframework.beans.TypeMismatchException;
@@ -26,15 +27,28 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     private MessageSource messageSource;
 
     @ExceptionHandler({ResourceNotFoundException.class, EntityNotFoundException.class})
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request)
+public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request)
+{
+    ErrorDetail errorDetail = new ErrorDetail();
+    errorDetail.setTimestamp(new Date().getTime());
+    errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+    errorDetail.setTitle("Resource Not Found");
+    errorDetail.setDetail(rnfe.getMessage());
+    errorDetail.setDeveloperMessage(rnfe.getClass().getName());
+    
+    return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
+}
+    
+    @ExceptionHandler({IllegalDeleteException.class})
+    public ResponseEntity<?> handleResourceNotFoundException(IllegalDeleteException ide, HttpServletRequest request)
     {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTimestamp(new Date().getTime());
-        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        errorDetail.setStatus(HttpStatus.FORBIDDEN.value());
         errorDetail.setTitle("Resource Not Found");
-        errorDetail.setDetail(rnfe.getMessage());
-        errorDetail.setDeveloperMessage(rnfe.getClass().getName());
-
+        errorDetail.setDetail(ide.getMessage());
+        errorDetail.setDeveloperMessage(ide.getClass().getName());
+        
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 

@@ -39,7 +39,12 @@ public class SeedData implements CommandLineRunner
         System.out.println("Seeding Crop Types");
         CropType c1 = new CropType("Maize");
         CropType c2 = new CropType("Sorghum");
-        cropRepo.saveAll(Arrays.asList(c1,c2));
+        CropType c3 = new CropType("Fake crop");
+        CropType c4 = new CropType("This is also a crop");
+        CropType c5 = new CropType("A");
+        CropType c6 = new CropType("C");
+        CropType c7 = new CropType("B");
+        cropRepo.saveAll(Arrays.asList(c1,c2, c3, c4, c5, c6, c7));
         for (var i = 0; i++<3;){
             CropType c = new CropType(f.food().spice());
             cropRepo.save(c);

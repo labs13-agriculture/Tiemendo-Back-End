@@ -18,8 +18,6 @@ import java.util.List;
 public class Organization extends Client
 {
     @OneToMany(mappedBy = "organization")
-            //, cascade = CascadeType.ALL)
-
     @JsonIgnoreProperties("organization")
     private List<OrganizationLocation> organizationlocations = new ArrayList<>();
     
@@ -27,7 +25,7 @@ public class Organization extends Client
     private int beneficiaries;
     
     @OneToMany(mappedBy = "organization")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @Cascade(SAVE_UPDATE)
     @JsonIgnoreProperties("organization")
     private List<OrganizationContact> organizationcontacts = new ArrayList<>();
 

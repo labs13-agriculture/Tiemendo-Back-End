@@ -18,12 +18,14 @@ public class SeedDataFarmers implements CommandLineRunner
     private FarmerRepository farmerRepo;
     private CropTypeRepository cropRepo;
     private ItemTypeRepository itemRepo;
+    private YieldRepository yieldRepo;
 
 
-    public SeedDataFarmers(FarmerRepository farmerRepo, CropTypeRepository cropRepo, ItemTypeRepository itemRepo) {
+    public SeedDataFarmers(FarmerRepository farmerRepo, CropTypeRepository cropRepo, ItemTypeRepository itemRepo, YieldRepository yieldRepo) {
         this.farmerRepo = farmerRepo;
         this.cropRepo = cropRepo;
         this.itemRepo = itemRepo;
+        this.yieldRepo = yieldRepo;
     }
 
     @Override
@@ -84,6 +86,7 @@ public class SeedDataFarmers implements CommandLineRunner
         f1.getInstallments().addAll(installments);
 
         farmerRepo.save(f1);
+        yieldRepo.saveAll(yields);
     }
 }
 
