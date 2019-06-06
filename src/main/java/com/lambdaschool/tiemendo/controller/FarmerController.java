@@ -28,7 +28,6 @@ public class FarmerController {
     // Get all Farmers by Search
     @PostMapping(value = "/search", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> searchFarmers(
-            Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String location,
             @RequestParam(defaultValue = "false") String lead

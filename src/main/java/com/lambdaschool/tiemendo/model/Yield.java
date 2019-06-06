@@ -28,6 +28,7 @@ public class Yield {
 
     @ManyToOne
     @JoinColumn(name="farmer_id")
+    @JsonIgnoreProperties("yieldHistory")
     private Farmer farmer;
 
     public Yield() {

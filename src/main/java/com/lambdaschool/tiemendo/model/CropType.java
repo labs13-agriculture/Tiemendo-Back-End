@@ -17,6 +17,7 @@ public class CropType {
     private boolean active;
 
     @OneToMany(mappedBy = "cropType")
+
     private List<Yield> yields = new ArrayList<>();
 
     public CropType() {
