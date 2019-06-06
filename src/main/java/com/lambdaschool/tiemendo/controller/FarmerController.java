@@ -45,14 +45,14 @@ public class FarmerController {
     }
 
     // Get Farmer
-    @GetMapping(value="/farmer/:id", produces = "application/json")
+    @GetMapping(value="/farmer/{id}", produces = "application/json")
     public ResponseEntity<?> getFarmerWithId(@PathVariable long id) {
         return new ResponseEntity<>(farmerService.findFarmer(id), HttpStatus.OK);
     }
 
     // Update Farmer
-    @PutMapping(value="/farmer/:id", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateFarmerWithId(@Valid @RequestBody Farmer farmer
+    @PutMapping(value="/farmer/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> updateFarmerWithId(@PathVariable long id, @Valid @RequestBody Farmer farmer
     ) {
         /*
         *  Controller uses id from the farmer object passed in to determine what farmer to update
@@ -61,7 +61,7 @@ public class FarmerController {
     }
 
     // Delete Farmer
-    @DeleteMapping(value="/farmer/:id", produces = "application/json")
+    @DeleteMapping(value="/farmer/{id}", produces = "application/json")
     public ResponseEntity<?> deleteFarmerWithId(@PathVariable long id){
         farmerService.deleteFarmer(id);
         return new ResponseEntity<>(HttpStatus.OK);
