@@ -9,4 +9,8 @@ public interface CropTypeService
     List<CropType> getAllCropTypes();
     
     CropType getCropTypeById(long id);
+    
+    CropType save(CropType newCrop);
+    
+    CropType update(long id, CropType update);
 }

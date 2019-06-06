@@ -1,13 +1,11 @@
 package com.lambdaschool.tiemendo.controller;
 
+import com.lambdaschool.tiemendo.model.CropType;
 import com.lambdaschool.tiemendo.service.CropTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/croptypes")
@@ -26,5 +24,17 @@ public class CropTypeController
     public ResponseEntity<?> getCropTypeById(@PathVariable long id)
     {
         return new ResponseEntity<>(cropTypeService.getCropTypeById(id), HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/new", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> addNewCropType(@RequestBody CropType newCrop)
+    {
+        return new ResponseEntity<>(cropTypeService.save(newCrop), HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> updateCropType(@PathVariable long id, @RequestBody CropType update)
+    {
+        return new ResponseEntity<>();
     }
 }

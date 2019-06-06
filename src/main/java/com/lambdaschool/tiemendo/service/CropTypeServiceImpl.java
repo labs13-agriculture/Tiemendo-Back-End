@@ -21,7 +21,7 @@ public class CropTypeServiceImpl implements CropTypeService
         List<CropType> list = new ArrayList<>();
         cropTypeRepository.findAll().iterator().forEachRemaining(list::add);
         //sort list alphabetically
-        list.sort((c1, c2) -> c2.getCropName().compareToIgnoreCase(c1.getCropName()));
+        list.sort((c1, c2) -> c1.getCropName().compareToIgnoreCase(c2.getCropName()));
         return list;
     }
     
@@ -33,6 +33,24 @@ public class CropTypeServiceImpl implements CropTypeService
             return cropTypeRepository.findCropTypeById(id);
         }
         else
+        {
+            throw new ResourceNotFoundException("Could not find CropType with id: " + id);
+        }
+    }
+    
+    @Override
+    public CropType save(CropType newCrop)
+    {
+        return cropTypeRepository.save(newCrop);
+    }
+    
+    @Override
+    public CropType update(long id, CropType update) throws ResourceNotFoundException
+    {
+        if (cropTypeRepository.existsById(id))
+        {
+            return cropTypeRepository.save(update);
+        } else
         {
             throw new ResourceNotFoundException("Could not find CropType with id: " + id);
         }
