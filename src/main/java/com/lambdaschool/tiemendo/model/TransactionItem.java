@@ -15,8 +15,8 @@ public class TransactionItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int quantity;
-    private double unitPrice;
+    private Integer quantity;
+    private Double unitPrice;
 
     @ManyToOne
     @JoinColumn(name="item")
@@ -29,7 +29,8 @@ public class TransactionItem {
     public TransactionItem() {
     }
 
-    public TransactionItem(int quantity, ItemType item, double unitPrice, Transaction transaction) {
+    //needed to change quantity and unit price to class/object type instead of primitive or update Controller null check
+    public TransactionItem(Integer quantity, ItemType item, Double unitPrice, Transaction transaction) {
         this.quantity = quantity;
         this.item = item;
         this.unitPrice = unitPrice;
@@ -38,18 +39,18 @@ public class TransactionItem {
 
     //didn't have a constructor with unitProce
 
-    public TransactionItem(int quantity, double unitPrice, ItemType item, Transaction transaction) {
+    public TransactionItem(Integer quantity, Double unitPrice, ItemType item, Transaction transaction) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.item = item;
         this.transaction = transaction;
     }
     //didn't have getters or setters for price
-    public double getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -61,11 +62,11 @@ public class TransactionItem {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
