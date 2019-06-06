@@ -37,6 +37,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                                    "/webjars/**",              // swagger
                                    "/users/**",
                                    "/retailer/**",
+                                    "/farmers/**",
                                     "/croptypes/**"
                         ).permitAll()
                 .antMatchers("/actuator/**").hasAnyRole("ADMIN")
