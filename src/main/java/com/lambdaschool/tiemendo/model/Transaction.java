@@ -3,9 +3,11 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name="transactions")
@@ -39,7 +41,9 @@ public class Transaction {
         this.date = date;
         this.inputs = inputs;
         this.personnel = personnel;
+
         this.client = client;
+
     }
 
     public long getId() {
@@ -83,6 +87,7 @@ public class Transaction {
         }
         return total;
     }
+
 
     public String getPersonnel() {
         return personnel;

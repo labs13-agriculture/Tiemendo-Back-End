@@ -4,7 +4,7 @@ import com.lambdaschool.tiemendo.model.ItemType;
 
 import java.util.List;
 
-public interface InventoryItemService
+public interface ItemTypeService
 {
 
     List <ItemType> findAll();
