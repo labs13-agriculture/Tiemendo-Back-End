@@ -72,15 +72,29 @@ public class UserServiceImpl implements UserDetailsService, UserService
     public User save(User user)
     {
         User newUser = new User();
+
         newUser.setUsername(user.getUsername());
         newUser.setPasswordNoEncrypt(user.getPassword());
+        newUser.setUserRoles(user.getUserRoles());
 
-        ArrayList<UserRoles> newRoles = new ArrayList<>();
 
-        Role r = rolerepos.findRoleByName("user");
-        newRoles.add(new UserRoles(newUser, r));
+        // ArrayList to hold new roles
+        List<UserRoles> roleslist = new ArrayList<>();
+        user.getUserRoles().iterator().forEachRemaining(u ->
+        {
+            u.setUser(newUser);
+            roleslist.add(u);
+        });
 
-        return userrepos.save(newUser);
+        newUser.setUserRoles(user.getUserRoles());
+
+        User userSaved = userrepos.save(newUser);
+        return userSaved;
+
+//        Role r = rolerepos.findRoleByName("user");
+//        newRoles.add(new UserRoles(newUser, r));
+//
+//        return userrepos.save(newUser);
 
     }
 

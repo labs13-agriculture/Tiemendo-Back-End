@@ -7,11 +7,9 @@ import com.lambdaschool.tiemendo.model.OrganizationLocation;
 import com.lambdaschool.tiemendo.repository.OrganizationContactRepository;
 import com.lambdaschool.tiemendo.repository.OrganizationLocationRepository;
 import com.lambdaschool.tiemendo.repository.OrganizationRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springfox.documentation.service.Contact;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
