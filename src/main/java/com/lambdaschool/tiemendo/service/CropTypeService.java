@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CropTypeService
 {
-    List<CropType> getAllCropTypes();
+    List<CropType> getAllCropTypes(String cropStatus);
     
     CropType getCropTypeById(long id, boolean includeYields);
     

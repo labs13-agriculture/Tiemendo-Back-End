@@ -17,14 +17,42 @@ public class CropTypeServiceImpl implements CropTypeService
     private CropTypeRepository cropTypeRepository;
     
     @Override
-    public List<CropType> getAllCropTypes()
+    public List<CropType> getAllCropTypes(String cropStatus)
     {
+        System.out.println(cropStatus);
         List<CropType> list = new ArrayList<>();
-        cropTypeRepository.findAll().iterator().forEachRemaining(list::add);
         //sort list alphabetically
+        cropTypeRepository.findAll().iterator().forEachRemaining(list::add);
         list.sort((c1, c2) -> c1.getCropName().compareToIgnoreCase(c2.getCropName()));
         //Without setting yields to null, list will inlcude yeilds, which includes farmers, which includes installments, etc. This does not affect yields stored in database
         list.forEach(c -> c.setYields(null));
+        
+        //filter out active vs inactive if needed
+        if(cropStatus.equalsIgnoreCase("active"))
+        {
+            List<CropType> newList = new ArrayList<>();
+            for (CropType c : list)
+            {
+                if (c.isActive())
+                {
+                    newList.add(c);
+                }
+            }
+            return newList;
+        }
+        else if (cropStatus.equalsIgnoreCase("inactive"))
+        {
+            List<CropType> newList = new ArrayList<>();
+            for (CropType c : list)
+            {
+                if (!c.isActive())
+                {
+                    newList.add(c);
+                }
+            }
+            return newList;
+        }
+        
         return list;
     }
     
