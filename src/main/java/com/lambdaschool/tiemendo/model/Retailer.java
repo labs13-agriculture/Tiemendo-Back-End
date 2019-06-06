@@ -10,7 +10,7 @@ import java.util.Calendar;
 public class Retailer extends Client
 {
     private int startyear;
-    //todo - Annual turnover data
+    
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "retailerlocationid", referencedColumnName = "retailerlocationid")
@@ -21,6 +21,8 @@ public class Retailer extends Client
     @JoinColumn(name = "retailercontactid", referencedColumnName = "retailercontactid")
     @JsonIgnoreProperties("retailer")
     private RetailerContact retailercontact;
+    
+    //todo - Annual turnover data
     
     //todo link to transactions (with farmer)
     
