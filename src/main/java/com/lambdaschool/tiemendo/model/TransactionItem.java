@@ -1,5 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 /*
@@ -24,6 +26,7 @@ public class TransactionItem {
 
     @ManyToOne
     @JoinColumn(name="transaction")
+    @JsonIgnoreProperties("inputs")
     private Transaction transaction;
 
     public TransactionItem() {
