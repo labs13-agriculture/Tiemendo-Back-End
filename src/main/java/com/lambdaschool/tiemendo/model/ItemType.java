@@ -1,5 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,10 @@ public class ItemType {
 
     @Column(unique = true, nullable = false)
     private String name;
-    private boolean active = true;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "item")
+    @JsonIgnoreProperties("item")
     private List<TransactionItem> transactions = new ArrayList<>();
 
     public ItemType() {
@@ -51,11 +54,11 @@ public class ItemType {
         this.name = name;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
-    }
+    }//changed name for Service impl
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -66,6 +69,7 @@ public class ItemType {
     public void setTransactions(List<TransactionItem> transactions) {
         this.transactions = transactions;
     }
+
 
 
 }
