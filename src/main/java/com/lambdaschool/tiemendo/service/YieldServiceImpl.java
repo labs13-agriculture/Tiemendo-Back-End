@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Yield;
 import com.lambdaschool.tiemendo.repository.YieldRepository;
 import com.lambdaschool.tiemendo.view.YieldByFarmerAndCropType;
@@ -91,4 +92,6 @@ public class YieldServiceImpl implements YieldService {
         String caseInsensitiveConversion = crop_name.toUpperCase();
         return yieldRepository.getYieldByFarmerAndCropType(farmer_id,caseInsensitiveConversion);
     }
+
+
 }

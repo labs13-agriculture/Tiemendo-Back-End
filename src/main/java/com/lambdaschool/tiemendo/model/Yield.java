@@ -15,7 +15,7 @@ public class Yield {
 //    Number of bags of crops (maize or sorghum) harvested
     private Integer numBags;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="crop_id")
     @JsonIgnoreProperties("yields")
     private CropType cropType;

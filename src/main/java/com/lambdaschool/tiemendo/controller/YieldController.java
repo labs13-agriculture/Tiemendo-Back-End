@@ -5,6 +5,7 @@ import com.lambdaschool.tiemendo.model.Farmer;
 import com.lambdaschool.tiemendo.model.Yield;
 import com.lambdaschool.tiemendo.repository.FarmerRepository;
 import com.lambdaschool.tiemendo.repository.YieldRepository;
+import com.lambdaschool.tiemendo.service.FarmerService;
 import com.lambdaschool.tiemendo.service.YieldService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/yield")
@@ -26,7 +28,11 @@ public class YieldController {
     YieldRepository yieldRepository;
 
     @Autowired
+    FarmerService farmerService;
+
+    @Autowired
     FarmerRepository farmerRepository;
+
 
     @ApiOperation(value = "Returns all yields.", response = Yield.class)
     @GetMapping(value = "/all", produces = {"application/json"})
@@ -43,15 +49,15 @@ public class YieldController {
 
         return new ResponseEntity<>(yieldService.getYieldByFarmerAndCropType(farmerid,cropname), HttpStatus.OK);
     }
-        //gitYieldByFarmerId needs a farmer Service before it will work.  This will come from Josh's pull request
-//    @GetMapping(value = "/{farmerid}", produces = {"application/json"})
-//    public ResponseEntity<?> getYieldByFarmerId(@PathVariable long farmerid)
-//    {
-//        Farmer currentFarmer = farmerRepository.getById(farmerid);
-//
-//
-//        return new ResponseEntity<>(currentFarmer.getYieldHistory(), HttpStatus.OK);
-//    }
+
+    @GetMapping(value = "/{farmerid}", produces = {"application/json"})
+    public ResponseEntity<?> getYieldByFarmerId(@PathVariable long farmerid)
+    {
+        Farmer currentFarmer = farmerService.findFarmer(farmerid);
+
+
+        return new ResponseEntity<>(currentFarmer.getYieldHistory(), HttpStatus.OK);
+    }
 
     @ApiOperation(value = "Deletes yield record based on yield record id.", response = Yield.class)
     @DeleteMapping("/delete/{yieldid}")
@@ -73,20 +79,20 @@ public class YieldController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "Allows authenticated user to post a yield-record to database.")
-//    @ApiImplicitParam(name = "yield-item object", dataType = "Yield", paramType = "body",
-//            value = "yield object")
-//    @PostMapping(value = "/add/{farmerid}")
-//    public ResponseEntity<?> addNewYieldItem(@PathVariable long farmerid,@Valid @RequestBody Yield yield) {
-//
-//        Farmer currentFarmer = farmerService.findById(farmerid);
-//        currentFarmer.getYieldHistory().add(yield);
-//
-//
-//        farmerRepository.save(currentFarmer);
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
+    @ApiOperation(value = "Allows authenticated user to post a yield-record to database.")
+    @ApiImplicitParam(name = "yield-item object", dataType = "Yield", paramType = "body",
+            value = "yield object")
+    @PostMapping(value = "/add/{farmerid}")
+    public ResponseEntity<?> addNewYieldItem(@PathVariable long farmerid,@Valid @RequestBody Yield yield) {
+
+        Farmer currentFarmer = farmerService.findFarmer(farmerid);
+        currentFarmer.getYieldHistory().add(yield);
 
 
-//    }
+        farmerRepository.save(currentFarmer);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
 }

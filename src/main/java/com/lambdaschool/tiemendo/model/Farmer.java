@@ -23,7 +23,8 @@ public class Farmer extends Client
     @JsonIgnoreProperties("farmer")
     private FarmerContact farmercontact;
 
-    @OneToMany(mappedBy="farmer")
+   //dustinadded for yield saving
+    @OneToMany(mappedBy="farmer",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("farmer")
     private List<Yield> yieldHistory = new ArrayList<>();
 

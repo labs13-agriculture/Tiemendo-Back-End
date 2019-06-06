@@ -20,4 +20,6 @@ public interface YieldService {
     Yield update(Yield yield, long id);
 
     ArrayList<YieldByFarmerAndCropType> getYieldByFarmerAndCropType(long farmer_id, String crop_name);
+
+
 }
