@@ -8,7 +8,7 @@ public interface CropTypeService
 {
     List<CropType> getAllCropTypes();
     
-    CropType getCropTypeById(long id);
+    CropType getCropTypeById(long id, boolean includeYields);
     
     CropType save(CropType newCrop);
     

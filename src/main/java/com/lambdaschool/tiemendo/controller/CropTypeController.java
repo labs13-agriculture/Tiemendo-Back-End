@@ -21,9 +21,10 @@ public class CropTypeController
     }
     
     @GetMapping(value = "/crop/{id}", produces = {"application/json"})
-    public ResponseEntity<?> getCropTypeById(@PathVariable long id)
+    public ResponseEntity<?> getCropTypeById(@PathVariable long id, @RequestParam(defaultValue = "false") String includeYields)
     {
-        return new ResponseEntity<>(cropTypeService.getCropTypeById(id), HttpStatus.OK);
+        boolean yield = Boolean.parseBoolean(includeYields);
+        return new ResponseEntity<>(cropTypeService.getCropTypeById(id, yield), HttpStatus.OK);
     }
     
     @PostMapping(value = "/new", consumes = {"application/json"}, produces = {"application/json"})
@@ -32,9 +33,9 @@ public class CropTypeController
         return new ResponseEntity<>(cropTypeService.save(newCrop), HttpStatus.OK);
     }
     
-    @PutMapping(value = "/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<?> updateCropType(@PathVariable long id, @RequestBody CropType update)
-    {
-        return new ResponseEntity<>();
-    }
+//    @PutMapping(value = "/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
+//    public ResponseEntity<?> updateCropType(@PathVariable long id, @RequestBody CropType update)
+//    {
+//        return new ResponseEntity<>();
+//    }
 }
