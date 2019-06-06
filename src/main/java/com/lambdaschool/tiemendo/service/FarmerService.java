@@ -18,5 +18,5 @@ public interface FarmerService  {
     // Update Farmer
     public Farmer updateFarmer(Farmer farmer);
     // Delete Farmer
-    public void Farmer(long id);
+    public void deleteFarmer(long id);
 }

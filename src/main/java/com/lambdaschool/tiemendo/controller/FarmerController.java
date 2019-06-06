@@ -5,15 +5,12 @@ import com.lambdaschool.tiemendo.service.FarmerService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/farmer")
+@RequestMapping("/farmers")
 public class FarmerController {
 
     private FarmerService farmerService;
@@ -23,29 +20,50 @@ public class FarmerController {
     }
 
     // Get all Farmers Pageable
+    @GetMapping(value= "/all", produces = "application/json")
     public ResponseEntity<?> getAllFarmers(Pageable pageable) {
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(farmerService.findAllFarmers(pageable), HttpStatus.OK);
     }
+
     // Get all Farmers by Search
-    public ResponseEntity<?> searchFarmers(Pageable pageable) {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    // Get Farmer
-    public ResponseEntity<?> getFarmerWithId(long id) {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    // Add Farmer
-    public ResponseEntity<?> addNewFarmer(Farmer farmer) {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    // Update Farmer
-    public ResponseEntity<?> updateFarmerWithId(
-            @PathVariable long id, @Valid @RequestBody Farmer farmer
+    @PostMapping(value = "/search", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> searchFarmers(
+            Pageable pageable,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String location,
+            @RequestParam(defaultValue = "false") String lead
     ) {
-        return new ResponseEntity(HttpStatus.OK);
+        // todo: Figure out how this search is going to work.
+        // Needs to be pageable and search withing the contact and location objects
+        return new ResponseEntity<>("This feature not implemented", HttpStatus.OK);
     }
+
+    // Add Farmer
+    @PostMapping(value="/add")
+    public ResponseEntity<?> addNewFarmer(@Valid @RequestBody Farmer farmer) {
+        return new ResponseEntity<>(farmerService.addFarmer(farmer), HttpStatus.CREATED);
+    }
+
+    // Get Farmer
+    @GetMapping(value="/farmer/:id", produces = "application/json")
+    public ResponseEntity<?> getFarmerWithId(@PathVariable long id) {
+        return new ResponseEntity<>(farmerService.findFarmer(id), HttpStatus.OK);
+    }
+
+    // Update Farmer
+    @PutMapping(value="/farmer/:id", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> updateFarmerWithId(@Valid @RequestBody Farmer farmer
+    ) {
+        /*
+        *  Controller uses id from the farmer object passed in to determine what farmer to update
+        */
+        return new ResponseEntity<>(farmerService.updateFarmer(farmer), HttpStatus.OK);
+    }
+
     // Delete Farmer
-    public ResponseEntity<?> deleteFarmerWithId(){
-        return new ResponseEntity(HttpStatus.OK);
+    @DeleteMapping(value="/farmer/:id", produces = "application/json")
+    public ResponseEntity<?> deleteFarmerWithId(@PathVariable long id){
+        farmerService.deleteFarmer(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

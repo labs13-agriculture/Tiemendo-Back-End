@@ -5,6 +5,8 @@ import com.lambdaschool.tiemendo.model.Farmer;
 import com.lambdaschool.tiemendo.model.FarmerContact;
 import com.lambdaschool.tiemendo.model.FarmerLocation;
 import com.lambdaschool.tiemendo.repository.FarmerRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,11 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
+    @ApiImplicitParams({
+                   @ApiImplicitParam(name = "page", dataType = "integr", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+                   @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page."),
+                   @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                                     value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")})
     public ArrayList<Farmer> findAllFarmers(Pageable pageable) {
         var farmers = new ArrayList<Farmer>();
         farmerRepo.findAll(pageable).iterator().forEachRemaining(farmers::add);
@@ -137,7 +144,7 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
-    public void Farmer(long id) {
+    public void deleteFarmer(long id) {
         Farmer f = findFarmer(id);
         farmerRepo.delete(f);
     }
