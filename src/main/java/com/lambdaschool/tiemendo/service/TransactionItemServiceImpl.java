@@ -6,6 +6,8 @@ import com.lambdaschool.tiemendo.model.TransactionItem;
 
 import com.lambdaschool.tiemendo.repository.TransactionItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ public class TransactionItemServiceImpl implements TransactionItemService
     TransactionItemRepository transactionItemRepository;
 
     @Override
-    public List<TransactionItem> findAll()
+    public List<TransactionItem> findAll(Pageable pageable)
     {
         List<TransactionItem> list = new ArrayList<>();
         transactionItemRepository.findAll().iterator().forEachRemaining(list::add);
@@ -42,6 +44,33 @@ public class TransactionItemServiceImpl implements TransactionItemService
         transactionItemRepository.deleteById(id);
     }
 
+
+    @Override
+    @Transactional
+    public TransactionItem update(TransactionItem transactionItem, long id) {
+        TransactionItem currentTransactionItem = transactionItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+
+        if (transactionItem.getQuantity() != null)
+        {
+            currentTransactionItem.setQuantity(transactionItem.getQuantity());
+        }
+
+        if (transactionItem.getUnitPrice() != null)
+        {
+            currentTransactionItem.setUnitPrice(transactionItem.getUnitPrice());
+        }
+
+        if (transactionItem.getItem() != null)
+        {
+            currentTransactionItem.setItem(transactionItem.getItem());
+        }
+
+
+
+        return transactionItemRepository.save(currentTransactionItem);
+
+    }
 
     @Transactional
     @Override
