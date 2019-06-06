@@ -7,4 +7,6 @@ import java.util.List;
 public interface CropTypeService
 {
     List<CropType> getAllCropTypes();
+    
+    CropType getCropTypeById(long id);
 }
