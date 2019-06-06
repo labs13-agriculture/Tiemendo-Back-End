@@ -13,4 +13,6 @@ public interface CropTypeService
     CropType save(CropType newCrop);
     
     CropType update(long id, CropType update);
+    
+    void delete(long id);
 }

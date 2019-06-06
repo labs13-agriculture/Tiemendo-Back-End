@@ -31,6 +31,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name="client")
+    @JsonIgnoreProperties("transactions")
     private Client client;
 
     public Transaction() {

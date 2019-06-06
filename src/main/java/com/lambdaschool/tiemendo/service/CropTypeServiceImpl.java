@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.service;
 
+import com.lambdaschool.tiemendo.exception.IllegalDeleteException;
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.CropType;
 import com.lambdaschool.tiemendo.repository.CropTypeRepository;
@@ -57,10 +58,27 @@ public class CropTypeServiceImpl implements CropTypeService
     {
         if (cropTypeRepository.existsById(id))
         {
-            return cropTypeRepository.save(update);
+            //can't just save this because front-end may not have, and therefore may not send, yield data
+            CropType original = cropTypeRepository.findCropTypeById(id);
+            original.setCropName(update.getCropName());
+            original.setActive(update.isActive());
+            return cropTypeRepository.save(original);
         } else
         {
             throw new ResourceNotFoundException("Could not find CropType with id: " + id);
+        }
+    }
+    
+    @Override
+    public void delete(long id)
+    {
+        CropType c = getCropTypeById(id, true);
+        if(c.getYields().size() > 0)
+        {
+            throw new IllegalDeleteException("Could not delete CropType with yields attached");
+        }else
+        {
+            cropTypeRepository.delete(c);
         }
     }
 }

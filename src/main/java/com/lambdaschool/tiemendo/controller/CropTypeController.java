@@ -33,9 +33,16 @@ public class CropTypeController
         return new ResponseEntity<>(cropTypeService.save(newCrop), HttpStatus.OK);
     }
     
-//    @PutMapping(value = "/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
-//    public ResponseEntity<?> updateCropType(@PathVariable long id, @RequestBody CropType update)
-//    {
-//        return new ResponseEntity<>();
-//    }
+    @PutMapping(value = "/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> updateCropType(@PathVariable long id, @RequestBody CropType update)
+    {
+        return new ResponseEntity<>(cropTypeService.update(id, update), HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value = "/delete/{id}", produces = {"application/json"})
+    public ResponseEntity<?> deleteCropType(@PathVariable long id)
+    {
+        cropTypeService.delete(id);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
 }
