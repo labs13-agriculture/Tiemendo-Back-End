@@ -74,9 +74,11 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/croptypes/all` | all users      | Returns a list of all CropTypes |
+| GET    | `/croptypes/crop/{id}` | all users      | Returns the information for CropType with given {id}, also takes a boolean queary param `yields` that includes yields of given crop |
+| POST   | `/croptypes/new/{id}/` | all users      | Returns and creates a CropType with given information |
+| PUT    | `/croptypes/update/{id}/` | all users      | Modify and return an existing CropType with given {id}.|
+| DELETE | `/croptypes/delete/{id}` | all users      | Delete CropType with given id.  |
 
 #### Transaction Routes
 
