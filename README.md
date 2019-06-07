@@ -21,6 +21,15 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 ## Endpoints
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+#### User Routes
+
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/users`                | Admin               | Returns paginated list of all users                |
+| GET    | `/users/:userId`        | Admin               | Returns info for a single user.                    |
+| POST   | `/newuser`              | Admin               | Creates a new user                                 |
+| PUT    | `/update-user/:userId`  | Admin               | Updates user with given id                         |
+| DELETE | `/users/:userId`        | Admin               | Deletes user with given id                         |
 
 #### Organization Routes
 
@@ -30,16 +39,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
 
-#### User Routes
-
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
 
 # Data Model
 
