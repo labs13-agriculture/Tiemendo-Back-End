@@ -1,28 +1,24 @@
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### Backend deployed at [tieme-ndo-backend](https://tieme-ndo-backend.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- Open in IntelliJ
+- Press Play
 
-### Backend framework goes here
+### The Stack
+Java Rest Api Built with Spring Framework on a postgres database deployed to Heroku
 
-🚫 Why did you choose this framework?
+-    `Spring` allows for amazing customizability and extensability
+-    `Hibernate` makes for intuitive and easy access to our database and works so smoothly with spring
+-    `Postgresql` is an amazing relational database that can handle our extensive models and integrates great with Herok
+-    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
-
-## 2️⃣ Endpoints
+## Endpoints
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
