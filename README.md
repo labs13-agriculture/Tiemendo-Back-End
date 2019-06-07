@@ -1,39 +1,65 @@
+<<<<<<< HEAD
 🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
 
 🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
+=======
+>>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### Backend deployed at [tieme-ndo-backend](https://tieme-ndo-backend.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- Set up PostgreSQL database locally with name, username, and password "tiemendo" 
+- Alternatively, change name, username, and password values to your liking in applications.properties file
+- Local testing is currently configured using localhost port 4040
 
-### Backend framework goes here
+### The Stack
+Java Rest Api Built with Spring Framework on a postgres database deployed to Heroku
 
-🚫 Why did you choose this framework?
+-    `Spring` allows for amazing customization and extensibility
+-    `Hibernate` makes for intuitive and easy access to our database and works so smoothly with spring
+-    `Postgresql` is an amazing relational database that can handle our extensive models and integrates great with Herok
+-    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
+<<<<<<< HEAD
 - Point One
 - Point Two
 - Point Three
 - Point Four
+=======
+## Endpoints
+🚫This is a placeholder, replace the endpoints, access control, and description to match your project
+#### User Routes
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/users`                | Admin               | Returns paginated list of all users                |
+| GET    | `/users/:userId`        | Admin               | Returns info for a single user.                    |
+| POST   | `/newuser`              | Admin               | Creates a new user                                 |
+| PUT    | `/update-user/:userId`  | Admin               | Updates user with given id                         |
+| DELETE | `/users/:userId`        | Admin               | Deletes user with given id                         |
+>>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
 
-## 2️⃣ Endpoints
+#### Farmer Routes
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/farmers/all`          | all users      | Returns the information for an organization. |
+| GET    | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
+| POST   | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
+| POST   | `/farmers/search`       | all users      | Returns the information for an organization. |
+| PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
+| DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
 
 #### Organization Routes
 
+<<<<<<< HEAD
 | Method | Endpoint                                     | Access Control | Description                                    |
 | ------ | -------------------------------------------- | -------------- | ---------------------------------------------- |
 | GET    | `/organizations/:orgId`                      | all users      | Returns the information for an organization.   |
@@ -55,34 +81,166 @@ To get the server running locally:
 | PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment.               |
 | POST   | `/new-installment/:clientId`         | all users      | Creates a new installment.                    |
 | DELETE | `/installment/:installmentId`        | all users      | Delete an installment.                        |
+=======
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
 
-#### User Routes
+#### Retailer Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Item-Type Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Crop-Type Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Transaction Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Installment Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Transaction-Item Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Yield Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+>>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
+
+
 
 # Data Model
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### CLIENT
 
 ---
 
 ```
 {
-  id: UUID
+    id: long (generated value)
+    name: string
+    isLead: boolean
+    type: string
+    transactions: [transaction]
+    installments: [installment]
+}
+```
+
+
+#### ORGANIZATION (extends CLIENT)
+
+---
+
+```
+{
+  id: long (generated value)
+  installments: [installment]
   name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  type: STRING
+  transactions: [transaction]
+  beneficiaries: int
+  headquarters: STRING
+  isLead: boolean
+  organizationcontacts: [organizationcontact]
+  organizationlocations: [organizationlocations]
+}
+```
+
+#### ORGANIZATIONLOCATION
+
+---
+
+```
+{
+  address: string
+  district: string
+  landmark: string
+  organization: organization
+  region: string
+  ogranizationlocationid: long (generated value)
+}
+```
+
+#### ORGANIZATIONCONTACTS
+
+---
+
+```
+{
+    organizationcontactid: long (generated value)
+    email: string
+    name: string
+    organization: Organization
+    phone: string
+    position: string
+}
+```
+
+#### CROPTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    cropName: string
+    yields: [yield]
+    active: boolean
+}
+```
+
+#### INSTALLMENT
+
+---
+
+```
+{
+    id: long (generated value)
+    amountPaid: double
+    datePaid: Date
+    mode: string
+    officer: string
+    client: Client
 }
 ```
 

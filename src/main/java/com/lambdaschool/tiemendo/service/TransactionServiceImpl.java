@@ -2,9 +2,11 @@ package com.lambdaschool.tiemendo.service;
 
 
 
+import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Transaction;
 
 import com.lambdaschool.tiemendo.model.TransactionItem;
+import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,10 @@ public class TransactionServiceImpl implements TransactionService
 {
     @Autowired
     TransactionRepository transactionRepository;
+
+    @Autowired
+    ClientRepository clientRepository;
+
 
     @Override
     public List<Transaction> findAll(Pageable pageable)
@@ -47,9 +53,30 @@ public class TransactionServiceImpl implements TransactionService
 
     @Transactional
     @Override
-    public Transaction save(Transaction transaction)
-    {
-        return transactionRepository.save(transaction);
+    public Client save(Transaction transaction,long id) {
+        Transaction newTransaction = new Transaction();
+        Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+
+
+        //this seemed to be a necessary work around. Changing the result of getInput to ArrayList in Transaction threw error about mapping to a non collection
+
+        ArrayList necessaryArrayList = new ArrayList();
+        List<TransactionItem> originalInputs = transaction.getInputs();
+
+        for(TransactionItem i: originalInputs) {
+            necessaryArrayList.add(i);
+        }
+
+        newTransaction.setInputs(necessaryArrayList);
+        newTransaction.setType(transaction.getType());
+        newTransaction.setPersonnel(transaction.getPersonnel());
+        newTransaction.setDate(transaction.getDate());
+        newTransaction.setClient(client);
+
+        client.getTransactions().add(newTransaction);
+
+        return clientRepository.save(client);
+
     }
 
 
