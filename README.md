@@ -44,7 +44,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 #### Organization Routes
 
-<<<<<<< HEAD
 | Method | Endpoint                                     | Access Control | Description                                    |
 | ------ | -------------------------------------------- | -------------- | ---------------------------------------------- |
 | GET    | `/organizations/:orgId`                      | all users      | Returns the information for an organization.   |
@@ -66,12 +65,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment.               |
 | POST   | `/new-installment/:clientId`         | all users      | Creates a new installment.                    |
 | DELETE | `/installment/:installmentId`        | all users      | Delete an installment.                        |
-=======
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
 
 #### Retailer Routes
 
