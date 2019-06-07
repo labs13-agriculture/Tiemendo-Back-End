@@ -1,55 +1,111 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [Heroku](https://tieme-ndo-backend.herokuapp.com) <br>
+#### Backend deployed at [tieme-ndo-backend](https://tieme-ndo-backend.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
-
-🚫 adjust these scripts to match your project
 
 - Clone this repo
 - Set up PostgreSQL database locally with name, username, and password "tiemendo" 
 - Alternatively, change name, username, and password values to your liking in applications.properties file
 - Local testing is currently configured using localhost port 4040
 
-### Java/Spring Rest API
+### The Stack
+Java Rest Api Built with Spring Framework on a postgres database deployed to Heroku
 
-🚫 Why did you choose this framework?
+-    `Spring` allows for amazing customization and extensibility
+-    `Hibernate` makes for intuitive and easy access to our database and works so smoothly with spring
+-    `Postgresql` is an amazing relational database that can handle our extensive models and integrates great with Herok
+-    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
--    Familiarity with all team members
--    JPA database support
--    Heroku/PostgreSQL integration
--    OAuth 2.0 integration
+## Endpoints
+🚫This is a placeholder, replace the endpoints, access control, and description to match your project
+#### User Routes
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/users`                | Admin               | Returns paginated list of all users                |
+| GET    | `/users/:userId`        | Admin               | Returns info for a single user.                    |
+| POST   | `/newuser`              | Admin               | Creates a new user                                 |
+| PUT    | `/update-user/:userId`  | Admin               | Updates user with given id                         |
+| DELETE | `/users/:userId`        | Admin               | Deletes user with given id                         |
 
-## 2️⃣ Endpoints
+#### Farmer Routes
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/farmers/all`          | all users      | Returns the information for an organization. |
+| GET    | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
+| POST   | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
+| POST   | `/farmers/search`       | all users      | Returns the information for an organization. |
+| PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
+| DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
 
 #### Organization Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
 | GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
 
-#### User Routes
+#### Retailer Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Item-Type Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Crop-Type Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Transaction Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Installment Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Transaction-Item Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+#### Yield Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
+
 
 # Data Model
 
