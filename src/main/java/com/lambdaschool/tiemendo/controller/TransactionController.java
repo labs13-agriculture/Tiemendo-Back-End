@@ -4,11 +4,8 @@ package com.lambdaschool.tiemendo.controller;
 
 
 //import com.lambdaschool.tiemendo.model.Farmer;
-import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.Retailer;
-import com.lambdaschool.tiemendo.model.Transaction;
+import com.lambdaschool.tiemendo.model.*;
 
-import com.lambdaschool.tiemendo.model.TransactionItem;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 
 import com.lambdaschool.tiemendo.service.OrganizationService;
@@ -52,14 +49,14 @@ public class TransactionController {
     @ApiOperation(value = "Allows authenticated user to post a transaction to database.")
     @ApiImplicitParam(name = "transaction object", dataType = "Transaction", paramType = "body",
             value = "transaction object")
-    @PostMapping(value = "/add")
-    public ResponseEntity<?> addNewTransaction(@Valid @RequestBody Transaction transaction) {
+    @PostMapping(value = "/add/{clientid}")
+    public ResponseEntity<?> addNewTransaction(@Valid @RequestBody Transaction transaction,@PathVariable Long clientid) {
 
-    //to we want to associate transaction entries with current User? or just with String personnel?
+  
 
-        transactionRepository.save(transaction);
+        Client client = transactionService.save(transaction,clientid);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(client,HttpStatus.OK);
 
 
     }
