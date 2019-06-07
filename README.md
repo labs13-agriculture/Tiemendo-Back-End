@@ -42,6 +42,37 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
 | DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
 
+#### Organization Routes
+
+<<<<<<< HEAD
+| Method | Endpoint                                     | Access Control | Description                                    |
+| ------ | -------------------------------------------- | -------------- | ---------------------------------------------- |
+| GET    | `/organizations/:orgId`                      | all users      | Returns the information for an organization.   |
+| GET    | `/organizations/contact-list`                | all users      | Returns the information for a contact.         |
+| GET    | `/organizations/locations-list`              | all users      | Returns the information for a location.        |
+| GET    | `/organizations/:organizations-list`         | all users      | Returns the information for all organizations. |
+| PUT    | `/organizations/:update-organization/:orgId` | all users      | Modify an existing organization.               |
+| POST   | `/organizations/new-organization`            | all users      | Creates a new organization.                    |
+| DELETE | `/organizations/:orgId`                      | all users      | Delete an organization.                        |
+| DELETE | `/organizations/:contact/:contactId`         | all users      | Delete a contact.                              |
+| DELETE | `/organizations/:location/:locationId`       | all users      | Delete a location.                             |
+
+#### Installment Routes
+
+| Method | Endpoint                             | Access Control | Description                                   |
+| ------ | ------------------------------------ | -------------- | --------------------------------------------- |
+| GET    | `/installment/:installmentId`        | all users      | Returns the information for an installment.   |
+| GET    | `/installment/installment-list`      | all users      | Returns the information for all installments. |
+| PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment.               |
+| POST   | `/new-installment/:clientId`         | all users      | Creates a new installment.                    |
+| DELETE | `/installment/:installmentId`        | all users      | Delete an installment.                        |
+=======
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+
 #### Retailer Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
@@ -295,50 +326,3 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
-
-
-
-
-# Back-End for Tieme-Ndo Gana Agriculture Database
-
-- docs for endpoint here
-
-# Get All Users
-
-    https://chasegarsee-tiemendo.herokuapp.com/users
-
-# Create New User
-
-    https://chasegarsee-tiemendo.herokuapp.com/newuser
-
-# Get All Staff Members
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff
-
-# Get Staff By ID number
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff{staffid}
-
-# Create New Staff Member
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff
-
-# Get All Clients
-
-    https://chasegarsee-tiemendo.herokuapp.com/clients
-
-# Get Client By ID
-
-    https://chasegarsee-tiemendo.herokuapp.com/client{clientid}
-
-# Create New Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client
-
-# Update Existing Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client/{id}
-
-# Delete Exisiting Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client{id}
