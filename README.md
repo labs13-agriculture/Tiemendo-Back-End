@@ -20,15 +20,16 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 -    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
 ## Endpoints
-🚫This is a placeholder, replace the endpoints, access control, and description to match your project
+
 #### User Routes
+
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users`                | Admin               | Returns paginated list of all users                |
-| GET    | `/users/:userId`        | Admin               | Returns info for a single user.                    |
-| POST   | `/newuser`              | Admin               | Creates a new user                                 |
-| PUT    | `/update-user/:userId`  | Admin               | Updates user with given id                         |
-| DELETE | `/users/:userId`        | Admin               | Deletes user with given id                         |
+| GET    | `/users/users`                | Admin               | Returns paginated list of all users                |
+| GET    | `/users/users/:userId`        | Admin               | Returns info for a single user.                    |
+| POST   | `/users/newuser`              | Admin               | Creates a new user                                 |
+| PUT    | `/users/update-user/:userId`  | Admin               | Updates user with given id                         |
+| DELETE | `/users/users/:userId`        | Admin               | Deletes user with given id                         |
 
 #### Farmer Routes
 
@@ -53,17 +54,21 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/retailer/reatailers`  | all users  | Returns a list of all retailers |
+| GET    | `/retailer/search`  | all users  | Returns a list of all retailers matching search criteria |
+| GET    | `/retailer/{id}`  | all users | Returns the retailer with given {id} |
+| POST    | `/retailer/add`  | all users | Creates and Returns a new retailer based on given information |
+| PUT    | `/retailer/update/{id}` | all users | Returns and modifies an existing retailer. |
+| DELETE | `/retailer/delete/{id}` | all users | Deletes retailer with given id.                      |
 
 #### Item-Type Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/itemtype/all` | all users      | Returns the information for an organization. |
+| POST    | `/itemtype/add` | all users      | Returns and creates an ItemType with given information. |
+| PUT    | `/itemtype/update/{itemtypeid}` | all users      | Modify and return an existing ItemType with id matching {itemtypeid}. |
+| DELETE | `/itemtype/delete/{itemtypeid}` | all users      | Delete item type with id matching {itemtypeid}|
 
 #### Crop-Type Routes
 

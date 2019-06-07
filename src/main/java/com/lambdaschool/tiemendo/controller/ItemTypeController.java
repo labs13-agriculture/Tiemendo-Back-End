@@ -28,19 +28,10 @@ public class ItemTypeController {
             value = "item-type object")
     @PostMapping(value = "/add")
     public ResponseEntity<?> addNewItemType(@Valid @RequestBody ItemType itemType) {
-
-
-
-        itemTypeRepository.save(itemType);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
-
+        return new ResponseEntity<>(itemTypeRepository.save(itemType), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Returns all item-types.", response = ItemType.class, responseContainer = "List")
-
-
     @GetMapping(value = "/all", produces = {"application/json"})
     public ResponseEntity<?> listAllItemTypes()
     {
@@ -58,12 +49,9 @@ public class ItemTypeController {
 
     @PutMapping(value = "/update/{itemtypeid}")
     public ResponseEntity<?> updateItemType(
-            @RequestBody
-                    ItemType updateItemType,
-            @PathVariable
-                    long itemtypeid)
+            @RequestBody ItemType updateItemType,
+            @PathVariable long itemtypeid)
     {
-        itemTypeService.update(updateItemType, itemtypeid);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(itemTypeService.update(updateItemType, itemtypeid), HttpStatus.OK);
     }
 }
