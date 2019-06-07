@@ -4,13 +4,12 @@ package com.lambdaschool.tiemendo.controller;
 
 
 //import com.lambdaschool.tiemendo.model.Farmer;
-import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.Retailer;
-import com.lambdaschool.tiemendo.model.Transaction;
+import com.lambdaschool.tiemendo.model.*;
 
-import com.lambdaschool.tiemendo.model.TransactionItem;
+import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 
+import com.lambdaschool.tiemendo.service.ClientService;
 import com.lambdaschool.tiemendo.service.OrganizationService;
 import com.lambdaschool.tiemendo.service.RetailerService;
 import com.lambdaschool.tiemendo.service.TransactionService;
@@ -25,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -46,20 +46,26 @@ public class TransactionController {
     @Autowired
     RetailerService retailerService;
 
+
+    @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
+    ClientService clientService;
 //    @Autowired
 //    FarmerService farmerService;
 
     @ApiOperation(value = "Allows authenticated user to post a transaction to database.")
     @ApiImplicitParam(name = "transaction object", dataType = "Transaction", paramType = "body",
             value = "transaction object")
-    @PostMapping(value = "/add")
-    public ResponseEntity<?> addNewTransaction(@Valid @RequestBody Transaction transaction) {
+    @PostMapping(value = "/add/{clientid}")
+    public ResponseEntity<?> addNewTransaction(@Valid @RequestBody Transaction transaction,@PathVariable Long clientid) {
 
-    //to we want to associate transaction entries with current User? or just with String personnel?
 
-        transactionRepository.save(transaction);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Client client = transactionService.save(transaction,clientid);
+
+        return new ResponseEntity<>(client,HttpStatus.OK);
 
 
     }
@@ -101,24 +107,34 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.findTransactionById(id), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Returns transaction based on organization id.", response = Transaction.class)
-    @GetMapping(value = "organization/{id}", produces = {"application/json"})
-    public ResponseEntity<?> findTransactionByOrgtId(@PathVariable long id)
+
+    @ApiOperation(value = "Returns transaction based on client id.", response = Transaction.class)
+    @GetMapping(value = "/client/{id}", produces = {"application/json"})
+    public ResponseEntity<?> findTransactionsByClientId(@PathVariable long id)
     {
-        Organization organization = organizationService.findOrganizationById(id);
-        List orgTransactions = organization.getTransactions();
-        return new ResponseEntity<>(orgTransactions, HttpStatus.OK);
+        Client client = clientService.findClientById(id);
+
+        return new ResponseEntity<>(client.getTransactions(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Returns transaction based on retailer id.", response = Transaction.class)
-    @GetMapping(value = "retailer/{id}", produces = {"application/json"})
-    public ResponseEntity<?> findTransactionByRetailerId(@PathVariable long id)
-    {
-        Retailer retailer = retailerService.findRetailerById(id);
-        List retailerTransactions = retailer.getTransactions();
-        return new ResponseEntity<>(retailerTransactions, HttpStatus.OK);
-
-    }
+//    @ApiOperation(value = "Returns transaction based on organization id.", response = Transaction.class)
+//    @GetMapping(value = "organization/{id}", produces = {"application/json"})
+//    public ResponseEntity<?> findTransactionByOrgtId(@PathVariable long id)
+//    {
+//        Organization organization = organizationService.findOrganizationById(id);
+//        List orgTransactions = organization.getTransactions();
+//        return new ResponseEntity<>(orgTransactions, HttpStatus.OK);
+//    }
+//
+//    @ApiOperation(value = "Returns transaction based on retailer id.", response = Transaction.class)
+//    @GetMapping(value = "retailer/{id}", produces = {"application/json"})
+//    public ResponseEntity<?> findTransactionByRetailerId(@PathVariable long id)
+//    {
+//        Retailer retailer = retailerService.findRetailerById(id);
+//        List retailerTransactions = retailer.getTransactions();
+//        return new ResponseEntity<>(retailerTransactions, HttpStatus.OK);
+//
+//    }
         //needs farmer service and impl
 //    @ApiOperation(value = "Returns transaction based on farmer id.", response = Transaction.class)
 //    @GetMapping(value = "farmer/{id}", produces = {"application/json"})

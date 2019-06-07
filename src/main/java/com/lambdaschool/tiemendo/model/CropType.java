@@ -18,6 +18,7 @@ public class CropType {
     private String cropName;
     private boolean active;
 
+
     @OneToMany(mappedBy = "cropType")
     @JsonIgnoreProperties("cropType")
     private List<Yield> yields = new ArrayList<>();

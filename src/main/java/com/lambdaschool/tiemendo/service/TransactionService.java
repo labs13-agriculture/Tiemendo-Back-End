@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Transaction;
 import com.lambdaschool.tiemendo.model.TransactionItem;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,7 @@ public interface TransactionService {
 
     void delete(long id);
 
-    Transaction save(Transaction transaction);
+    Client save(Transaction transaction,long id);
 
     Transaction update(Transaction transaction, long id);
 }

@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.models.auth.In;
 
 import javax.persistence.*;
 
@@ -12,28 +13,29 @@ public class Yield {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 //    Number of bags of crops (maize or sorghum) harvested
-    private int numBags;
+    private Integer numBags;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="crop_id")
     @JsonIgnoreProperties("yields")
     private CropType cropType;
 
 //    Their goal for bags of crops to sell
-    private int goal;
+    private Integer goal;
 //    Farm size in acres
-    private int farmAcres;
+    private Integer farmAcres;
 //    Year or season
     private String season;
 
     @ManyToOne
     @JoinColumn(name="farmer_id")
+    @JsonIgnoreProperties("yieldHistory")
     private Farmer farmer;
 
     public Yield() {
     }
 
-    public Yield(int numBags, CropType cropType, int goal, int farmAcres, String season, Farmer farmer) {
+    public Yield(int numBags, CropType cropType, Integer goal, Integer farmAcres, String season, Farmer farmer) {
         this.numBags = numBags;
         this.cropType = cropType;
         this.goal = goal;
@@ -50,7 +52,7 @@ public class Yield {
         this.id = id;
     }
 
-    public int getNumBags() {
+    public Integer getNumBags() {
         return numBags;
     }
 
@@ -66,7 +68,7 @@ public class Yield {
         this.cropType = cropType;
     }
 
-    public int getGoal() {
+    public Integer getGoal() {
         return goal;
     }
 
@@ -74,7 +76,7 @@ public class Yield {
         this.goal = goal;
     }
 
-    public int getFarmAcres() {
+    public Integer getFarmAcres() {
         return farmAcres;
     }
 
