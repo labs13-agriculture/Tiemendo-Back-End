@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -31,6 +28,14 @@ public class UserController
         return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
+
+    @GetMapping(value = "/user/{userId}", produces = {"application/json"})
+    public ResponseEntity<?> getUserById(@PathVariable Long userId)
+    {
+        User u = userService.findUserById(userId);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/newuser", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<?> createUser(@Valid @RequestBody User newuser) throws URISyntaxException
     {
@@ -46,4 +51,23 @@ public class UserController
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
+
+
+    @PutMapping(value = "/update-user/{userId}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> updateUserById(@RequestBody User user, @PathVariable Long userId)
+    {
+        userService.update(user, userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long userId)
+    {
+        userService.delete(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
+
+

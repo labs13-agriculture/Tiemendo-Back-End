@@ -7,8 +7,9 @@
 To get the server running locally:
 
 - Clone this repo
-- Open in IntelliJ
-- Press Play
+- Set up PostgreSQL database locally with name, username, and password "tiemendo" 
+- Alternatively, change name, username, and password values to your liking in applications.properties file
+- Local testing is currently configured using localhost port 4040
 
 ### The Stack
 Java Rest Api Built with Spring Framework on a postgres database deployed to Heroku
@@ -19,10 +20,8 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 -    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
 ## Endpoints
-
 🚫This is a placeholder, replace the endpoints, access control, and description to match your project
 #### User Routes
-
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/users`                | Admin               | Returns paginated list of all users                |
@@ -112,18 +111,96 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### CLIENT
 
 ---
 
 ```
 {
-  id: UUID
+    id: long (generated value)
+    name: string
+    isLead: boolean
+    type: string
+    transactions: [transaction]
+    installments: [installment]
+}
+```
+
+
+#### ORGANIZATION (extends CLIENT)
+
+---
+
+```
+{
+  id: long (generated value)
+  installments: [installment]
   name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  type: STRING
+  transactions: [transaction]
+  beneficiaries: int
+  headquarters: STRING
+  isLead: boolean
+  organizationcontacts: [organizationcontact]
+  organizationlocations: [organizationlocations]
+}
+```
+
+#### ORGANIZATIONLOCATION
+
+---
+
+```
+{
+  address: string
+  district: string
+  landmark: string
+  organization: organization
+  region: string
+  ogranizationlocationid: long (generated value)
+}
+```
+
+#### ORGANIZATIONCONTACTS
+
+---
+
+```
+{
+    organizationcontactid: long (generated value)
+    email: string
+    name: string
+    organization: Organization
+    phone: string
+    position: string
+}
+```
+
+#### CROPTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    cropName: string
+    yields: [yield]
+    active: boolean
+}
+```
+
+#### INSTALLMENT
+
+---
+
+```
+{
+    id: long (generated value)
+    amountPaid: double
+    datePaid: Date
+    mode: string
+    officer: string
+    client: Client
 }
 ```
 

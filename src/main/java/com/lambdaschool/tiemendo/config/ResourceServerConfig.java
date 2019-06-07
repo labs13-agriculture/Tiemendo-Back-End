@@ -38,7 +38,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                                    "/users/**",
                                    "/retailer/**",
                                     "/farmers/**",
-                                    "/croptypes/**"
+                                    "/croptypes/**",
+                                    "/stats/**"
                         ).permitAll()
                 .antMatchers("/actuator/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
