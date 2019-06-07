@@ -6,7 +6,7 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Heroku](https://tieme-ndo-backend.herokuapp.com) <br>
 
 ## 1️⃣ Getting started
 
@@ -15,18 +15,18 @@ To get the server running locally:
 🚫 adjust these scripts to match your project
 
 - Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+- Set up PostgreSQL database locally with name, username, and password "tiemendo" 
+- Alternatively, change name, username, and password values to your liking in applications.properties file
+- Local testing is currently configured using localhost port 4040
 
-### Backend framework goes here
+### Java/Spring Rest API
 
 🚫 Why did you choose this framework?
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+-    Familiarity with all team members
+-    JPA database support
+-    Heroku/PostgreSQL integration
+-    OAuth 2.0 integration
 
 ## 2️⃣ Endpoints
 
@@ -55,18 +55,96 @@ To get the server running locally:
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### CLIENT
 
 ---
 
 ```
 {
-  id: UUID
+    id: long (generated value)
+    name: string
+    isLead: boolean
+    type: string
+    transactions: [transaction]
+    installments: [installment]
+}
+```
+
+
+#### ORGANIZATION (extends CLIENT)
+
+---
+
+```
+{
+  id: long (generated value)
+  installments: [installment]
   name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  type: STRING
+  transactions: [transaction]
+  beneficiaries: int
+  headquarters: STRING
+  isLead: boolean
+  organizationcontacts: [organizationcontact]
+  organizationlocations: [organizationlocations]
+}
+```
+
+#### ORGANIZATIONLOCATION
+
+---
+
+```
+{
+  address: string
+  district: string
+  landmark: string
+  organization: organization
+  region: string
+  ogranizationlocationid: long (generated value)
+}
+```
+
+#### ORGANIZATIONCONTACTS
+
+---
+
+```
+{
+    organizationcontactid: long (generated value)
+    email: string
+    name: string
+    organization: Organization
+    phone: string
+    position: string
+}
+```
+
+#### CROPTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    cropName: string
+    yields: [yield]
+    active: boolean
+}
+```
+
+#### INSTALLMENT
+
+---
+
+```
+{
+    id: long (generated value)
+    amountPaid: double
+    datePaid: Date
+    mode: string
+    officer: string
+    client: Client
 }
 ```
 
