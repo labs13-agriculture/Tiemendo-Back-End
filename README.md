@@ -42,14 +42,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
 | DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
 
-#### Organization Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
-
 #### Retailer Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
@@ -81,14 +73,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | DELETE | `/croptypes/delete/{id}` | all users      | Delete CropType with given id.  |
 
 #### Transaction Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
-
-#### Installment Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
