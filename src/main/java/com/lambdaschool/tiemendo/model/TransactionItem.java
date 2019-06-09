@@ -22,6 +22,7 @@ public class TransactionItem {
 
     @ManyToOne
     @JoinColumn(name="item")
+    @JsonIgnoreProperties("transactions")
     private ItemType item;
 
     @ManyToOne

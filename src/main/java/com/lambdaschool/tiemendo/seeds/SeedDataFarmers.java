@@ -29,27 +29,56 @@ public class SeedDataFarmers implements CommandLineRunner
     }
 
     @Override
-    public void run(String[] args) throws Exception
+    public void run(String[] args)
     {
         Faker f = new Faker();
-
         System.out.println("Seeding Farmer Data");
-        //Farmer SEEDING BELOW
+        //Farmer SEEDING
 
+        // create other objects needed for farmer seed data
+        // create CropTypes for yield data
         CropType corn = cropRepo.findByCropName("Maize");
+        // create ItemTypes for Transaction data
+        ItemType sack = itemRepo.findByNameIgnoreCase("Knapsack");
+        ItemType urea = itemRepo.findByNameIgnoreCase("Urea");
+        ItemType cutlass = itemRepo.findByNameIgnoreCase("Cutlasses");
+        ArrayList<ItemType> items = new ArrayList<>(Arrays.asList(sack, urea, cutlass));
 
         // make an array of 10 farmers type clients
         var farmers = new ArrayList<Client>();
-        for (var i=0; i++ < 10;) {
+
+        for (var i=0; i++<10;) {
+            // Create a farmer
             Client farmer = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
                     f.address().fullAddress(), f.gameOfThrones().house(), f.gameOfThrones().character(),
                     f.phoneNumber().phoneNumber(), f.internet().emailAddress());
             farmer.setType("FARMER");
-//            for (var ii=0; ii++ < 5;) {
-//                var size = f.number().numberBetween(10, 20);
-//                var startYear = 2000;
-//                Yield y = new Yield((int) Math.floor(Math.random() * 20) + 20, corn, (int)Math.floor(Math.random() * 20) + 30, size, String.valueOf(2000 + ii), farmer);
-//            }
+            // Add Transactions to farmer
+            // create list of transactions
+            var transactions = new ArrayList<Transaction>();
+            // loop to create 5 transaction
+            for (var nt=0; nt++<5;) {
+                // create list on inputs
+                var inputs = new ArrayList<TransactionItem>();
+                // create transaction
+                var transaction = new Transaction("CREDIT", new Date(), new ArrayList<>(), "Joshua", farmer);
+                // generate inputs to add to list
+                for (var ni=0; ni++<3;) {
+                    TransactionItem ti = new TransactionItem(
+                            f.number().numberBetween(1, 3),
+                            items.get(ni-1),
+                            f.number().randomDouble(2, 2, 10),
+                            transaction
+                    );
+                    inputs.add(ti);
+                }
+                // add list of inputs to transaction
+                transaction.setInputs(inputs);
+                transactions.add(transaction);
+            }
+            // add transaction to farmer
+            farmer.setTransactions(transactions);
+            // add farmer to list
             farmers.add(farmer);
         }
 
@@ -63,31 +92,6 @@ public class SeedDataFarmers implements CommandLineRunner
 //        //yieldRepo.saveAll(yields);
 //        f1.getYieldHistory().addAll(yields);
 //
-//        System.out.println("adding Transactions to farmer");
-//        // get item types
-//        ItemType sack = itemRepo.findByNameIgnoreCase("Knapsack");
-//        ItemType urea = itemRepo.findByNameIgnoreCase("Urea");
-//        ItemType cutlass = itemRepo.findByNameIgnoreCase("Cutlasses");
-//
-//        // Build out inputs list
-//        TransactionItem ti1 = new TransactionItem(3, sack, 5.50, new Transaction());
-//        TransactionItem ti2 = new TransactionItem(1, urea, 2.50, new Transaction());
-//        TransactionItem ti3 = new TransactionItem(1, cutlass, 3.15, new Transaction());
-//        ArrayList<TransactionItem> inputs = new ArrayList<>(Arrays.asList(ti1, ti2, ti3));
-//
-//        // build transaction and add transaction to inputs
-//        Transaction t1 = new Transaction("CASH", new Date(), inputs, "Joshua", f1);
-//        inputs.iterator().forEachRemaining(x -> x.setTransaction(t1));
-//
-//        TransactionItem ti4 = new TransactionItem(5, sack, 3.30, new Transaction());
-//        TransactionItem ti5 = new TransactionItem(3, urea, 2.50, new Transaction());
-//        ArrayList<TransactionItem> inputs2 = new ArrayList<>(Arrays.asList(ti4, ti5));
-//
-//        Transaction t2 = new Transaction("CREDIT", new Date(), inputs2, "Joshua", f1);
-//        inputs2.iterator().forEachRemaining(x -> x.setTransaction(t2));
-//
-//
-//        f1.getTransactions().addAll(Arrays.asList(t1, t2));
 //
 //        System.out.println("adding installment history for farmer");
 //        Installment insstall1 = new Installment(10.50, new Date(), "MTN", "Joshua", f1);

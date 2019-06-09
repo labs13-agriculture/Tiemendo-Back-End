@@ -23,7 +23,7 @@ public class Transaction {
     private Date date;
 //    Inputs bought:
 //    Item name + Quantity
-    @OneToMany(mappedBy="transaction")
+    @OneToMany(mappedBy="transaction", cascade=CascadeType.ALL)
     @JsonIgnoreProperties("transaction")
     private List<TransactionItem> inputs = new ArrayList<>();
 //    Sales personnel (officer who make the payments for the farmer)
