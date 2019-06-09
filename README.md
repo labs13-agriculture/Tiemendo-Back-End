@@ -111,9 +111,11 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/transaction/` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/transaction-item/all` | all users  | Returns a pageable list of all Transaction-Items |
+| GET    | `/transaction-item/{id}`| all users  | Returns Transaction Item with given Id       |
+| POST   | `/transaction-item/add` | all users  | Adds a new Transaction Item with given Info     |
+| PUT    | `/transaction-item/update/{titemId}` | all users | Modify an existing Transaction Item.     |
+| DELETE | `/transaction-item/delete/{titemId}` | all users | Delete a Transaction Item.         |
 
 #### Yield Routes
 
