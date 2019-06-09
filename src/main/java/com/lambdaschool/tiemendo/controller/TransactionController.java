@@ -42,8 +42,7 @@ public class TransactionController {
     OrganizationService organizationService;
 
     @Autowired
-    RetailerService retailerService;
-
+    ClientService retailerService;
 
     @Autowired
     ClientRepository clientRepository;
@@ -110,7 +109,7 @@ public class TransactionController {
     @GetMapping(value = "/client/{id}", produces = {"application/json"})
     public ResponseEntity<?> findTransactionsByClientId(@PathVariable long id)
     {
-        Client client = clientService.findClientById(id);
+        Client client = clientService.findById(id);
 
         return new ResponseEntity<>(client.getTransactions(), HttpStatus.OK);
     }

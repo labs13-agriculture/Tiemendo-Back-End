@@ -1,9 +1,11 @@
 package com.lambdaschool.tiemendo.controller;
 
+import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Farmer;
 
 import com.lambdaschool.tiemendo.model.Yield;
 import com.lambdaschool.tiemendo.repository.YieldRepository;
+import com.lambdaschool.tiemendo.service.ClientService;
 import com.lambdaschool.tiemendo.service.YieldService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -25,10 +27,7 @@ public class YieldController {
     YieldRepository yieldRepository;
 
     @Autowired
-    FarmerService farmerService;
-
-    @Autowired
-    FarmerRepository farmerRepository;
+    ClientService farmerService;
 
 
     @ApiOperation(value = "Returns all yields.", response = Yield.class)
@@ -50,10 +49,10 @@ public class YieldController {
     @GetMapping(value = "/{farmerid}", produces = {"application/json"})
     public ResponseEntity<?> getYieldByFarmerId(@PathVariable long farmerid)
     {
-        Farmer currentFarmer = farmerService.findFarmer(farmerid);
+        Client currentFarmer = farmerService.findById(farmerid);
 
 
-        return new ResponseEntity<>(currentFarmer.getYieldHistory(), HttpStatus.OK);
+        return new ResponseEntity<>(/*currentFarmer.getYieldHistory(),*/ HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletes yield record based on yield record id.", response = Yield.class)
@@ -67,10 +66,8 @@ public class YieldController {
     @ApiOperation(value = "Updates yield record based on yield record id.", response = Yield.class)
     @PutMapping(value = "/update/{yieldid}")
     public ResponseEntity<?> updateYieldItem(
-            @RequestBody
-                    Yield updateYieldItem,
-            @PathVariable
-                    long yieldid)
+            @RequestBody Yield updateYieldItem,
+            @PathVariable long yieldid)
     {
         yieldService.update(updateYieldItem, yieldid);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,11 +79,11 @@ public class YieldController {
     @PostMapping(value = "/add/{farmerid}")
     public ResponseEntity<?> addNewYieldItem(@PathVariable long farmerid,@Valid @RequestBody Yield yield) {
 
-        Farmer currentFarmer = farmerService.findFarmer(farmerid);
-        currentFarmer.getYieldHistory().add(yield);
-
-
-        farmerRepository.save(currentFarmer);
+//        Farmer currentFarmer = farmerService.findFarmer(farmerid);
+//        currentFarmer.getYieldHistory().add(yield);
+//
+//
+//        farmerRepository.save(currentFarmer);
 
         return new ResponseEntity<>(HttpStatus.OK);
 

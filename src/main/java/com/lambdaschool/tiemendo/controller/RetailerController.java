@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.controller;
 
 
+import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Retailer;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class RetailerController
     @GetMapping(value = "/retailers", produces = {"application/json"})
     public ResponseEntity<?> listAllRetailers(Pageable pageable)
     {
-        List<Retailer> myRetailers = retailerService.findAll(pageable);
+        List<Client> myRetailers = retailerService.findAll(pageable);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
     
@@ -33,29 +34,27 @@ public class RetailerController
         boolean isLead = Boolean.parseBoolean(lead);
         
         
-        return new ResponseEntity<>(retailerService.search(name, location, isLead), HttpStatus.OK);
+        return new ResponseEntity<>(/*retailerService.search(name, location, isLead),*/ HttpStatus.OK);
     }
     
     @GetMapping(value = "/{id}", produces = {"application/json"})
     public ResponseEntity<?> findRetailerById(@PathVariable long id)
     {
-        return new ResponseEntity<>(retailerService.findRetailerById(id), HttpStatus.OK);
+        return new ResponseEntity<>(retailerService.findById(id), HttpStatus.OK);
     }
     
     @PostMapping(value = "/new", produces = {"application/json"}, consumes = {"application/json"})
-    public ResponseEntity<?> addNewRetailer(@RequestBody Retailer newRetailer)
+    public ResponseEntity<?> addNewRetailer(@RequestBody Client newRetailer)
     {
-        return new ResponseEntity<>(retailerService.save(newRetailer), HttpStatus.OK);
+        return new ResponseEntity<>(retailerService.add(newRetailer), HttpStatus.OK);
     }
     
     //Must include contact and location id numbers if one exists (see retailerserviceimpl)
     @PutMapping(value = "/update/{id}", produces = {"application/json"}, consumes = {"application/json"})
-    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Retailer updatedRetailer) throws Exception
+    public ResponseEntity<?> updateRetailer(@PathVariable long id, @RequestBody Client updatedRetailer)
     {
-        
-        //attempting sleep to make sure database has time to update before returning retailer
-//        Thread.sleep(750);
-        return new ResponseEntity<>(retailerService.update(id, updatedRetailer), HttpStatus.OK);
+        updatedRetailer.setId(id);
+        return new ResponseEntity<>(retailerService.update(updatedRetailer), HttpStatus.OK);
     }
     
     @DeleteMapping(value = "/delete/{id}")

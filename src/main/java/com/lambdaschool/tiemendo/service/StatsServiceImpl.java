@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.service;
 
+import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.view.CountFarmerAndGender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,11 @@ import org.springframework.stereotype.Service;
 public class StatsServiceImpl implements StatsService
 {
     @Autowired
-    private FarmerRepository farmerRepository;
-    
+    private ClientRepository farmerRepository;
+
     @Override
     public CountFarmerAndGender getCountFarmerAndGender()
     {
-        return farmerRepository.getCountFarmerAndGender();
+        return null; //farmerRepository.getCountFarmerAndGender();
     }
 }

@@ -16,6 +16,7 @@ public class Client extends Auditable {
     private long id;
     private boolean isLead;
     private String type;
+
     private long startyear;
 
     // Location Information
@@ -62,6 +63,16 @@ public class Client extends Auditable {
     public Client(String name, boolean isLead) {
         this.name = name;
         this.isLead = isLead;
+    }
+
+    public Client(boolean isLead, long startyear, String address, String landmark, String name, String phone, String email) {
+        this.isLead = isLead;
+        this.startyear = startyear;
+        this.address = address;
+        this.landmark = landmark;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
     }
 
     public long getId() {

@@ -1,6 +1,6 @@
 package com.lambdaschool.tiemendo.controller;
 
-import com.lambdaschool.tiemendo.model.Farmer;
+import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class FarmerController {
 
     // Add Farmer
     @PostMapping(value="/add")
-    public ResponseEntity<?> addNewFarmer(@Valid @RequestBody Farmer farmer) {
+    public ResponseEntity<?> addNewFarmer(@Valid @RequestBody Client farmer) {
         return new ResponseEntity<>(farmerService.add(farmer), HttpStatus.CREATED);
     }
 
@@ -51,11 +51,12 @@ public class FarmerController {
 
     // Update Farmer
     @PutMapping(value="/farmer/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateFarmerWithId(@PathVariable long id, @Valid @RequestBody Farmer farmer
+    public ResponseEntity<?> updateFarmerWithId(@PathVariable long id, @Valid @RequestBody Client farmer
     ) {
         /*
         *  Controller uses id from the farmer object passed in to determine what farmer to update
         */
+        farmer.setId(id); // set the id of the object passed in to the id in path
         return new ResponseEntity<>(farmerService.update(farmer), HttpStatus.OK);
     }
 
