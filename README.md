@@ -100,30 +100,33 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/transaction/all` | all users      | Returns a pageable list of all transaction |
-| GET    | `/transaction/{id}` | all users      | Returns the transaction with given id |
-| GET    | `/transaction/client/{id}` | all users      | Returns a list of transactions for client with given id |
-| POST   | `/transaction/add/{clientId}` | all users      | Adds a new transaction to client with given id |
-| PUT    | `/transaction/update/{transactionId}` | all users      | Modify an existing transaction.             |
-| DELETE | `/transaction/delete/{transactionId}` | all users      | Delete an existing transaction.                      |
+| GET    | `/transaction/all` | all users | Returns a pageable list of all transaction |
+| GET    | `/transaction/{id}` | all users | Returns the transaction with given id |
+| GET    | `/transaction/client/{id}` | all users | Returns a list of transactions for client with given id |
+| POST   | `/transaction/add/{clientId}` | all users | Adds a new transaction to client with given id |
+| PUT    | `/transaction/update/{transactionId}` | all users | Modify an existing transaction.  |
+| DELETE | `/transaction/delete/{transactionId}` | all users | Delete an existing transaction.     |
 
 #### Transaction-Item Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
 | GET    | `/transaction-item/all` | all users  | Returns a pageable list of all Transaction-Items |
-| GET    | `/transaction-item/{id}`| all users  | Returns Transaction Item with given Id       |
-| POST   | `/transaction-item/add` | all users  | Adds a new Transaction Item with given Info     |
-| PUT    | `/transaction-item/update/{titemId}` | all users | Modify an existing Transaction Item.     |
-| DELETE | `/transaction-item/delete/{titemId}` | all users | Delete a Transaction Item.         |
+| GET    | `/transaction-item/{id}`| all users  | Returns Transaction Item with given Id |
+| POST   | `/transaction-item/add` | all users  | Adds a new Transaction Item with given Info |
+| PUT    | `/transaction-item/update/{titemId}` | all users | Modify an existing Transaction Item. |
+| DELETE | `/transaction-item/delete/{titemId}` | all users | Delete a Transaction Item. |
 
 #### Yield Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/yield/all` | all users | Returns a pagable list of all Yields |
+| GET    | `/yield/{farmerid}/{cropname}` | all users | Returns a list of all Yields belonging to a given farmer of croptype|
+| GET    | `/yield/{farmerid}` | all users | Returns a list of all yields for a given farmer |
+| POST   | `/yield/add/{farmerid}` | all users | Adds a new Yield to a given farmer |
+| PUT    | `/yield/update/{yieldid}` | all users | Modify an existing Yield. |
+| DELETE | `/yield/delete/{yieldid}` | all users | Delete an existing Yield. |
 
 
 
