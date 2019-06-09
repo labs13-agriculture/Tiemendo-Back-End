@@ -140,12 +140,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-    id: long (generated value)
-    name: string
-    isLead: boolean
-    type: string
-    transactions: [transaction]
-    installments: [installment]
+    id: long, // (generated value) maps directly to id of subclasses
+    name: string,
+    isLead: boolean,
+    type: string,
+    transactions: [transaction, ...]
+    installments: [installment, ...]
 }
 ```
 
@@ -156,16 +156,11 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-  id: long (generated value)
-  installments: [installment]
-  name: STRING
-  type: STRING
-  transactions: [transaction]
+  id: long (generated value) relates directly to id of associated client
   beneficiaries: int
-  headquarters: STRING
-  isLead: boolean
-  organizationcontacts: [organizationcontact]
-  organizationlocations: [organizationlocations]
+  headquarters: string
+  organizationcontacts: [organizationcontact, ...]
+  organizationlocations: [organizationlocations, ...]
 }
 ```
 
@@ -175,12 +170,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-  address: string
-  district: string
-  landmark: string
-  organization: organization
-  region: string
-  ogranizationlocationid: long (generated value)
+  ogranizationlocationid: long, // (generated value)
+  address: string,
+  district: string,
+  landmark: string,
+  organization: organization,
+  region: string,
 }
 ```
 
@@ -190,12 +185,114 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-    organizationcontactid: long (generated value)
-    email: string
-    name: string
-    organization: Organization
-    phone: string
+    organizationcontactid: long, // (generated value)
+    email: string,
+    name: string,
+    organization: Organization,
+    phone: string,
     position: string
+}
+```
+
+#### FARMER (extends CLIENT)
+
+---
+
+```
+{
+  id: long, // (generated value) relates directly to id of associated client
+  startyear: long,
+  farmercontact: farmercontact, 
+  farmerlocation: farmerlocation,
+  yieldHistory: [yield, ...]
+}
+```
+
+#### FARMERLOCATION
+
+---
+
+```
+{
+  farmerlocationid: long, // (Generated Value)
+  address: string,
+  region: string,
+  district: string,
+  community: string,
+  landmark: string,
+  farmer: farmer
+  
+}
+```
+
+#### FARMERCONTACTS
+
+---
+
+```
+{
+    farmercontactid: long, // (generated value)
+    title: string,
+    name: string,
+    gender: string,
+    nationality: string,
+    dateofbirth: string,
+    educationlevel: string,
+    position: string,
+    phone: string,
+    email: string,
+    farmer: farmer
+}
+```
+
+#### RETAILER (extends CLIENT)
+
+---
+
+```
+{
+  id: long, // (generated value) relates directly to id of associated client
+  startyear: long,
+  retailercontact: retailercontact, 
+  retailerlocation: retailerlocation,
+  yieldHistory: [yield, ...]
+}
+```
+
+#### RETAILERLOCATION
+
+---
+
+```
+{
+  retailerlocationid: long, // (Generated Value)
+  address: string,
+  region: string,
+  district: string,
+  community: string,
+  landmark: string,
+  retailer: retailer
+  
+}
+```
+
+#### RETAILERCONTACTS
+
+---
+
+```
+{
+    retailercontactid: long, // (generated value)
+    title: string,
+    name: string,
+    gender: string,
+    nationality: string,
+    dateofbirth: string,
+    educationlevel: string,
+    position: string,
+    phone: string,
+    email: string,
+    retailer: retailer
 }
 ```
 
@@ -207,7 +304,7 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 {
     id: long (generated value)
     cropName: string
-    yields: [yield]
+    yields: [yield, ...]
     active: boolean
 }
 ```
@@ -237,7 +334,7 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
   organization_id: UUID foreign key in ORGANIZATIONS table
   first_name: STRING
   last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
+  role: STRING [ 'owner', 'supervisor', 'employee' , ...]
   email: STRING
   phone: STRING
   cal_visit: BOOLEAN
