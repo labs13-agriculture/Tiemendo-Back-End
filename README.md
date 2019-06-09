@@ -35,12 +35,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/farmers/all`          | all users      | Returns the information for an organization. |
-| GET    | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
-| POST   | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
-| POST   | `/farmers/search`       | all users      | Returns the information for an organization. |
-| PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
-| DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
+| GET    | `/farmers/all`          | all users      | Returns a paginated list of all farmers      |
+| GET    | `/farmers/farmer/{id}`  | all users      | Returns Famer object with given ID           |
+| POST   | `/farmers/add`  | all users      | Creates and returns a new farmer object |
+| POST   | `/farmers/search`       | all users      | Returns paginated list of farmers with given criteria |
+| PUT    | `/farmers/farmer/{id}`       | all users      | Modify and return updated farmer object with given id             |
+| DELETE | `/farmers/farmer/{id}`       | all users      | Delete a farmer with given id.                      |
 
 #### Organization Routes
 
@@ -100,15 +100,18 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/transaction/all` | all users      | Returns a pageable list of all transaction |
+| GET    | `/transaction/{id}` | all users      | Returns the transaction with given id |
+| GET    | `/transaction/client/{id}` | all users      | Returns a list of transactions for client with given id |
+| POST   | `/transaction/add/{clientId}` | all users      | Adds a new transaction to client with given id |
+| PUT    | `/transaction/update/{transactionId}` | all users      | Modify an existing transaction.             |
+| DELETE | `/transaction/delete/{transactionId}` | all users      | Delete an existing transaction.                      |
 
 #### Transaction-Item Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| GET    | `/transaction/` | all users      | Returns the information for an organization. |
 | PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
 
