@@ -132,7 +132,33 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
+🚫 List is not comprehensive and still a WIP
+
+#### CROPTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    cropName: string
+    yields: [yield, ...]
+    active: boolean
+}
+```
+
+#### ITEMTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    name: string
+    transactions: [transactionItem, ...]
+    active: boolean
+}
+```
 
 #### CLIENT
 
@@ -296,19 +322,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 }
 ```
 
-#### CROPTYPE
-
----
-
-```
-{
-    id: long (generated value)
-    cropName: string
-    yields: [yield, ...]
-    active: boolean
-}
-```
-
 #### INSTALLMENT
 
 ---
@@ -324,23 +337,56 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 }
 ```
 
+#### TRANSACTION
+
+---
+
+```
+{
+  id: long, (generated unique id)
+  type: string, // ["CASH", "CREDIT"]
+  date: date,
+  personnel: string,
+  inputs: [transactionItems, ...],
+  total: double, // total cost of transaction based on input price and qty
+  client: client
+}
+```
+
+#### TRANSACTIONITEM
+
+---
+
+```
+{
+  id: long, //(generated unique id)
+  quantity: int,
+  unitPrice: double,
+  item: itemType,
+  transaction: transaction
+}
+```
+
+#### YIELD
+
+---
+
+```
+{
+  key: value, // comment
+}
+```
+
+
 #### USERS
 
 ---
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' , ...]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  id: long, // (generated value)
+  username: string, // (unique)
+  authority: ["ADMIN", "USER", ...]
 }
 ```
 
