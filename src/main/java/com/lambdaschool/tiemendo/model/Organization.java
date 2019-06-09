@@ -15,14 +15,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "organizations")
-public class Organization extends Client
+public class Organization extends Auditable
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String name;
+    private boolean isLead;
+    private String headquarters;
+    private int beneficiaries;
+
+
     @OneToMany(mappedBy = "organization")
     @JsonIgnoreProperties("organization")
     private List<OrganizationLocation> organizationlocations = new ArrayList<>();
-    
-    private String headquarters;
-    private int beneficiaries;
     
     @OneToMany(mappedBy = "organization")
     @Cascade(SAVE_UPDATE)
@@ -32,20 +38,37 @@ public class Organization extends Client
     public Organization() {
     }
 
-    public Organization( String name, boolean isLead, List<OrganizationLocation> organizationlocations, String headquarters, int beneficiaries, List<OrganizationContact> organizationcontacts) {
-        super("", false);
-        this.organizationlocations = organizationlocations;
+    public Organization(String name, boolean isLead, String headquarters, int beneficiaries, List<OrganizationLocation> organizationlocations, List<OrganizationContact> organizationcontacts) {
+        this.name = name;
+        this.isLead = isLead;
         this.headquarters = headquarters;
         this.beneficiaries = beneficiaries;
+        this.organizationlocations = organizationlocations;
         this.organizationcontacts = organizationcontacts;
     }
 
-    public List<OrganizationLocation> getOrganizationlocations() {
-        return organizationlocations;
+    public long getId() {
+        return id;
     }
 
-    public void setOrganizationlocations(List<OrganizationLocation> organizationlocations) {
-        this.organizationlocations = organizationlocations;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isLead() {
+        return isLead;
+    }
+
+    public void setLead(boolean lead) {
+        isLead = lead;
     }
 
     public String getHeadquarters() {
@@ -64,6 +87,14 @@ public class Organization extends Client
         this.beneficiaries = beneficiaries;
     }
 
+    public List<OrganizationLocation> getOrganizationlocations() {
+        return organizationlocations;
+    }
+
+    public void setOrganizationlocations(List<OrganizationLocation> organizationlocations) {
+        this.organizationlocations = organizationlocations;
+    }
+
     public List<OrganizationContact> getOrganizationcontacts() {
         return organizationcontacts;
     }
@@ -71,6 +102,4 @@ public class Organization extends Client
     public void setOrganizationcontacts(List<OrganizationContact> organizationcontacts) {
         this.organizationcontacts = organizationcontacts;
     }
-
-
 }

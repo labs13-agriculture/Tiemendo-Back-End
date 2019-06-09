@@ -11,7 +11,6 @@ import com.lambdaschool.tiemendo.repository.TransactionRepository;
 
 import com.lambdaschool.tiemendo.service.ClientService;
 import com.lambdaschool.tiemendo.service.OrganizationService;
-import com.lambdaschool.tiemendo.service.RetailerService;
 import com.lambdaschool.tiemendo.service.TransactionService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -24,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 

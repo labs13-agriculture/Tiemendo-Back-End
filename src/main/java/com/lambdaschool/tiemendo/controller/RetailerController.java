@@ -2,8 +2,9 @@ package com.lambdaschool.tiemendo.controller;
 
 
 import com.lambdaschool.tiemendo.model.Retailer;
-import com.lambdaschool.tiemendo.service.RetailerService;
+import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,13 @@ import java.util.List;
 public class RetailerController
 {
 
-    @Autowired
-    private RetailerService retailerService;
+    @Autowired()
+    private ClientService retailerService;
 
     @GetMapping(value = "/retailers", produces = {"application/json"})
-    public ResponseEntity<?> listAllRetailers()
+    public ResponseEntity<?> listAllRetailers(Pageable pageable)
     {
-        List<Retailer> myRetailers = retailerService.findAll();
+        List<Retailer> myRetailers = retailerService.findAll(pageable);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
     
@@ -32,7 +33,7 @@ public class RetailerController
         boolean isLead = Boolean.parseBoolean(lead);
         
         
-        return new ResponseEntity<>(retailerService.searchRetailer(name, location, isLead), HttpStatus.OK);
+        return new ResponseEntity<>(retailerService.search(name, location, isLead), HttpStatus.OK);
     }
     
     @GetMapping(value = "/{id}", produces = {"application/json"})

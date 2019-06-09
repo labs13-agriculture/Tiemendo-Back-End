@@ -1,7 +1,7 @@
 package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.Farmer;
-import com.lambdaschool.tiemendo.service.FarmerService;
+import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +13,16 @@ import javax.validation.Valid;
 @RequestMapping("/farmers")
 public class FarmerController {
 
-    private FarmerService farmerService;
+    private ClientService farmerService;
 
-    public FarmerController(FarmerService farmerService) {
+    public FarmerController(ClientService farmerService) {
         this.farmerService = farmerService;
     }
 
     // Get all Farmers Pageable
     @GetMapping(value= "/all", produces = "application/json")
     public ResponseEntity<?> getAllFarmers(Pageable pageable) {
-        return new ResponseEntity<>(farmerService.findAllFarmers(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(farmerService.findAll(pageable), HttpStatus.OK);
     }
 
     // Get all Farmers by Search
@@ -40,13 +40,13 @@ public class FarmerController {
     // Add Farmer
     @PostMapping(value="/add")
     public ResponseEntity<?> addNewFarmer(@Valid @RequestBody Farmer farmer) {
-        return new ResponseEntity<>(farmerService.addFarmer(farmer), HttpStatus.CREATED);
+        return new ResponseEntity<>(farmerService.add(farmer), HttpStatus.CREATED);
     }
 
     // Get Farmer
     @GetMapping(value="/farmer/{id}", produces = "application/json")
     public ResponseEntity<?> getFarmerWithId(@PathVariable long id) {
-        return new ResponseEntity<>(farmerService.findFarmer(id), HttpStatus.OK);
+        return new ResponseEntity<>(farmerService.findById(id), HttpStatus.OK);
     }
 
     // Update Farmer
@@ -56,13 +56,13 @@ public class FarmerController {
         /*
         *  Controller uses id from the farmer object passed in to determine what farmer to update
         */
-        return new ResponseEntity<>(farmerService.updateFarmer(farmer), HttpStatus.OK);
+        return new ResponseEntity<>(farmerService.update(farmer), HttpStatus.OK);
     }
 
     // Delete Farmer
     @DeleteMapping(value="/farmer/{id}", produces = "application/json")
     public ResponseEntity<?> deleteFarmerWithId(@PathVariable long id){
-        farmerService.deleteFarmer(id);
+        farmerService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

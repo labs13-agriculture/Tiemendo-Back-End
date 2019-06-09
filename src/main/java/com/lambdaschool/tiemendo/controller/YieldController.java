@@ -3,9 +3,7 @@ package com.lambdaschool.tiemendo.controller;
 import com.lambdaschool.tiemendo.model.Farmer;
 
 import com.lambdaschool.tiemendo.model.Yield;
-import com.lambdaschool.tiemendo.repository.FarmerRepository;
 import com.lambdaschool.tiemendo.repository.YieldRepository;
-import com.lambdaschool.tiemendo.service.FarmerService;
 import com.lambdaschool.tiemendo.service.YieldService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/yield")

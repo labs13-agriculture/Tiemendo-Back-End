@@ -9,14 +9,33 @@ import java.util.List;
 @Entity
 @Table(name= "client")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Client extends Auditable {
+public class Client extends Auditable {
     // Unique ID
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
     private boolean isLead;
     private String type;
+    private long startyear;
+
+    // Location Information
+    private String address;
+    private String region;
+    private String district;
+    private String community;
+    private String landmark;
+
+    // Contant Information
+    private String title;
+    private String name;
+    private String gender;
+    private String nationality;
+    private String dateofbirth;
+    private String educationlevel;
+    private String position;
+    // todo passport picture
+    private String phone;
+    private String email;
 
     // Transactions
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
@@ -30,6 +49,7 @@ public abstract class Client extends Auditable {
 
     //TODO Contact
     //TODO Location
+    //TODO PaymentSchedule
 
 
     public Client() {
@@ -52,6 +72,78 @@ public abstract class Client extends Auditable {
         this.id = id;
     }
 
+    public boolean isLead() {
+        return isLead;
+    }
+
+    public void setLead(boolean lead) {
+        isLead = lead;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getStartyear() {
+        return startyear;
+    }
+
+    public void setStartyear(long startyear) {
+        this.startyear = startyear;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(String community) {
+        this.community = community;
+    }
+
+    public String getLandmark() {
+        return landmark;
+    }
+
+    public void setLandmark(String landmark) {
+        this.landmark = landmark;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getName() {
         return name;
     }
@@ -60,12 +152,60 @@ public abstract class Client extends Auditable {
         this.name = name;
     }
 
-    public boolean isLead() {
-        return isLead;
+    public String getGender() {
+        return gender;
     }
 
-    public void setLead(boolean lead) {
-        isLead = lead;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getDateofbirth() {
+        return dateofbirth;
+    }
+
+    public void setDateofbirth(String dateofbirth) {
+        this.dateofbirth = dateofbirth;
+    }
+
+    public String getEducationlevel() {
+        return educationlevel;
+    }
+
+    public void setEducationlevel(String educationlevel) {
+        this.educationlevel = educationlevel;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Transaction> getTransactions() {
@@ -82,13 +222,5 @@ public abstract class Client extends Auditable {
 
     public void setInstallments(List<Installment> installments) {
         this.installments = installments;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }
