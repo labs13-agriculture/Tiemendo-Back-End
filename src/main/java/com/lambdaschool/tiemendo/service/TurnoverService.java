@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public interface TurnoverService {
     ArrayList<Turnover> findAll(Pageable p);
-    ArrayList<Turnover> findAllByRetailer(long id);
+    ArrayList<Turnover> findAllByRetailer(Pageable p, long id);
     Turnover findById(long id);
     Turnover add(Turnover turnover);
     Turnover update(Turnover turnover);
-    Turnover delete(long id);
+    void delete(long id);
 }
