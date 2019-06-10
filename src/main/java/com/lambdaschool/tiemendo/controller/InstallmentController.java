@@ -4,14 +4,11 @@ import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Installment;
 import com.lambdaschool.tiemendo.service.InstallmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class InstallmentController
     }
 
 
-    @GetMapping(value = "/installment/{installmentId}", produces = {"application/json"}, consumes = {"application/json"})
+    @GetMapping(value = "/installment/{installmentId}", produces = {"application/json"})
     public ResponseEntity<?> getInstallmentById(@PathVariable Long installmentId)
     {
         Installment i = installmentService.findInstallmentById(installmentId);

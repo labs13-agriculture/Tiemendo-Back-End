@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
-=======
->>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
 # API Documentation
 
 #### Backend deployed at [tieme-ndo-backend](https://tieme-ndo-backend.herokuapp.com/) <br>
@@ -28,38 +19,31 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 -    `Postgresql` is an amazing relational database that can handle our extensive models and integrates great with Herok
 -    `Heroku` is such a great platform that effortless integrates with our spring application and maven build. and a smooth CI pipeline directly plugged into github
 
-<<<<<<< HEAD
-- Point One
-- Point Two
-- Point Three
-- Point Four
-=======
 ## Endpoints
-🚫This is a placeholder, replace the endpoints, access control, and description to match your project
+
 #### User Routes
+
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users`                | Admin               | Returns paginated list of all users                |
-| GET    | `/users/:userId`        | Admin               | Returns info for a single user.                    |
-| POST   | `/newuser`              | Admin               | Creates a new user                                 |
-| PUT    | `/update-user/:userId`  | Admin               | Updates user with given id                         |
-| DELETE | `/users/:userId`        | Admin               | Deletes user with given id                         |
->>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
+| GET    | `/users/users`                | Admin               | Returns paginated list of all users                |
+| GET    | `/users/users/:userId`        | Admin               | Returns info for a single user.                    |
+| POST   | `/users/newuser`              | Admin               | Creates a new user                                 |
+| PUT    | `/users/update-user/:userId`  | Admin               | Updates user with given id                         |
+| DELETE | `/users/users/:userId`        | Admin               | Deletes user with given id                         |
 
 #### Farmer Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/farmers/all`          | all users      | Returns the information for an organization. |
-| GET    | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
-| POST   | `/farmers/farmer/{id}`  | all users      | Returns the information for an organization. |
-| POST   | `/farmers/search`       | all users      | Returns the information for an organization. |
-| PUT    | `/farmers/:orgId`       | all users      | Modify an existing organization.             |
-| DELETE | `/farmers/:orgId`       | all users      | Delete an organization.                      |
+| GET    | `/farmers/all`          | all users      | Returns a paginated list of all farmers      |
+| GET    | `/farmers/farmer/{id}`  | all users      | Returns Famer object with given ID           |
+| POST   | `/farmers/add`  | all users      | Creates and returns a new farmer object |
+| POST   | `/farmers/search`       | all users      | Returns paginated list of farmers with given criteria |
+| PUT    | `/farmers/farmer/{id}`       | all users      | Modify and return updated farmer object with given id             |
+| DELETE | `/farmers/farmer/{id}`       | all users      | Delete a farmer with given id.                      |
 
 #### Organization Routes
 
-<<<<<<< HEAD
 | Method | Endpoint                                     | Access Control | Description                                    |
 | ------ | -------------------------------------------- | -------------- | ---------------------------------------------- |
 | GET    | `/organizations/:orgId`                      | all users      | Returns the information for an organization.   |
@@ -81,77 +65,89 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment.               |
 | POST   | `/new-installment/:clientId`         | all users      | Creates a new installment.                    |
 | DELETE | `/installment/:installmentId`        | all users      | Delete an installment.                        |
-=======
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
 
 #### Retailer Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/retailer/reatailers`  | all users  | Returns a list of all retailers |
+| GET    | `/retailer/search`  | all users  | Returns a list of all retailers matching search criteria |
+| GET    | `/retailer/{id}`  | all users | Returns the retailer with given {id} |
+| POST    | `/retailer/add`  | all users | Creates and Returns a new retailer based on given information |
+| PUT    | `/retailer/update/{id}` | all users | Returns and modifies an existing retailer. |
+| DELETE | `/retailer/delete/{id}` | all users | Deletes retailer with given id.                      |
 
 #### Item-Type Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/itemtype/all` | all users      | Returns the information for an organization. |
+| POST    | `/itemtype/add` | all users      | Returns and creates an ItemType with given information. |
+| PUT    | `/itemtype/update/{itemtypeid}` | all users      | Modify and return an existing ItemType with id matching {itemtypeid}. |
+| DELETE | `/itemtype/delete/{itemtypeid}` | all users      | Delete item type with id matching {itemtypeid}|
 
 #### Crop-Type Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/croptypes/all` | all users      | Returns a list of all CropTypes |
+| GET    | `/croptypes/crop/{id}` | all users      | Returns the information for CropType with given {id}, also takes a boolean queary param `yields` that includes yields of given crop |
+| POST   | `/croptypes/new/{id}/` | all users      | Returns and creates a CropType with given information |
+| PUT    | `/croptypes/update/{id}/` | all users      | Modify and return an existing CropType with given {id}.|
+| DELETE | `/croptypes/delete/{id}` | all users      | Delete CropType with given id.  |
 
 #### Transaction Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
-
-#### Installment Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/transaction/all` | all users | Returns a pageable list of all transaction |
+| GET    | `/transaction/{id}` | all users | Returns the transaction with given id |
+| GET    | `/transaction/client/{id}` | all users | Returns a list of transactions for client with given id |
+| POST   | `/transaction/add/{clientId}` | all users | Adds a new transaction to client with given id |
+| PUT    | `/transaction/update/{transactionId}` | all users | Modify an existing transaction.  |
+| DELETE | `/transaction/delete/{transactionId}` | all users | Delete an existing transaction.     |
 
 #### Transaction-Item Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
+| GET    | `/transaction-item/all` | all users  | Returns a pageable list of all Transaction-Items |
+| GET    | `/transaction-item/{id}`| all users  | Returns Transaction Item with given Id |
+| POST   | `/transaction-item/add` | all users  | Adds a new Transaction Item with given Info |
+| PUT    | `/transaction-item/update/{titemId}` | all users | Modify an existing Transaction Item. |
+| DELETE | `/transaction-item/delete/{titemId}` | all users | Delete a Transaction Item. |
 
 #### Yield Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | all users      | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | all users      | Delete an organization.                      |
->>>>>>> 880fe01d97beec8c1956ccdec3ef38a08a60e87d
+| GET    | `/yield/all` | all users | Returns a pagable list of all Yields |
+| GET    | `/yield/{farmerid}/{cropname}` | all users | Returns a list of all Yields belonging to a given farmer of croptype|
+| GET    | `/yield/{farmerid}` | all users | Returns a list of all yields for a given farmer |
+| POST   | `/yield/add/{farmerid}` | all users | Adds a new Yield to a given farmer |
+| PUT    | `/yield/update/{yieldid}` | all users | Modify an existing Yield. |
+| DELETE | `/yield/delete/{yieldid}` | all users | Delete an existing Yield. |
 
 
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
+🚫 List is not comprehensive and still a WIP
 
-#### CLIENT
+#### CROPTYPE
+
+---
+
+```
+{
+    id: long (generated value)
+    cropName: string
+    yields: [yield, ...]
+    active: boolean
+}
+```
+
+#### ITEMTYPE
 
 ---
 
@@ -159,10 +155,23 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 {
     id: long (generated value)
     name: string
-    isLead: boolean
-    type: string
-    transactions: [transaction]
-    installments: [installment]
+    transactions: [transactionItem, ...]
+    active: boolean
+}
+```
+
+#### CLIENT
+
+---
+
+```
+{
+    id: long, // (generated value) maps directly to id of subclasses
+    name: string,
+    isLead: boolean,
+    type: string,
+    transactions: [transaction, ...]
+    installments: [installment, ...]
 }
 ```
 
@@ -173,16 +182,11 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-  id: long (generated value)
-  installments: [installment]
-  name: STRING
-  type: STRING
-  transactions: [transaction]
+  id: long (generated value) relates directly to id of associated client
   beneficiaries: int
-  headquarters: STRING
-  isLead: boolean
-  organizationcontacts: [organizationcontact]
-  organizationlocations: [organizationlocations]
+  headquarters: string
+  organizationcontacts: [organizationcontact, ...]
+  organizationlocations: [organizationlocations, ...]
 }
 ```
 
@@ -192,12 +196,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-  address: string
-  district: string
-  landmark: string
-  organization: organization
-  region: string
-  ogranizationlocationid: long (generated value)
+  ogranizationlocationid: long, // (generated value)
+  address: string,
+  district: string,
+  landmark: string,
+  organization: organization,
+  region: string,
 }
 ```
 
@@ -207,25 +211,114 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-    organizationcontactid: long (generated value)
-    email: string
-    name: string
-    organization: Organization
-    phone: string
+    organizationcontactid: long, // (generated value)
+    email: string,
+    name: string,
+    organization: Organization,
+    phone: string,
     position: string
 }
 ```
 
-#### CROPTYPE
+#### FARMER (extends CLIENT)
 
 ---
 
 ```
 {
-    id: long (generated value)
-    cropName: string
-    yields: [yield]
-    active: boolean
+  id: long, // (generated value) relates directly to id of associated client
+  startyear: long,
+  farmercontact: farmercontact, 
+  farmerlocation: farmerlocation,
+  yieldHistory: [yield, ...]
+}
+```
+
+#### FARMERLOCATION
+
+---
+
+```
+{
+  farmerlocationid: long, // (Generated Value)
+  address: string,
+  region: string,
+  district: string,
+  community: string,
+  landmark: string,
+  farmer: farmer
+  
+}
+```
+
+#### FARMERCONTACTS
+
+---
+
+```
+{
+    farmercontactid: long, // (generated value)
+    title: string,
+    name: string,
+    gender: string,
+    nationality: string,
+    dateofbirth: string,
+    educationlevel: string,
+    position: string,
+    phone: string,
+    email: string,
+    farmer: farmer
+}
+```
+
+#### RETAILER (extends CLIENT)
+
+---
+
+```
+{
+  id: long, // (generated value) relates directly to id of associated client
+  startyear: long,
+  retailercontact: retailercontact, 
+  retailerlocation: retailerlocation,
+  yieldHistory: [yield, ...]
+}
+```
+
+#### RETAILERLOCATION
+
+---
+
+```
+{
+  retailerlocationid: long, // (Generated Value)
+  address: string,
+  region: string,
+  district: string,
+  community: string,
+  landmark: string,
+  retailer: retailer
+  
+}
+```
+
+#### RETAILERCONTACTS
+
+---
+
+```
+{
+    retailercontactid: long, // (generated value)
+    title: string,
+    name: string,
+    gender: string,
+    nationality: string,
+    dateofbirth: string,
+    educationlevel: string,
+    position: string,
+    phone: string,
+    email: string,
+    retailer: retailer
 }
 ```
 
@@ -244,80 +337,83 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 }
 ```
 
+#### TRANSACTION
+
+---
+
+```
+{
+  id: long, (generated unique id)
+  type: string, // ["CASH", "CREDIT"]
+  date: date,
+  personnel: string,
+  inputs: [transactionItems, ...],
+  total: double, // total cost of transaction based on input price and qty
+  client: client
+}
+```
+
+#### TRANSACTIONITEM
+
+---
+
+```
+{
+  id: long, //(generated unique id)
+  quantity: int,
+  unitPrice: double,
+  item: itemType,
+  transaction: transaction
+}
+```
+
+#### YIELD
+
+---
+
+```
+{
+  key: value, // comment
+}
+```
+
+
 #### USERS
 
 ---
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  id: long, // (generated value)
+  username: string, // (unique)
+  authority: ["ADMIN", "USER", ...]
 }
 ```
 
-## 2️⃣ Actions
-
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
 ## 3️⃣ Environment Variables
 
+🚫 Currently no environment variables need to be set, keeping this in case that changes
+
 In order for the app to function correctly, the user must set up their own environment variables.
-
 create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
-
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
-
+    
+    *  STAGING_DB - optional development db for using functionality not available in SQLite
+    *  NODE_ENV - set to "development" until ready for "production"
+    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
+    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
+    *  stripe_secret - this is generated in the Stripe dashboard
+    
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
-Please note we have a [code of conduct](./code_of_conduct.md). Please follow it in all your interactions with the project.
-
 ### Issue/Bug Request
 
-**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
-
-- Check first to see if your issue has already been reported.
-- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
-- Create a live example of the problem.
-- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
+ **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+ - Check first to see if your issue has already been reported.
+ - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+ - Create a live example of the problem.
+ - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
@@ -345,47 +441,3 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
-
-# Back-End for Tieme-Ndo Gana Agriculture Database
-
-- docs for endpoint here
-
-# Get All Users
-
-    https://chasegarsee-tiemendo.herokuapp.com/users
-
-# Create New User
-
-    https://chasegarsee-tiemendo.herokuapp.com/newuser
-
-# Get All Staff Members
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff
-
-# Get Staff By ID number
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff{staffid}
-
-# Create New Staff Member
-
-    https://chasegarsee-tiemendo.herokuapp.com/staff
-
-# Get All Clients
-
-    https://chasegarsee-tiemendo.herokuapp.com/clients
-
-# Get Client By ID
-
-    https://chasegarsee-tiemendo.herokuapp.com/client{clientid}
-
-# Create New Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client
-
-# Update Existing Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client/{id}
-
-# Delete Exisiting Client
-
-     https://chasegarsee-tiemendo.herokuapp.com/client{id}
