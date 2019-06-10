@@ -45,8 +45,13 @@ public class TurnoverServiceImpl implements TurnoverService{
     }
 
     @Override
-    public Turnover add(Turnover turnover) {
-        return repo.save(turnover);
+    public Retailer add(Turnover turnover, long id) {
+        Retailer r = retailerRepo.findById(id).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Could not find a retailer with id: " + id);
+        });
+        turnover.setRetailer(r);
+        r.getGoals().add(repo.save(turnover));
+        return retailerRepo.save(r);
     }
 
     @Override
