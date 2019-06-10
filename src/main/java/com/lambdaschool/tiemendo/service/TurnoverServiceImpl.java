@@ -6,11 +6,13 @@ import com.lambdaschool.tiemendo.model.Turnover;
 import com.lambdaschool.tiemendo.repository.RetailerRepository;
 import com.lambdaschool.tiemendo.repository.TurnoverRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+@Service("tsi")
 public class TurnoverServiceImpl implements TurnoverService{
 
     private TurnoverRepository repo;
