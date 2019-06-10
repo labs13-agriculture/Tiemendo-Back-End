@@ -46,13 +46,14 @@ public class SeedDataFarmers implements CommandLineRunner
 
         // make an array of 10 farmers type clients
         var farmers = new ArrayList<Client>();
+        String[] types = {"FARMER", "RETAILER"};
 
-        for (var i=0; i++<10;) {
+        for (var i=0; i++<20;) {
             // Create a farmer
             Client farmer = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
                     f.address().fullAddress(), f.gameOfThrones().house(), f.gameOfThrones().character(),
                     f.phoneNumber().phoneNumber(), f.internet().emailAddress());
-            farmer.setType("FARMER");
+            farmer.setType(types[(int)Math.floor(Math.random() * 2)]);
             // Add Transactions to farmer
             // create list of transactions
             var transactions = new ArrayList<Transaction>();

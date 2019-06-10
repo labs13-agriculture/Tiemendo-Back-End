@@ -21,9 +21,9 @@ public class YieldServiceImpl implements YieldService {
 
     @Transactional
     @Override
-    public List<Yield> findAll()
+    public ArrayList<Yield> findAll()
     {
-        List<Yield> yields = new ArrayList<>();
+        ArrayList<Yield> yields = new ArrayList<>();
         yieldRepository.findAll().iterator().forEachRemaining(yields::add);
         return yields;
     }
@@ -74,9 +74,9 @@ public class YieldServiceImpl implements YieldService {
             currentYield.setFarmAcres(yield.getFarmAcres());
         }
 
-        if (yield.getFarmer() != null)
+        if (yield.getClient() != null)
         {
-            currentYield.setFarmer(yield.getFarmer());
+            currentYield.setClient(yield.getClient());
         }
 
         if (yield.getGoal() != null)

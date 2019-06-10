@@ -1,7 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.models.auth.In;
 
 import javax.persistence.*;
 
@@ -28,20 +27,21 @@ public class Yield {
     private String season;
 
     @ManyToOne
-    @JoinColumn(name="farmer_id")
-    @JsonIgnoreProperties("yieldHistory")
-    private Farmer farmer;
+    @JoinColumn(name="client_id")
+    @JsonIgnoreProperties("goals")
+    private Client client;
 
     public Yield() {
     }
 
-    public Yield(int numBags, CropType cropType, Integer goal, Integer farmAcres, String season, Farmer farmer) {
+    public Yield(int numBags, CropType cropType, Integer goal, Integer farmAcres, String season, Client client) {
         this.numBags = numBags;
         this.cropType = cropType;
         this.goal = goal;
         this.farmAcres = farmAcres;
+        //size unit
         this.season = season;
-        this.farmer = farmer;
+        this.client = client;
     }
 
     public long getId() {
@@ -92,11 +92,11 @@ public class Yield {
         this.season = season;
     }
 
-    public Farmer getFarmer() {
-        return farmer;
+    public Client getClient() {
+        return client;
     }
 
-    public void setFarmer(Farmer farmer) {
-        this.farmer = farmer;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

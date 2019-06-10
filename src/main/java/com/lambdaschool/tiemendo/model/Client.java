@@ -48,8 +48,9 @@ public class Client extends Auditable {
     @JsonIgnoreProperties("client")
     private List<Installment> installments = new ArrayList<>();
 
-    //TODO Contact
-    //TODO Location
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("client")
+    private List<Yield> goals = new ArrayList<>();
     //TODO PaymentSchedule
 
 
@@ -233,5 +234,13 @@ public class Client extends Auditable {
 
     public void setInstallments(List<Installment> installments) {
         this.installments = installments;
+    }
+
+    public List<Yield> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Yield> goals) {
+        this.goals = goals;
     }
 }

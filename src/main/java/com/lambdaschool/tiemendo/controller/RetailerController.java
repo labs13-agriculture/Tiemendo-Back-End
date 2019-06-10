@@ -2,7 +2,6 @@ package com.lambdaschool.tiemendo.controller;
 
 
 import com.lambdaschool.tiemendo.model.Client;
-import com.lambdaschool.tiemendo.model.Retailer;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,6 @@
 package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.Client;
-import com.lambdaschool.tiemendo.model.Farmer;
 
 import com.lambdaschool.tiemendo.model.Yield;
 import com.lambdaschool.tiemendo.repository.YieldRepository;
@@ -35,7 +34,7 @@ public class YieldController {
     public ResponseEntity<?> findAll()
     {
 
-        return new ResponseEntity<>(yieldRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(yieldService.findAll(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Gets yield history by farmer by cropname. Takes farmerid and cropname.", response = Yield.class)
