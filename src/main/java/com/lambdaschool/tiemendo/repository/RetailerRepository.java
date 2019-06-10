@@ -4,10 +4,11 @@ import com.lambdaschool.tiemendo.model.Retailer;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface RetailerRepository extends CrudRepository<Retailer, Long>
+public interface RetailerRepository extends PagingAndSortingRepository<Retailer, Long>
 {
     Retailer findRetailerById(long id);
     

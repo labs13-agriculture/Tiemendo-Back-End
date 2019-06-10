@@ -10,7 +10,7 @@ import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Entity
 @Table(name = "organizationcontacts")
-public class OrganizationContact
+public class OrganizationContact extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

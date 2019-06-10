@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
-@Service(value = "clientservice")
+@Service(value = "clientService")
 public class ClientServiceImpl implements ClientService {
 
     @Autowired
