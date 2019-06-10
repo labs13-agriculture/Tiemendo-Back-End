@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="croptype")
-public class CropType {
+public class CropType extends Auditable{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

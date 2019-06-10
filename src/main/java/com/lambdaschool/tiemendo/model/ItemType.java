@@ -18,7 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name="inventory_item")
-public class ItemType {
+public class ItemType extends Auditable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
