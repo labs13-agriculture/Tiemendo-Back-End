@@ -6,6 +6,8 @@ import com.lambdaschool.tiemendo.repository.ClientRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,7 +46,34 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client update(Client client) {
         Client current = findById(client.getId());
-        // TODO Fill in the rest of the update logic
+
+        // REFLECTION API!!!! THIS IS AMAZING
+        // get names of all fields of given class
+        var fields = Client.class.getDeclaredFields();
+        // iterate over the field names
+        for(int i=0; i<fields.length; i++) {
+            //save field name
+            var field = fields[i].getName();
+            try {
+                // get the property descriptor and of the class based on field name
+                PropertyDescriptor pd = new PropertyDescriptor(field, Client.class);
+                // saves the getter method to variable getter
+                Method getter = pd.getReadMethod();
+                // invokes the method on the given instance of a class
+                // after the class is the list of arguments if any
+                // if farmer.getField != null
+                // TODO make an array of field names to ignore?
+                if (getter.invoke(client) != null){
+                    // get the setter method
+                    Method setter = pd.getWriteMethod();
+                    // use the setter method to set the value of the current object
+                    // to the value of the new object
+                    setter.invoke(current, getter.invoke(client));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return clientRepository.save(current);
     }
 
