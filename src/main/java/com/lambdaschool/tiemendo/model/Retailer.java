@@ -71,5 +71,11 @@ public class Retailer extends Client
         this.retailercontact = retailercontact;
     }
 
+    public List<Turnover> getGoals() {
+        return goals;
+    }
 
+    public void setGoals(List<Turnover> goals) {
+        this.goals = goals;
+    }
 }
