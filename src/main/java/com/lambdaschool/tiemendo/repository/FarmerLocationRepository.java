@@ -1,7 +1,7 @@
 package com.lambdaschool.tiemendo.repository;
 
 import com.lambdaschool.tiemendo.model.FarmerLocation;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface FarmerLocationRepository extends CrudRepository<FarmerLocation, Long> {
+public interface FarmerLocationRepository extends PagingAndSortingRepository<FarmerLocation, Long> {
 }

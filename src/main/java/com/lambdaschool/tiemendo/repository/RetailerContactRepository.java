@@ -4,8 +4,9 @@ import com.lambdaschool.tiemendo.model.RetailerContact;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface RetailerContactRepository extends CrudRepository<RetailerContact, Long>
+public interface RetailerContactRepository extends PagingAndSortingRepository<RetailerContact, Long>
 {
     @Modifying
     @Query(value = "UPDATE retailercontacts SET dateofbirth=:dob, educationlevel=:education, email=:email, gender=:gender, name=:name, nationality=:nationality, phone=:phone, position=:position, title=:title WHERE retailercontactid=:id", nativeQuery = true)
