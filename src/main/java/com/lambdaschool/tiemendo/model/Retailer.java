@@ -25,7 +25,7 @@ public class Retailer extends Client
     private RetailerContact retailercontact;
     
     //todo - Annual turnover data
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("retailer")
     private List<Turnover> goals = new ArrayList<>();
 
