@@ -45,10 +45,8 @@ public class FarmerServiceImpl implements FarmerService {
         *      Should be made pageable
         * */
         List<Farmer> farmers = new ArrayList<>();
-        System.out.println("Name: " + name + ", Location: " + location);
         String searchName = "%" + name + "%";
         String searchLocation = "%" + location + "%";
-        System.out.println("Name: " + searchName + ", Location: " + searchLocation);
         farmers = farmerRepo.searchFarmers(searchName, searchLocation, isLead);
 //        farmerRepo.searchFarmers(name, location, isLead).iterator().forEachRemaining(farmers::add);
         return farmers;
