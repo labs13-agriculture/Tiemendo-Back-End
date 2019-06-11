@@ -13,7 +13,7 @@ public class Inventory extends Auditable{
     private long invid;
     private int quantity;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="item")
     @JsonIgnoreProperties("inventory")
     private ItemType item;

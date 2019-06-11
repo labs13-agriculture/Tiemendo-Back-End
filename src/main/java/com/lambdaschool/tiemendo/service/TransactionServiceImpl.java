@@ -2,12 +2,9 @@ package com.lambdaschool.tiemendo.service;
 
 
 
-import com.lambdaschool.tiemendo.model.Client;
-import com.lambdaschool.tiemendo.model.Transaction;
+import com.lambdaschool.tiemendo.model.*;
 
-import com.lambdaschool.tiemendo.model.TransactionItem;
-import com.lambdaschool.tiemendo.repository.ClientRepository;
-import com.lambdaschool.tiemendo.repository.TransactionRepository;
+import com.lambdaschool.tiemendo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,9 +19,16 @@ public class TransactionServiceImpl implements TransactionService
 {
     @Autowired
     TransactionRepository transactionRepository;
-
     @Autowired
     ClientRepository clientRepository;
+    @Autowired
+    InventoryRepository inventoryRepo;
+    @Autowired
+    TransactionItemRepository tiRepo;
+    @Autowired
+    ItemTypeRepository itemTypeRepo;
+
+
 
 
     @Override
@@ -44,10 +48,21 @@ public class TransactionServiceImpl implements TransactionService
 
 
     @Override
+    @Transactional
     public void delete(long id)
     {
-        transactionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
-        transactionRepository.deleteById(id);
+        // TODO when deleting transaction add the transaction items back to inventory
+        Transaction t = findTransactionById(id);
+        var inputs = t.getInputs();
+
+        for (TransactionItem ti: inputs) {
+            ItemType item = ti.getItem();
+            Inventory inv = item.getInventory();
+            inv.setQuantity(inv.getQuantity() + ti.getQuantity());
+
+            inventoryRepo.save(inv);
+        }
+        transactionRepository.delete(t);
     }
 
 
@@ -57,23 +72,27 @@ public class TransactionServiceImpl implements TransactionService
         Transaction newTransaction = new Transaction();
         Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
 
-
         //this seemed to be a necessary work around. Changing the result of getInput to ArrayList in Transaction threw error about mapping to a non collection
 
-        ArrayList necessaryArrayList = new ArrayList();
-        List<TransactionItem> originalInputs = transaction.getInputs();
+        ArrayList<TransactionItem> inputs = new ArrayList<>();
+        transaction.getInputs().iterator().forEachRemaining(inputs::add);
 
-        for(TransactionItem i: originalInputs) {
-            necessaryArrayList.add(i);
-        }
-
-        newTransaction.setInputs(necessaryArrayList);
+        newTransaction.setInputs(inputs);
         newTransaction.setType(transaction.getType());
         newTransaction.setPersonnel(transaction.getPersonnel());
         newTransaction.setDate(transaction.getDate());
         newTransaction.setClient(client);
 
         client.getTransactions().add(newTransaction);
+        //TODO remove transaction item from inventory
+
+        for (TransactionItem ti: inputs) {
+            ItemType item = ti.getItem();
+            Inventory inv = item.getInventory();
+            inv.setQuantity(inv.getQuantity() - ti.getQuantity());
+
+            inventoryRepo.save(inv);
+        }
 
         return clientRepository.save(client);
 
@@ -88,16 +107,39 @@ public class TransactionServiceImpl implements TransactionService
 
         if (transaction.getInputs() != null)
         {
-            //this seemed to be a necessary work around. Changing the result of getInput to ArrayList in Transaction threw error about mapping to a non collection
-            //
-            ArrayList necessaryArrayList = new ArrayList();
-            List<TransactionItem> originalInputs = transaction.getInputs();
+            ArrayList<TransactionItem> mergedInputs = new ArrayList<>();
 
-            for(TransactionItem i: originalInputs) {
-                necessaryArrayList.add(i);
+            ArrayList<TransactionItem> incomingInputs = new ArrayList<>();
+            transaction.getInputs().iterator().forEachRemaining(incomingInputs::add);
+
+            for (TransactionItem ti: incomingInputs) {
+
+                // see if we can find input in db
+                if (tiRepo.findById(ti.getId()).isPresent()) {
+                    TransactionItem indb = tiRepo.findById(ti.getId()).get();
+
+                    // if it isn't the same get the itemType then that item Types inventory and update accordingly
+                    if (!ti.getQuantity().equals(indb.getQuantity())) {
+                        ItemType it = indb.getItem();
+                        Inventory inv = it.getInventory();
+
+                        //update inventory with the difference of incoming and current
+                        int change = ti.getQuantity() - indb.getQuantity();
+                        inv.setQuantity(inv.getQuantity() - change);
+                        inventoryRepo.save(inv);
+                    }
+
+                } else {
+                    //if not in database update inventory and add to merged list so it can be saved and added to db
+                    ItemType it = itemTypeRepo.findByNameIgnoreCase(ti.getItem().getName());
+                    Inventory inv = it.getInventory();
+                    inv.setQuantity(inv.getQuantity() - ti.getQuantity());
+                }
+
+                mergedInputs.add(ti);
             }
 
-            currentTransaction.setInputs(necessaryArrayList);
+            currentTransaction.setInputs(mergedInputs);
         }
 
         if (transaction.getClient() != null)
@@ -119,13 +161,8 @@ public class TransactionServiceImpl implements TransactionService
         {
             currentTransaction.setType(transaction.getType());
         }
-        
-        
-
-
 
         return transactionRepository.save(currentTransaction);
-
     }
 }
 
