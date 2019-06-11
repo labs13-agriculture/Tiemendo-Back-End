@@ -23,8 +23,7 @@ public class Retailer extends Client
     @JoinColumn(name = "retailercontactid", referencedColumnName = "retailercontactid")
     @JsonIgnoreProperties("retailer")
     private RetailerContact retailercontact;
-    
-    //todo - Annual turnover data
+
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("retailer")
     private List<Turnover> goals = new ArrayList<>();

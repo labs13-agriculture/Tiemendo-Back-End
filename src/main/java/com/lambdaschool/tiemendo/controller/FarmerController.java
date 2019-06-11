@@ -30,11 +30,10 @@ public class FarmerController {
     public ResponseEntity<?> searchFarmers(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String location,
-            @RequestParam(defaultValue = "false") String lead
+            @RequestParam(defaultValue = "false") boolean lead
     ) {
-        // todo: Figure out how this search is going to work.
         // Needs to be pageable and search withing the contact and location objects
-        return new ResponseEntity<>("This feature not implemented", HttpStatus.OK);
+        return new ResponseEntity<>(farmerService.searchFarmers(name, location, lead), HttpStatus.OK);
     }
 
     // Add Farmer

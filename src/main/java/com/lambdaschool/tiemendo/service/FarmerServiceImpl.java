@@ -38,7 +38,7 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
-    public ArrayList<Farmer> searchFarmers(Pageable pageable, String name, String location, boolean isLead) {
+    public ArrayList<Farmer> searchFarmers(String name, String location, boolean isLead) {
         /*
         *      The implementation of this method is subject to change
         *      Should be made pageable
@@ -138,7 +138,6 @@ public class FarmerServiceImpl implements FarmerService {
             if (incomingfl.getRegion() != null)
                 currentfl.setRegion(incomingfl.getRegion());
 
-            // todo this one to one comparing is the worst, there has to be a better way
         }
         return farmerRepo.save(current);
     }
