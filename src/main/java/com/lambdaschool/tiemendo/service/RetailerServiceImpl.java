@@ -89,8 +89,6 @@ public class RetailerServiceImpl implements RetailerService
         //make sure the retailer we're looking to update exists
         if (retailerRepos.findById(id).isPresent())
         {
-            
-            
             //update the retailercontacts table - HERE'S WHY WE NEED ID INCLUDED
             //make sure there is a retailercontact with a valid id
             RetailerContact rc = update.getRetailercontact();
@@ -103,7 +101,6 @@ public class RetailerServiceImpl implements RetailerService
                 //System.out.println("Running retailercontact save");
                 retailerContactRepository.save(rc);
             }
-            
             //update the retailerLocations table - HERE'S WHY WE NEED ID INCLUDED
             RetailerLocation rl = update.getRetailerlocation();
             if(rl.getRetailerlocationid() != 0)
@@ -124,19 +121,11 @@ public class RetailerServiceImpl implements RetailerService
             //Only startyear is in retailers table
             //System.out.println("Running retailer update");
             return retailerRepos.save(update);
-    
-            
-            
         }
         else
         {
             throw new ResourceNotFoundException("Could not find retailer with id: " + id);
         }
-//        Thread.sleep(750);
-    
-        
-        
-//        return null;
     }
     
     @Override
