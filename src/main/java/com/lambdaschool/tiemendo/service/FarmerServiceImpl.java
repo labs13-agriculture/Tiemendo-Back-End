@@ -38,7 +38,7 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
-    public ArrayList<Farmer> searchFarmers(Pageable pageable, String name, String location, boolean isLead) {
+    public ArrayList<Farmer> searchFarmers(String name, String location, boolean isLead) {
         /*
         *      The implementation of this method is subject to change
         *      Should be made pageable

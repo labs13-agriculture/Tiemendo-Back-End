@@ -10,7 +10,7 @@ public interface FarmerService  {
     // Get all Farmers Pageable
     public ArrayList<Farmer> findAllFarmers(Pageable pageable);
     // Get all Farmers by Search
-    public ArrayList<Farmer> searchFarmers(Pageable pageable, String name, String location, boolean isLead);
+    public ArrayList<Farmer> searchFarmers(String name, String location, boolean isLead);
     // Get Farmer
     public Farmer findFarmer(long id);
     // Add Farmer
