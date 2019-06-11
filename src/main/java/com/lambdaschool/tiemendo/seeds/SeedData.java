@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Transactional
 @Component
@@ -15,10 +17,12 @@ public class SeedData implements CommandLineRunner
 {
     ItemTypeRepository itemRepo;
     CropTypeRepository cropRepo;
+    InventoryRepository invRepo;
 
-    public SeedData(ItemTypeRepository itemRepo, CropTypeRepository cropRepo) {
+    public SeedData(ItemTypeRepository itemRepo, CropTypeRepository cropRepo, InventoryRepository invRepo) {
         this.itemRepo = itemRepo;
         this.cropRepo = cropRepo;
+        this.invRepo = invRepo;
     }
 
     @Override
@@ -35,6 +39,15 @@ public class SeedData implements CommandLineRunner
         ItemType i6 = new ItemType("Atrazine");
         ItemType i7 = new ItemType("Kondem");
         itemRepo.saveAll(Arrays.asList(i1, i2, i3, i4, i5, i6, i7));
+
+        ArrayList<ItemType> items = new ArrayList<>();
+        itemRepo.findAll().iterator().forEachRemaining(items::add);
+
+        var invItems = new ArrayList<Inventory>();
+        for (ItemType i: items) {
+           Inventory inv = new Inventory(99, i);
+        }
+        invRepo.saveAll(invItems);
 
         System.out.println("Seeding Crop Types");
         CropType c1 = new CropType("Maize");
