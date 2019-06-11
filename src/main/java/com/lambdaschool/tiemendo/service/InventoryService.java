@@ -8,5 +8,5 @@ public interface InventoryService {
     ArrayList<Inventory> findAll();
     ArrayList<Inventory> add(Inventory i);
     ArrayList<Inventory> update(Inventory i);
-    ArrayList<Inventory> delete(Inventory i);
+    ArrayList<Inventory> delete(long id);
 }
