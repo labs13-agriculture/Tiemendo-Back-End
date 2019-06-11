@@ -3,7 +3,6 @@ package com.lambdaschool.tiemendo.controller;
 
 
 
-//import com.lambdaschool.tiemendo.model.Farmer;
 import com.lambdaschool.tiemendo.model.*;
 
 import com.lambdaschool.tiemendo.repository.ClientRepository;
@@ -46,7 +45,6 @@ public class TransactionController {
     @Autowired
     RetailerService retailerService;
 
-
     @Autowired
     ClientRepository clientRepository;
 
@@ -60,25 +58,16 @@ public class TransactionController {
             value = "transaction object")
     @PostMapping(value = "/add/{clientid}")
     public ResponseEntity<?> addNewTransaction(@Valid @RequestBody Transaction transaction,@PathVariable Long clientid) {
-
-
-
         Client client = transactionService.save(transaction,clientid);
-
-        return new ResponseEntity<>(client,HttpStatus.OK);
-
-
+        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
     @PutMapping(value = "/update/{transactionId}")
     public ResponseEntity<?> updateTransaction(
-            @RequestBody
-                    Transaction updateTransaction,
-            @PathVariable
-                    long transactionId)
-    {
-        transactionService.update(updateTransaction, transactionId);
-        return new ResponseEntity<>(HttpStatus.OK);
+            @RequestBody Transaction updateTransaction,
+            @PathVariable long transactionId
+    ) {
+        return new ResponseEntity<>(transactionService.update(updateTransaction, transactionId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Returns all transactions. Pageable.", response = Transaction.class, responseContainer = "List")
@@ -93,8 +82,7 @@ public class TransactionController {
                             "Multiple sort criteria are supported.")})
 
     @GetMapping(value = "/all", produces = {"application/json"})
-    public ResponseEntity<?> listAllTransactions(@PageableDefault(page = 0,
-            size = 3) Pageable pageable)
+    public ResponseEntity<?> listAllTransactions(@PageableDefault(page = 0, size = 3) Pageable pageable)
     {
         List<Transaction> transactions = transactionService.findAll(pageable);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
@@ -113,38 +101,9 @@ public class TransactionController {
     public ResponseEntity<?> findTransactionsByClientId(@PathVariable long id)
     {
         Client client = clientService.findClientById(id);
-
         return new ResponseEntity<>(client.getTransactions(), HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "Returns transaction based on organization id.", response = Transaction.class)
-//    @GetMapping(value = "organization/{id}", produces = {"application/json"})
-//    public ResponseEntity<?> findTransactionByOrgtId(@PathVariable long id)
-//    {
-//        Organization organization = organizationService.findOrganizationById(id);
-//        List orgTransactions = organization.getTransactions();
-//        return new ResponseEntity<>(orgTransactions, HttpStatus.OK);
-//    }
-//
-//    @ApiOperation(value = "Returns transaction based on retailer id.", response = Transaction.class)
-//    @GetMapping(value = "retailer/{id}", produces = {"application/json"})
-//    public ResponseEntity<?> findTransactionByRetailerId(@PathVariable long id)
-//    {
-//        Retailer retailer = retailerService.findRetailerById(id);
-//        List retailerTransactions = retailer.getTransactions();
-//        return new ResponseEntity<>(retailerTransactions, HttpStatus.OK);
-//
-//    }
-        //needs farmer service and impl
-//    @ApiOperation(value = "Returns transaction based on farmer id.", response = Transaction.class)
-//    @GetMapping(value = "farmer/{id}", produces = {"application/json"})
-//    public ResponseEntity<?> findTransactionByFarmerId(@PathVariable long id)
-//    {
-//        Farmer farmer = farmerService.findFarmerById(id);
-//        List farmerTransactions = farmer.getTransactions();
-//        return new ResponseEntity<>(farmerTransactions, HttpStatus.OK);
-//
-//    }
 
     @ApiOperation(value = "Deletes transaction based on transaction id.", response = Transaction.class)
     @DeleteMapping("/delete/{transactionId}")

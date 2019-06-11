@@ -26,12 +26,11 @@ public class RetailerController
     }
     
     @GetMapping(value = "/search", produces = {"application/json"})
-    public ResponseEntity<?> searchRetailers(@RequestParam(defaultValue = "") String name,
-                                             @RequestParam(defaultValue = "") String location,
-                                             @RequestParam(defaultValue = "false") String lead)
+    public ResponseEntity<?> searchRetailers(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String location, @RequestParam(defaultValue = "false") String lead)
     {
         //Lead parameter must be string, but can be converted to boolean. Only "true" (not case sensitive) will evaluate to true with Boolean.parseBoolean()
         boolean isLead = Boolean.parseBoolean(lead);
+        
         
         return new ResponseEntity<>(retailerService.searchRetailer(name, location, isLead), HttpStatus.OK);
     }

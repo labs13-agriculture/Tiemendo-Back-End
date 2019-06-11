@@ -29,19 +29,17 @@ public class TransactionItemController {
     @Autowired
     TransactionItemService transactionItemService;
 
+/*
+    Im not sure we need any of these... Transaction-items should only be accessed through a transaction
+
     @ApiOperation(value = "Allows authenticated user to post a transaction-item to database.")
     @ApiImplicitParam(name = "transaction-item object", dataType = "TransactionItem", paramType = "body",
             value = "transaction-item object")
     @PostMapping(value = "/add")
     public ResponseEntity<?> addNewTransactionItem(@Valid @RequestBody TransactionItem transactionItem) {
-
         //to we want to associate transaction entries with current User? or just with String personnel?
-
         transactionItemRepository.save(transactionItem);
-
         return new ResponseEntity<>(HttpStatus.OK);
-
-
     }
 
     @ApiOperation(value = "Returns all transaction-items. Pageable.", response = TransactionItem.class, responseContainer = "List")
@@ -68,7 +66,9 @@ public class TransactionItemController {
     public ResponseEntity<?> findTransactionItemById(@PathVariable long id)
     {
         return new ResponseEntity<>(transactionItemService.findTransactionItemById(id), HttpStatus.OK);
-    }
+    }*/
+
+    // keeping these ones in tact because they may be useful for a good experience
 
     @ApiOperation(value = "Deletes transaction-item based on transaction-item id.", response = TransactionItem.class)
     @DeleteMapping("/delete/{titemId}")
@@ -80,10 +80,8 @@ public class TransactionItemController {
 
     @PutMapping(value = "/update/{titemId}")
     public ResponseEntity<?> updateTransactionItem(
-            @RequestBody
-                    TransactionItem updateTransactionItem,
-            @PathVariable
-                    long titemId)
+            @RequestBody TransactionItem updateTransactionItem,
+            @PathVariable long titemId)
     {
         transactionItemService.update(updateTransactionItem, titemId);
         return new ResponseEntity<>(HttpStatus.OK);

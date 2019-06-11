@@ -28,9 +28,6 @@ public abstract class Client extends Auditable {
     @JsonIgnoreProperties("client")
     private List<Installment> installments = new ArrayList<>();
 
-    //TODO Contact
-    //TODO Location
-
 
     public Client() {
     }

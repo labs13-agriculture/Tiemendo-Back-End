@@ -17,8 +17,8 @@ import java.util.List;
 */
 
 @Entity
-@Table(name="inventory_item")
-public class ItemType {
+@Table(name="item_type")
+public class ItemType extends Auditable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
@@ -30,6 +30,9 @@ public class ItemType {
     @OneToMany(mappedBy = "item")
     @JsonIgnoreProperties("item")
     private List<TransactionItem> transactions = new ArrayList<>();
+
+    @OneToOne(mappedBy="item")
+    private Inventory inventory;
 
     public ItemType() {
     }
@@ -70,6 +73,11 @@ public class ItemType {
         this.transactions = transactions;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
 
-
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 }

@@ -2,11 +2,11 @@ package com.lambdaschool.tiemendo.repository;
 
 import com.lambdaschool.tiemendo.model.CropType;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface CropTypeRepository extends CrudRepository<CropType, Long> {
+public interface CropTypeRepository extends PagingAndSortingRepository<CropType, Long> {
     CropType findByCropName(String name);
     CropType findCropTypeById(long id);
     

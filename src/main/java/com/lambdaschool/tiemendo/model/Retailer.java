@@ -3,14 +3,16 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 @Table(name = "retailers")
 public class Retailer extends Client
 {
     private int startyear;
-    
+
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "retailerlocationid", referencedColumnName = "retailerlocationid")
@@ -21,12 +23,10 @@ public class Retailer extends Client
     @JoinColumn(name = "retailercontactid", referencedColumnName = "retailercontactid")
     @JsonIgnoreProperties("retailer")
     private RetailerContact retailercontact;
-    
-    //todo - Annual turnover data
-    
-    //todo link to transactions (with farmer)
-    
-    //todo link to account (with organization)
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("retailer")
+    private List<Turnover> goals = new ArrayList<>();
 
 
     public Retailer(String name, boolean isLead, int startyear, RetailerLocation retailerlocation, RetailerContact retailercontact) {
@@ -70,5 +70,11 @@ public class Retailer extends Client
         this.retailercontact = retailercontact;
     }
 
+    public List<Turnover> getGoals() {
+        return goals;
+    }
 
+    public void setGoals(List<Turnover> goals) {
+        this.goals = goals;
+    }
 }
