@@ -27,7 +27,7 @@ public class RetailerController
     
     @GetMapping(value = "/search", produces = {"application/json"})
     public ResponseEntity<?> searchRetailers(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String location, @RequestParam(defaultValue = "false") String lead)
-    {//todo: sql search query once db structure finalized
+    {
         //Lead parameter must be string, but can be converted to boolean. Only "true" (not case sensitive) will evaluate to true with Boolean.parseBoolean()
         boolean isLead = Boolean.parseBoolean(lead);
         

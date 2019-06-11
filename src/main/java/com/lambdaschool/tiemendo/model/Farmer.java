@@ -11,7 +11,6 @@ import java.util.List;
 public class Farmer extends Client
 {
     private long startyear;
-    //todo - Annual turnover data
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "farmerlocationid", referencedColumnName = "farmerlocationid")
@@ -27,9 +26,6 @@ public class Farmer extends Client
     @OneToMany(mappedBy="farmer",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("farmer")
     private List<Yield> yieldHistory = new ArrayList<>();
-
-    //TODO payment schedule
-    //TODO Yields
 
     public Farmer() {
     }

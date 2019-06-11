@@ -51,7 +51,6 @@ public class TransactionServiceImpl implements TransactionService
     @Transactional
     public void delete(long id)
     {
-        // TODO when deleting transaction add the transaction items back to inventory
         Transaction t = findTransactionById(id);
         var inputs = t.getInputs();
 
@@ -84,7 +83,6 @@ public class TransactionServiceImpl implements TransactionService
         newTransaction.setClient(client);
 
         client.getTransactions().add(newTransaction);
-        //TODO remove transaction item from inventory
 
         for (TransactionItem ti: inputs) {
             ItemType item = ti.getItem();
