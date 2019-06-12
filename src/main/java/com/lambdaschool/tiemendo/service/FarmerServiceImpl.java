@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Service("farmerService")
@@ -38,13 +39,16 @@ public class FarmerServiceImpl implements FarmerService {
     }
 
     @Override
-    public ArrayList<Farmer> searchFarmers(String name, String location, boolean isLead) {
+    public List<Farmer> searchFarmers(String name, String location, boolean isLead) {
         /*
         *      The implementation of this method is subject to change
         *      Should be made pageable
         * */
-        var farmers = new ArrayList<Farmer>();
-        farmerRepo.searchFarmers(name, location, isLead).iterator().forEachRemaining(farmers::add);
+        List<Farmer> farmers = new ArrayList<>();
+        String searchName = "%" + name + "%";
+        String searchLocation = "%" + location + "%";
+        farmers = farmerRepo.searchFarmers(searchName, searchLocation, isLead);
+//        farmerRepo.searchFarmers(name, location, isLead).iterator().forEachRemaining(farmers::add);
         return farmers;
     }
 

@@ -4,13 +4,14 @@ import com.lambdaschool.tiemendo.model.Farmer;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface FarmerService  {
     // Get all Farmers Pageable
     public ArrayList<Farmer> findAllFarmers(Pageable pageable);
     // Get all Farmers by Search
-    public ArrayList<Farmer> searchFarmers(String name, String location, boolean isLead);
+    public List<Farmer> searchFarmers(String name, String location, boolean isLead);
     // Get Farmer
     public Farmer findFarmer(long id);
     // Add Farmer
