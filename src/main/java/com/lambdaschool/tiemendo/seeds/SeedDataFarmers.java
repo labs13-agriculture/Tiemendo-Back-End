@@ -92,7 +92,7 @@ public class SeedDataFarmers implements CommandLineRunner
         f1.setPaymentFrequency(2);
         f1.setFrequencyUnit("WEEKS");
 
-        f1.setPaymentSchedule(f1.generatePaySchedule());
+        f1.generatePaySchedule();
 
         farmerRepo.save(f1);
         yieldRepo.saveAll(yields);

@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.*;
 @Entity
 @Table(name= "client")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Client extends Auditable {
+public class Client extends Auditable {
     // Unique ID
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
