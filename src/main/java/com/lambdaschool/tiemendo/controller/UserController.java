@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.User;
+import com.lambdaschool.tiemendo.repository.UserRepository;
 import com.lambdaschool.tiemendo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,9 @@ public class UserController
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping(value = "/users", produces = {"application/json"})
     public ResponseEntity<?> listAllUsers()
@@ -68,6 +72,15 @@ public class UserController
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/username/{username}", produces = {"application/json"})
+    public ResponseEntity<?> getUserByNameIgnoreCase(@PathVariable String username)
+    {
+        String upperCase = username.toUpperCase();
+        List<User> u = userRepository.findByUsernameIgnoreCase(upperCase);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
 
 }
 
