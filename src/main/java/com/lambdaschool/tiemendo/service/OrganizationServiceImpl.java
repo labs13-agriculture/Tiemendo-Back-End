@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationContact;
 import com.lambdaschool.tiemendo.model.OrganizationLocation;
@@ -53,7 +54,22 @@ public class OrganizationServiceImpl implements OrganizationService
         organizationLocationRepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
-
+    
+    @Override
+    public List<Organization> searchOrganizations(String name, String location, boolean lead) throws ResourceNotFoundException
+    {
+        String wildcardName = "%" + name + "%";
+        String wildcardLocation = "%" + location + "%";
+        
+        List<Organization> searchResults = organizationRepos.searchOrganizations(wildcardName, wildcardLocation, lead);
+        if(searchResults.size() == 0)
+        {
+            throw new ResourceNotFoundException("No Organizations found");
+        }
+        
+        return searchResults;
+    }
+    
     @Override
     public Organization findOrganizationById(long id) throws EntityNotFoundException
     {

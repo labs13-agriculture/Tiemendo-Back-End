@@ -30,6 +30,16 @@ public class OrganizationController
         List<Organization> myOrganization = organizationService.findAll();
         return new ResponseEntity<>(myOrganization, HttpStatus.OK);
     }
+    
+    // SEARCH
+    @GetMapping(value = "/search", produces = {"application/json"})
+    public ResponseEntity<?> orgSearch(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue="") String location,
+            @RequestParam(defaultValue = "false") boolean lead)
+    {
+        return new ResponseEntity<>(organizationService.searchOrganizations(name, location, lead), HttpStatus.OK);
+    }
     // GET ALL CONTACTS
     @GetMapping(value = "/contacts-list", produces = {"application/json"})
     public ResponseEntity<?> listAllContacts()
