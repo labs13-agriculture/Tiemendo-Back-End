@@ -88,18 +88,11 @@ public class SeedDataFarmers implements CommandLineRunner
 
         // adding in fields to test Payment schedule
         f1.setPaymentStartDate(LocalDate.parse("2019-06-13"));
-        f1.setPaymentAmount(10.0);
+        f1.setPaymentAmount(4.25);
         f1.setPaymentFrequency(2);
         f1.setFrequencyUnit("WEEKS");
 
         f1.setPaymentSchedule(f1.generatePaySchedule());
-
-        System.out.println();
-        f1.getPaymentSchedule().keySet().forEach(key -> {
-            System.out.print("Due Date: " + key);
-            System.out.println(" | Paid Date: " + f1.getPaymentSchedule().get(key));
-        });
-        System.out.println();
 
         farmerRepo.save(f1);
         yieldRepo.saveAll(yields);
