@@ -80,7 +80,7 @@ public class Transaction extends Auditable {
     }
 
     public double getTotal() {
-        var total = 0;
+        var total = 0.0;
         if(inputs.size() > 0) {
             for(TransactionItem i: inputs) {
                 total += (i.getQuantity() * i.getUnitPrice());

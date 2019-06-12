@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name= "client")
@@ -22,15 +20,15 @@ public abstract class Client extends Auditable {
 
     // These are for payment schedules
     private double paymentAmount;
-    private boolean isPayFrequencyDate;
     private int paymentFrequency;
+    private String frequencyUnit; //["DAYS", "WEEKS", "MONTHS"]
     private LocalDate paymentStartDate;
 
     @ElementCollection
     @MapKeyColumn(name="due_date")
     @Column(name="paid_date")
-    @CollectionTable(name="example_attributes", joinColumns=@JoinColumn(name="example_id"))
-    private HashMap<LocalDate, LocalDate> paymentSchedule = new HashMap<>();
+    @CollectionTable(name="payment_schedule", joinColumns=@JoinColumn(name="client_id"))
+    private Map<LocalDate, LocalDate> paymentSchedule = new HashMap<>();
 
     // Transactions
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
@@ -95,6 +93,19 @@ public abstract class Client extends Auditable {
         this.installments = installments;
     }
 
+    public double getAmountOwed() {
+        var totalOwed = 0.0;
+        for (Transaction t: transactions) {
+            totalOwed += t.getTotal();
+        }
+
+        for(Installment i: installments) {
+            totalOwed -= i.getAmountPaid();
+        }
+
+        return totalOwed;
+    }
+
     public String getType() {
         return type;
     }
@@ -127,12 +138,77 @@ public abstract class Client extends Auditable {
         this.paymentStartDate = paymentStartDate;
     }
 
-    public HashMap<LocalDate, LocalDate> getPaymentSchedule() {
+    public String getFrequencyUnit() {
+        return frequencyUnit;
+    }
+
+    public void setFrequencyUnit(String frequencyUnit) {
+        this.frequencyUnit = frequencyUnit;
+    }
+
+    public Map<LocalDate, LocalDate> getPaymentSchedule() {
         return paymentSchedule;
     }
 
-    public void setPaymentSchedule(HashMap<LocalDate, LocalDate> paymentSchedule) {
+    public void setPaymentSchedule(Map<LocalDate, LocalDate> paymentSchedule) {
         this.paymentSchedule = paymentSchedule;
     }
 
+    public Map<LocalDate, LocalDate> generatePaySchedule() {
+        /*
+        * This method uses the following fields
+        *
+        * private double paymentAmount;
+        * private int paymentFrequency;
+        * private String frequencyUnit; //["DAYS", "WEEKS", "MONTHS"]
+        * private LocalDate paymentStartDate;
+        *
+        * To create a payment schedule.
+        *
+        * */
+
+        // Starting variables
+        var newDates = new HashSet<LocalDate>();
+        var currentDate = paymentStartDate;
+        var owed = getAmountOwed();
+
+        // Generate the list of new days
+        while (owed > 0) {
+            switch (frequencyUnit.toUpperCase()) {
+                case "DAYS":
+                    currentDate = currentDate.plusDays(paymentFrequency);
+                    break;
+                case "WEEKS":
+                    currentDate = currentDate.plusWeeks(paymentFrequency);
+                    break;
+                case "MONTHS":
+                    currentDate = currentDate.plusMonths(paymentFrequency);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Could not generate a schedule with frequency unit: " + frequencyUnit +
+                            "Please try \"DAYS\", \"WEEKS\", or \"MONTHS\".");
+            }
+
+            owed -= paymentAmount;
+            newDates.add(currentDate);
+        }
+
+        // remove any dates that have not passed from schedule to add new schedule
+        /*
+        *  Dates that are left will stay null to show that they were past due
+        * */
+        var keys = paymentSchedule.keySet();
+        for (LocalDate d: keys) {
+            if (d.isAfter(LocalDate.now())) {
+                keys.remove(d);
+            }
+        }
+
+        // add in new dates
+        for (LocalDate d: newDates) {
+            paymentSchedule.put(d, null);
+        }
+
+        return paymentSchedule;
+    }
 }
