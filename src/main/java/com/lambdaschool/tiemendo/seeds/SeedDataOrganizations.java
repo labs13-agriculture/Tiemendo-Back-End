@@ -41,17 +41,22 @@ public class SeedDataOrganizations implements CommandLineRunner
         oc1list.add(oc1);
         
         OrganizationLocation ol1 = new OrganizationLocation("555 Organization Road", "Org town", "North side", "4-way intersection", new Organization());
+        //adding this location to test search
+        OrganizationLocation ol2 = new OrganizationLocation("wxyz", "zzzz", "xxxxx", "aaaaa", new Organization());
         List<OrganizationLocation> ol1list = new ArrayList<>();
         ol1list.add(ol1);
+        ol1list.add(ol2);
         
         Organization o1 = new Organization("FarmersOnly", false, ol1list, "", 17, oc1list);
         
         oc1.setOrganization(o1);
         ol1.setOrganization(o1);
+        ol2.setOrganization(o1);
         
         organizationRepository.save(o1);
         organizationContactRepository.save(oc1);
         organizationLocationRepository.save(ol1);
+        organizationLocationRepository.save(ol2);
 
     }
 }
