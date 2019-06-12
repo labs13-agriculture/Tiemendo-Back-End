@@ -67,7 +67,21 @@ public class OrganizationServiceImpl implements OrganizationService
             throw new ResourceNotFoundException("No Organizations found");
         }
         
-        return searchResults;
+        //Query still returns duplicates, for now will filter here, modifying query in future would propbably be more performant
+        List<Long> existing = new ArrayList<>();
+        List<Organization> filteredResults = new ArrayList<>();
+        
+        for(Organization o : searchResults)
+        {
+            //If id hasn't been added to existing list
+            if(!existing.contains(o.getId()))
+            {
+                existing.add(o.getId());
+                filteredResults.add(o);
+            }
+        }
+        
+        return filteredResults;
     }
     
     @Override
