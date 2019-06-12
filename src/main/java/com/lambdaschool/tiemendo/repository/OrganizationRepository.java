@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface OrganizationRepository extends PagingAndSortingRepository<Organization, Long>
 {
-    @Query(value = "SELECT * FROM organizations o, client c INNER JOIN organizationlocations l ON l.organizationid=c.id WHERE c.id = o.id AND o.id = l.organizationid AND c.is_lead=:isLead AND c.name ILIKE :name AND (l.address ILIKE :location OR l.district ILIKE :location OR l.landmark ILIKE :location OR l.region ILIKE :location)", nativeQuery = true)
+    @Query(value = "SELECT * FROM organizations o, client c INNER JOIN organizationlocations l ON l.organizationid=c.id WHERE c.id = o.id AND o.id = l.organizationid AND c.is_lead=:isLead AND c.name ILIKE :name AND (l.address ILIKE :location OR l.district ILIKE :location OR l.community ILIKE :location OR l.landmark ILIKE :location OR l.region ILIKE :location)", nativeQuery = true)
     List<Organization> searchOrganizations(String name, String location, boolean isLead);
-    
-    //TODO - PUT VVV THIS VVV BACK IN SEARCH QUERY ONCE ORGANIZATION COMMUNITY ISSUE RESOLVED
-    // l.community ILIKE :location OR
 }
