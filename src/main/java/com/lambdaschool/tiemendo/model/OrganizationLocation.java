@@ -14,6 +14,7 @@ public class OrganizationLocation extends Auditable
     
     private String address;
     private String district;
+    private String community;
     private String region;
     private String landmark;
     
@@ -27,10 +28,11 @@ public class OrganizationLocation extends Auditable
     {
     }
     
-    public OrganizationLocation(String address, String district, String region, String landmark, Organization organization)
+    public OrganizationLocation(String address, String district, String community, String region, String landmark, Organization organization)
     {
         this.address = address;
         this.district = district;
+        this.community = community;
         this.region = region;
         this.landmark = landmark;
         this.organization = organization;
@@ -64,6 +66,16 @@ public class OrganizationLocation extends Auditable
     public void setDistrict(String district)
     {
         this.district = district;
+    }
+    
+    public String getCommunity()
+    {
+        return community;
+    }
+    
+    public void setCommunity(String community)
+    {
+        this.community = community;
     }
     
     public String getRegion()

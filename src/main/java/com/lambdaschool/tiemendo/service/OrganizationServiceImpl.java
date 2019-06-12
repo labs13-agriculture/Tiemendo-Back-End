@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationContact;
 import com.lambdaschool.tiemendo.model.OrganizationLocation;
@@ -53,7 +54,36 @@ public class OrganizationServiceImpl implements OrganizationService
         organizationLocationRepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
-
+    
+    @Override
+    public List<Organization> searchOrganizations(String name, String location, boolean lead) throws ResourceNotFoundException
+    {
+        String wildcardName = "%" + name + "%";
+        String wildcardLocation = "%" + location + "%";
+        
+        List<Organization> searchResults = organizationRepos.searchOrganizations(wildcardName, wildcardLocation, lead);
+        if(searchResults.size() == 0)
+        {
+            throw new ResourceNotFoundException("No Organizations found");
+        }
+        
+        //Query still returns duplicates, for now will filter here, modifying query in future would propbably be more performant
+        List<Long> existing = new ArrayList<>();
+        List<Organization> filteredResults = new ArrayList<>();
+        
+        for(Organization o : searchResults)
+        {
+            //If id hasn't been added to existing list
+            if(!existing.contains(o.getId()))
+            {
+                existing.add(o.getId());
+                filteredResults.add(o);
+            }
+        }
+        
+        return filteredResults;
+    }
+    
     @Override
     public Organization findOrganizationById(long id) throws EntityNotFoundException
     {
