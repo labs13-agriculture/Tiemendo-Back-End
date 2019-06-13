@@ -1,7 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,11 +24,9 @@ public class Client extends Auditable {
     private String frequencyUnit; //["DAYS", "WEEKS", "MONTHS"]
     private LocalDate paymentStartDate;
 
-    @ElementCollection
-    @MapKeyColumn(name="due_date")
-    @Column(name="paid_date")
-    @CollectionTable(name="payment_schedule", joinColumns=@JoinColumn(name="client_id"))
-    private Map<LocalDate, LocalDate> paymentSchedule = new HashMap<>();
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("client")
+    private List<PaymentSchedule> paymentSchedule = new ArrayList<>();
 
     // Transactions
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
@@ -97,7 +94,9 @@ public class Client extends Auditable {
     public double getAmountOwed() {
         var totalOwed = 0.0;
         for (Transaction t: transactions) {
-            totalOwed += t.getTotal();
+            if (t.getType().equalsIgnoreCase("credit")) {
+                totalOwed += t.getTotal();
+            }
         }
 
         for(Installment i: installments) {
@@ -147,15 +146,15 @@ public class Client extends Auditable {
         this.frequencyUnit = frequencyUnit;
     }
 
-    public Map<LocalDate, LocalDate> getPaymentSchedule() {
+    public List<PaymentSchedule> getPaymentSchedule() {
         return paymentSchedule;
     }
 
-    public void setPaymentSchedule(Map<LocalDate, LocalDate> paymentSchedule) {
+    public void setPaymentSchedule(List<PaymentSchedule> paymentSchedule) {
         this.paymentSchedule = paymentSchedule;
     }
 
-    public Map<LocalDate, LocalDate> generatePaySchedule() {
+    public ArrayList<PaymentSchedule> generatePaySchedule() {
         /*
         * This method uses the following fields
         *
@@ -198,18 +197,21 @@ public class Client extends Auditable {
         /*
         *  Dates that are left will stay null to show that they were past due
         * */
-        var keys = paymentSchedule.keySet();
-        for (LocalDate d: keys) {
-            if (d.isAfter(LocalDate.now())) {
-                keys.remove(d);
+
+        var updateSchedule = new ArrayList<PaymentSchedule>();
+
+        for (PaymentSchedule p: paymentSchedule) {
+            if (p.getDateDue().isBefore(LocalDate.now())) {
+                updateSchedule.add(p);
             }
         }
 
         // add in new dates
         for (LocalDate d: newDates) {
-            paymentSchedule.put(d, null);
+            updateSchedule.add(new PaymentSchedule(this, d, null));
         }
 
-        return paymentSchedule;
+        this.setPaymentSchedule(updateSchedule);
+        return new ArrayList<>(paymentSchedule);
     }
 }
