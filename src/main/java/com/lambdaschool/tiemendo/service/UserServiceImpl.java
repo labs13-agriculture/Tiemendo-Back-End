@@ -96,20 +96,11 @@ public class UserServiceImpl implements UserDetailsService, UserService
         User userSaved = userrepos.save(newUser);
         return userSaved;
 
-//        Role r = rolerepos.findRoleByName("user");
-//        newRoles.add(new UserRoles(newUser, r));
-//
-//        return userrepos.save(newUser);
+
 
     }
 
-        //        for (UserRoles ur : user.getUserRoles())
-//        {
-//            newRoles.add(new UserRoles(newUser, ur.getRole()));
-//        }
-//        newUser.setUserRoles(newRoles);
-//
-//        return userrepos.save(newUser);
+
 
     @Transactional
     @Override
@@ -121,7 +112,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
         if (currentUser != null)
         {
 
-                System.out.print("*********"+id);
+
                 if (user.getUsername() != null)
                 {
                     currentUser.setUsername(user.getUsername());
@@ -136,29 +127,21 @@ public class UserServiceImpl implements UserDetailsService, UserService
                 if (user.getUserRoles().size() > 0)
                 {
 
-                    // with so many relationships happening, I decided to go
-                    // with old school queries
-                    // delete the old ones
 
                     rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
 
-                    // add the new ones
-//                    List<UserRoles> roleslist = new ArrayList<>();
+
                     for (UserRoles ur : user.getUserRoles())
                     {
-//                        ur.setUser(currentUser);
+
                         Role r = rolerepos.findRoleByName(ur.getRole().getName());
-//                        ur.setRole(r);
-//
-//                        currentUser.getUserRoles().add(ur);
-//
-////
-//                        System.out.println("ONE TIME THROUGH");
+
                         rolerepos.insertUserRoles(currentUser.getUserid(),r.getRoleid());
-//                        when i take this away it says that the pk is null in userroles
+                        //Updating user roles in this fashion currently results in null audit records on the
+                        //record of interest in the userroles table
                     }
-//                    currentUser.setUserRoles(roleslist);
-                    System.out.println("USER IT HAS UPDATED? "+currentUser.getUserid());
+
+
                 }
 
                 return userrepos.save(currentUser);
