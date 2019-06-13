@@ -14,6 +14,8 @@ public interface OrganizationService
     List<OrganizationContact> findAllContacts();
 
     List<OrganizationLocation> findAllLocations();
+    
+    List<Organization> searchOrganizations(String name, String location, boolean lead);
 
     Organization findOrganizationById(long id);
 

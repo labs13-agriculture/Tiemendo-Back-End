@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -58,17 +59,17 @@ public class SeedDataFarmers implements CommandLineRunner
         ItemType cutlass = itemRepo.findByNameIgnoreCase("Cutlasses");
 
         // Build out inputs list
-        TransactionItem ti1 = new TransactionItem(3, sack, 5.50, new Transaction());
-        TransactionItem ti2 = new TransactionItem(1, urea, 2.50, new Transaction());
+        TransactionItem ti1 = new TransactionItem(3, sack, 12.70, new Transaction());
+        TransactionItem ti2 = new TransactionItem(1, urea, 4.50, new Transaction());
         TransactionItem ti3 = new TransactionItem(1, cutlass, 3.15, new Transaction());
         ArrayList<TransactionItem> inputs = new ArrayList<>(Arrays.asList(ti1, ti2, ti3));
 
         // build transaction and add transaction to inputs
-        Transaction t1 = new Transaction("CASH", new Date(), inputs, "Joshua", f1);
+        Transaction t1 = new Transaction("CREDIT", new Date(), inputs, "Joshua", f1);
         inputs.iterator().forEachRemaining(x -> x.setTransaction(t1));
 
-        TransactionItem ti4 = new TransactionItem(5, sack, 3.30, new Transaction());
-        TransactionItem ti5 = new TransactionItem(3, urea, 2.50, new Transaction());
+        TransactionItem ti4 = new TransactionItem(5, sack, 6.30, new Transaction());
+        TransactionItem ti5 = new TransactionItem(3, urea, 12.50, new Transaction());
         ArrayList<TransactionItem> inputs2 = new ArrayList<>(Arrays.asList(ti4, ti5));
 
         Transaction t2 = new Transaction("CREDIT", new Date(), inputs2, "Joshua", f1);
@@ -84,6 +85,14 @@ public class SeedDataFarmers implements CommandLineRunner
 
         ArrayList<Installment> installments = new ArrayList<>(Arrays.asList(insstall1, insstall2, insstall3));
         f1.getInstallments().addAll(installments);
+
+        // adding in fields to test Payment schedule
+        f1.setPaymentStartDate(LocalDate.parse("2019-06-13"));
+        f1.setPaymentAmount(10.25);
+        f1.setPaymentFrequency(2);
+        f1.setFrequencyUnit("WEEKS");
+
+        f1.generatePaySchedule(0);
 
         farmerRepo.save(f1);
         yieldRepo.saveAll(yields);

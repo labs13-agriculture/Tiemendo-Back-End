@@ -23,7 +23,7 @@ public class Transaction extends Auditable {
     private Date date;
 //    Inputs bought:
 //    Item name + Quantity
-    @OneToMany(mappedBy="transaction")
+    @OneToMany(mappedBy="transaction", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("transaction")
     private List<TransactionItem> inputs = new ArrayList<>();
 //    Sales personnel (officer who make the payments for the farmer)
@@ -80,7 +80,7 @@ public class Transaction extends Auditable {
     }
 
     public double getTotal() {
-        var total = 0;
+        var total = 0.0;
         if(inputs.size() > 0) {
             for(TransactionItem i: inputs) {
                 total += (i.getQuantity() * i.getUnitPrice());
