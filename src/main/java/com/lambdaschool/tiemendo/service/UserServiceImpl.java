@@ -30,6 +30,9 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Autowired
     private RoleRepository rolerepos;
 
+    @Autowired
+    private  UserService userService;
+
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
@@ -83,10 +86,12 @@ public class UserServiceImpl implements UserDetailsService, UserService
         user.getUserRoles().iterator().forEachRemaining(u ->
         {
             u.setUser(newUser);
+            Role r = rolerepos.findRoleByName(u.getRole().getName());
+            u.setRole(r);
             roleslist.add(u);
         });
 
-        newUser.setUserRoles(user.getUserRoles());
+        newUser.setUserRoles(roleslist);
 
         User userSaved = userrepos.save(newUser);
         return userSaved;
@@ -110,16 +115,17 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Override
     public User update(User user, long id)
     {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = userrepos.findByUsername(authentication.getName());
+
+        User currentUser = userrepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
 
         if (currentUser != null)
         {
-            if (id == currentUser.getUserid())
-            {
+
+                System.out.print("*********"+id);
                 if (user.getUsername() != null)
                 {
                     currentUser.setUsername(user.getUsername());
+
                 }
 
                 if (user.getPassword() != null)
@@ -129,28 +135,39 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
                 if (user.getUserRoles().size() > 0)
                 {
+
                     // with so many relationships happening, I decided to go
                     // with old school queries
                     // delete the old ones
+
                     rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
 
                     // add the new ones
+//                    List<UserRoles> roleslist = new ArrayList<>();
                     for (UserRoles ur : user.getUserRoles())
                     {
-                        rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
+//                        ur.setUser(currentUser);
+                        Role r = rolerepos.findRoleByName(ur.getRole().getName());
+//                        ur.setRole(r);
+//
+//                        currentUser.getUserRoles().add(ur);
+//
+////
+//                        System.out.println("ONE TIME THROUGH");
+                        rolerepos.insertUserRoles(currentUser.getUserid(),r.getRoleid());
+//                        when i take this away it says that the pk is null in userroles
                     }
+//                    currentUser.setUserRoles(roleslist);
+                    System.out.println("USER IT HAS UPDATED? "+currentUser.getUserid());
                 }
 
                 return userrepos.save(currentUser);
-            }
-            else
-            {
-                throw new EntityNotFoundException(Long.toString(id) + " Not current user");
-            }
+
+
         }
         else
         {
-            throw new EntityNotFoundException(authentication.getName());
+            throw new EntityNotFoundException(Long.toString(id));
         }
 
     }
