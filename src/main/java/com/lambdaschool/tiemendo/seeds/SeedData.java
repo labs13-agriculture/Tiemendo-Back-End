@@ -44,9 +44,9 @@ public class SeedData implements CommandLineRunner
 
         var invItems = new ArrayList<Inventory>();
         for (ItemType i: items) {
-           Inventory inv = new Inventory(99, i);
+            Inventory inv = new Inventory(99, i);
+            invRepo.save(inv);
         }
-        invRepo.saveAll(invItems);
 
         System.out.println("Seeding Crop Types");
         CropType c1 = new CropType("Maize");

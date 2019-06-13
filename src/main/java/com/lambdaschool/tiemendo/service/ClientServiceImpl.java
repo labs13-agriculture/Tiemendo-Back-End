@@ -58,9 +58,9 @@ public class ClientServiceImpl implements ClientService {
             current.setFrequencyUnit(client.getFrequencyUnit());
         }
 
-        current.generatePaySchedule();
+        current.generatePaySchedule(0);
         System.out.println("Generated Payment Schedule");
-        current.generatePaySchedule().forEach(sched -> {
+        current.generatePaySchedule(0).forEach(sched -> {
             System.out.println("Due Date: " + sched.getDateDue());
         });
         clientRepository.save(current);

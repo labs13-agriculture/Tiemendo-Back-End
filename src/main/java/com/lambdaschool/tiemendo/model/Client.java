@@ -154,7 +154,7 @@ public class Client extends Auditable {
         this.paymentSchedule = paymentSchedule;
     }
 
-    public ArrayList<PaymentSchedule> generatePaySchedule() {
+    public ArrayList<PaymentSchedule> generatePaySchedule(int customOwed) {
         /*
         * This method uses the following fields
         *
@@ -170,7 +170,8 @@ public class Client extends Auditable {
         // Starting variables
         var newDates = new HashSet<LocalDate>();
         var currentDate = paymentStartDate;
-        var owed = getAmountOwed();
+        var owed = customOwed > 0 ? customOwed : getAmountOwed();
+        System.out.println("Amount owed at start of payment calculations: " + getAmountOwed());
 
         // Generate the list of new days
         while (owed > 0) {
@@ -192,6 +193,8 @@ public class Client extends Auditable {
             owed -= paymentAmount;
             newDates.add(currentDate);
         }
+        System.out.println("Amount owed at end of payment calculations: " + getAmountOwed());
+        System.out.println("There should be no change");
 
         // remove any dates that have not passed from schedule to add new schedule
         /*
