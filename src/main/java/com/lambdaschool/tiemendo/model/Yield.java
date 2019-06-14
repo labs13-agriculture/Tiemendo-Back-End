@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.models.auth.In;
 
@@ -29,7 +30,7 @@ public class Yield extends Auditable {
 
     @ManyToOne
     @JoinColumn(name="farmer_id")
-    @JsonIgnoreProperties("yieldHistory")
+    @JsonIgnore
     private Farmer farmer;
 
     public Yield() {
