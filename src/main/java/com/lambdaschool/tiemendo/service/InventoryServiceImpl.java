@@ -2,6 +2,7 @@ package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Inventory;
+import com.lambdaschool.tiemendo.model.ItemType;
 import com.lambdaschool.tiemendo.repository.InventoryRepository;
 import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
 import org.springframework.stereotype.Service;
@@ -39,17 +40,24 @@ public class InventoryServiceImpl implements InventoryService{
 
     @Override
     public ArrayList<Inventory> add(Inventory i) {
+        ItemType it = itemRepo.save(new ItemType(i.getItem().getName()));
+        i.setItem(it);
         invRepo.save(i);
         return findAll();
     }
 
     @Override
     public ArrayList<Inventory> update(Inventory i) {
-        // currently only changes qty... is there anything else we should change?
-        Inventory current = findById(i.getInvid());
-        if (i.getQuantity() != current.getQuantity()) {
-            current.setQuantity(i.getQuantity());
+        // get the associated item type and update active
+        ItemType it = itemRepo.findByNameIgnoreCase(i.getItem().getName());
+        if (i.getItem().getActive() != it.getActive()) {
+            it.setActive(i.getItem().getActive());
         }
+
+        Inventory current = findById(i.getInvid());
+        current.setQuantity(i.getQuantity());
+
+        i.setItem(it);
         invRepo.save(current);
         return findAll();
     }
@@ -57,7 +65,9 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public ArrayList<Inventory> delete(long id) {
         Inventory i = findById(id);
+        ItemType it = i.getItem();
         invRepo.delete(i);
+        itemRepo.delete(it);
         return findAll();
     }
 }
