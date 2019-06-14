@@ -19,6 +19,8 @@ public interface RoleRepository extends PagingAndSortingRepository<Role, Long>
     @Query(value = "INSERT INTO UserRoles(userid, roleid) values (:userid, :roleid)", nativeQuery = true)
     void insertUserRoles(long userid, long roleid);
 
+
+
     Role findRoleByName(String name);
 
 }

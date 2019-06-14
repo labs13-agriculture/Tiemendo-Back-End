@@ -95,7 +95,8 @@ public class OrganizationServiceImpl implements OrganizationService
     public Organization save(Organization organization)
     {
         Organization newOrganization = new Organization();
-
+        
+        newOrganization.setName(organization.getName());
         newOrganization.setBeneficiaries(organization.getBeneficiaries());
         newOrganization.setHeadquarters(organization.getHeadquarters());
 

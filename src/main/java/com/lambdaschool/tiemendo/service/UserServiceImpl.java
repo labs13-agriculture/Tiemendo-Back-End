@@ -30,6 +30,9 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Autowired
     private RoleRepository rolerepos;
 
+    @Autowired
+    private  UserService userService;
+
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
@@ -83,43 +86,37 @@ public class UserServiceImpl implements UserDetailsService, UserService
         user.getUserRoles().iterator().forEachRemaining(u ->
         {
             u.setUser(newUser);
+            Role r = rolerepos.findRoleByName(u.getRole().getName());
+            u.setRole(r);
             roleslist.add(u);
         });
 
-        newUser.setUserRoles(user.getUserRoles());
+        newUser.setUserRoles(roleslist);
 
         User userSaved = userrepos.save(newUser);
         return userSaved;
 
-//        Role r = rolerepos.findRoleByName("user");
-//        newRoles.add(new UserRoles(newUser, r));
-//
-//        return userrepos.save(newUser);
+
 
     }
 
-        //        for (UserRoles ur : user.getUserRoles())
-//        {
-//            newRoles.add(new UserRoles(newUser, ur.getRole()));
-//        }
-//        newUser.setUserRoles(newRoles);
-//
-//        return userrepos.save(newUser);
+
 
     @Transactional
     @Override
     public User update(User user, long id)
     {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = userrepos.findByUsername(authentication.getName());
+
+        User currentUser = userrepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
 
         if (currentUser != null)
         {
-            if (id == currentUser.getUserid())
-            {
+
+
                 if (user.getUsername() != null)
                 {
                     currentUser.setUsername(user.getUsername());
+
                 }
 
                 if (user.getPassword() != null)
@@ -129,28 +126,31 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
                 if (user.getUserRoles().size() > 0)
                 {
-                    // with so many relationships happening, I decided to go
-                    // with old school queries
-                    // delete the old ones
+
+
                     rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
 
-                    // add the new ones
+
                     for (UserRoles ur : user.getUserRoles())
                     {
-                        rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
+
+                        Role r = rolerepos.findRoleByName(ur.getRole().getName());
+
+                        rolerepos.insertUserRoles(currentUser.getUserid(),r.getRoleid());
+                        //Updating user roles in this fashion currently results in null audit records on the
+                        //record of interest in the userroles table
                     }
+
+
                 }
 
                 return userrepos.save(currentUser);
-            }
-            else
-            {
-                throw new EntityNotFoundException(Long.toString(id) + " Not current user");
-            }
+
+
         }
         else
         {
-            throw new EntityNotFoundException(authentication.getName());
+            throw new EntityNotFoundException(Long.toString(id));
         }
 
     }
