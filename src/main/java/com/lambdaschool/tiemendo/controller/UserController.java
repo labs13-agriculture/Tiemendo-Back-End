@@ -37,6 +37,14 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/username/{username}", produces = {"application/json"})
+    public ResponseEntity<?> getUserByNameIgnoreCase(@PathVariable String username)
+    {
+        String upperCase = username.toUpperCase();
+        List<User> u = userService.findUsersByUsernameIsLike(upperCase);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/newuser", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<?> createUser(@Valid @RequestBody User newuser) throws URISyntaxException
     {

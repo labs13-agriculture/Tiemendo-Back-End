@@ -1,10 +1,9 @@
 package com.lambdaschool.tiemendo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
-import static org.hibernate.annotations.CascadeType.DELETE;
 
 
 import javax.persistence.*;
@@ -24,27 +23,21 @@ public class Organization extends Auditable
     private boolean isLead;
     private String headquarters;
     private int beneficiaries;
-
-
-    @OneToMany(mappedBy = "organization")
-    @JsonIgnoreProperties("organization")
-    private List<OrganizationLocation> organizationlocations = new ArrayList<>();
     
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
     @Cascade(SAVE_UPDATE)
-    @JsonIgnoreProperties("organization")
-    private List<OrganizationContact> organizationcontacts = new ArrayList<>();
+    @JsonIgnore
+    private List<OrganizationBranch> branches = new ArrayList<>();
 
     public Organization() {
     }
 
-    public Organization(String name, boolean isLead, String headquarters, int beneficiaries, List<OrganizationLocation> organizationlocations, List<OrganizationContact> organizationcontacts) {
+    public Organization(String name, boolean isLead, String headquarters, int beneficiaries, List<OrganizationBranch> branches) {
         this.name = name;
         this.isLead = isLead;
         this.headquarters = headquarters;
         this.beneficiaries = beneficiaries;
-        this.organizationlocations = organizationlocations;
-        this.organizationcontacts = organizationcontacts;
+        this.branches = branches;
     }
 
     public long getId() {
@@ -87,19 +80,11 @@ public class Organization extends Auditable
         this.beneficiaries = beneficiaries;
     }
 
-    public List<OrganizationLocation> getOrganizationlocations() {
-        return organizationlocations;
+    public List<OrganizationBranch> getOrganizationcontacts() {
+        return branches;
     }
 
-    public void setOrganizationlocations(List<OrganizationLocation> organizationlocations) {
-        this.organizationlocations = organizationlocations;
-    }
-
-    public List<OrganizationContact> getOrganizationcontacts() {
-        return organizationcontacts;
-    }
-
-    public void setOrganizationcontacts(List<OrganizationContact> organizationcontacts) {
-        this.organizationcontacts = organizationcontacts;
+    public void setOrganizationcontacts(List<OrganizationBranch> branches) {
+        this.branches = branches;
     }
 }

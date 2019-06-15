@@ -5,6 +5,7 @@ import com.lambdaschool.tiemendo.model.ItemType;
 
 import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,12 @@ public class ItemTypeServiceImpl implements ItemTypeService
     @Autowired
     private ItemTypeRepository itemTypeRepository;
 
-    @Autowired
-    private ItemTypeService itemTypeService;
-
     @Transactional
     @Override
-    public List<ItemType> findAll()
+    public List<ItemType> findAll(Pageable pageable)
     {
         List<ItemType> list = new ArrayList<>();
-        itemTypeRepository.findAll().iterator().forEachRemaining(list::add);
+        itemTypeRepository.findAll(pageable).iterator().forEachRemaining(list::add);
         return list;
     }
 
@@ -43,17 +41,13 @@ public class ItemTypeServiceImpl implements ItemTypeService
 
     @Override
     public ItemType save(ItemType itemType) {
-
-
             return itemTypeRepository.save(itemType);
 
     }
 
     @Override
     public ItemType update(ItemType itemType, long id) {
-        ItemType currentItemType = itemTypeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
-
+        ItemType currentItemType = findItemTypeById(id);
 
         if (itemType.getName() != null)
         {
@@ -65,9 +59,8 @@ public class ItemTypeServiceImpl implements ItemTypeService
             currentItemType.setActive(itemType.getActive());
         }
 
-        if (itemType.getTransactions() != null)
-        {
-            currentItemType.setTransactions(itemType.getTransactions());
+        if(itemType.getQuantity() != currentItemType.getQuantity()) {
+            currentItemType.setQuantity(itemType.getQuantity());
         }
 
         return itemTypeRepository.save(currentItemType);

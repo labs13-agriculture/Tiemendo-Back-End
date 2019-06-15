@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name="transactions")
-public class Transaction {
+public class Transaction extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //    Transaction ID
@@ -23,15 +24,15 @@ public class Transaction {
     private Date date;
 //    Inputs bought:
 //    Item name + Quantity
-    @OneToMany(mappedBy="transaction", cascade=CascadeType.ALL)
-    @JsonIgnoreProperties("transaction")
+    @OneToMany(mappedBy="transaction", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<TransactionItem> inputs = new ArrayList<>();
 //    Sales personnel (officer who make the payments for the farmer)
     private String personnel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="client")
-    @JsonIgnoreProperties("transactions")
+    @JsonIgnore
     private Client client;
 
     public Transaction() {
