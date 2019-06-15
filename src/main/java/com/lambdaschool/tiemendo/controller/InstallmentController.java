@@ -4,6 +4,8 @@ import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Installment;
 import com.lambdaschool.tiemendo.service.InstallmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/installments")
 public class InstallmentController
 {
 
@@ -21,15 +24,15 @@ public class InstallmentController
     private InstallmentService installmentService;
 
 
-    @GetMapping(value = "/installment-list", produces = {"application/json"})
-    public ResponseEntity<?> listAllInstallments()
+    @GetMapping(value = "/installment-list/{clientid}", produces = {"application/json"})
+    public ResponseEntity<?> listAllInstallments(@PageableDefault(size=50, sort={"date"}) Pageable pageable)
     {
         List<Installment> myInstallment = installmentService.findAll();
         return new ResponseEntity<>(myInstallment, HttpStatus.OK);
     }
 
 
-    @GetMapping(value = "/installment/{installmentId}", produces = {"application/json"})
+    @GetMapping(value = "/{installmentId}", produces = {"application/json"})
     public ResponseEntity<?> getInstallmentById(@PathVariable Long installmentId)
     {
         Installment i = installmentService.findInstallmentById(installmentId);

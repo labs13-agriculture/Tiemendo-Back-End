@@ -1,18 +1,19 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 /*
  *
- *  These Transaction items tie a transaction, a qty, and an Inventory item
+ *  These Transaction items tie a transaction, a qty, and an Item Type
  *
  */
 
 @Entity
 @Table(name="transaction_item")
-public class TransactionItem {
+public class TransactionItem extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,9 @@ public class TransactionItem {
     @JsonIgnoreProperties("transactions")
     private ItemType item;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="transaction")
-    @JsonIgnoreProperties("inputs")
+    @JsonIgnore
     private Transaction transaction;
 
     public TransactionItem() {
@@ -41,8 +42,7 @@ public class TransactionItem {
         this.transaction = transaction;
     }
 
-    //didn't have a constructor with unitProce
-
+    //didn't have a constructor with unitPrice
     public TransactionItem(Integer quantity, Double unitPrice, ItemType item, Transaction transaction) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;

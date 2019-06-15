@@ -1,5 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -39,18 +40,15 @@ public class Client extends Auditable {
     private String email;
 
     // Transactions
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("client")
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
     // Installments
 
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("client")
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Installment> installments = new ArrayList<>();
 
-    @OneToMany(mappedBy="client", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("client")
-    private List<Yield> goals = new ArrayList<>();
     //TODO PaymentSchedule
 
 
@@ -234,13 +232,5 @@ public class Client extends Auditable {
 
     public void setInstallments(List<Installment> installments) {
         this.installments = installments;
-    }
-
-    public List<Yield> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Yield> goals) {
-        this.goals = goals;
     }
 }

@@ -1,38 +1,40 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
-import static org.hibernate.annotations.CascadeType.DELETE;
-import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
-
 @Entity
 @Table(name = "organizationcontacts")
-public class OrganizationContact
+public class OrganizationBranch extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long organizationcontactid;
-    
+    private long branch_id;
+
+    // Organization Branch Contact Info
     private String name;
     private String phone;
     private String email;
     private String position;
+
+    // Organization Branch Location Info
+    private String address;
+    private String district;
+    private String region;
+    private String landmark;
     
     @ManyToOne
-            //(cascade = CascadeType.ALL)
     @JoinColumn(name = "organizationcontacts")
-    @JsonIgnoreProperties("organizationcontacts")
-
+    @JsonIgnore
     private Organization organization;
     
-    public OrganizationContact()
+    public OrganizationBranch()
     {
     }
     
-    public OrganizationContact(String name, String phone, String email, String position, Organization organization)
+    public OrganizationBranch(String name, String phone, String email, String position, Organization organization)
     {
         this.name = name;
         this.phone = phone;
@@ -40,17 +42,19 @@ public class OrganizationContact
         this.position = position;
         this.organization = organization;
     }
-    
-    public long getOrganizationcontactid()
-    {
-        return organizationcontactid;
+
+    public OrganizationBranch(String name, String phone, String email, String position, String address, String district, String region, String landmark, Organization organization) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.position = position;
+        this.address = address;
+        this.district = district;
+        this.region = region;
+        this.landmark = landmark;
+        this.organization = organization;
     }
-    
-    public void setOrganizationcontactid(long organizationcontactid)
-    {
-        this.organizationcontactid = organizationcontactid;
-    }
-    
+
     public String getName()
     {
         return name;

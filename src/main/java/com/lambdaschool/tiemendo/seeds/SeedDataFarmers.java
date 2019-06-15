@@ -16,16 +16,12 @@ import java.util.Date;
 public class SeedDataFarmers implements CommandLineRunner
 {
     private ClientRepository clientRepo;
-    private CropTypeRepository cropRepo;
     private ItemTypeRepository itemRepo;
-    private YieldRepository yieldRepo;
 
 
-    public SeedDataFarmers(ClientRepository clientRepo, CropTypeRepository cropRepo, ItemTypeRepository itemRepo, YieldRepository yieldRepo) {
+    public SeedDataFarmers(ClientRepository clientRepo, ItemTypeRepository itemRepo) {
         this.clientRepo = clientRepo;
-        this.cropRepo = cropRepo;
         this.itemRepo = itemRepo;
-        this.yieldRepo = yieldRepo;
     }
 
     @Override
@@ -36,8 +32,6 @@ public class SeedDataFarmers implements CommandLineRunner
         //Farmer SEEDING
 
         // create other objects needed for farmer seed data
-        // create CropTypes for yield data
-        CropType corn = cropRepo.findByCropName("Maize");
         // create ItemTypes for Transaction data
         ItemType sack = itemRepo.findByNameIgnoreCase("Knapsack");
         ItemType urea = itemRepo.findByNameIgnoreCase("Urea");
@@ -83,17 +77,6 @@ public class SeedDataFarmers implements CommandLineRunner
             farmers.add(farmer);
         }
 
-//        System.out.println("Adding Yield History to Farmers");
-//
-//        Yield y1 = new Yield(21, corn, 25, 2, "2020", f1);
-//        Yield y2 = new Yield(26, corn, 25, 2, "2019", f1);
-//        Yield y3 = new Yield(18, corn, 25, 2, "2018", f1);
-//        Yield y4 = new Yield(12, corn, 25, 2, "2017", f1);
-//        ArrayList<Yield> yields = new ArrayList(Arrays.asList(y1, y2, y3, y4));
-//        //yieldRepo.saveAll(yields);
-//        f1.getYieldHistory().addAll(yields);
-//
-//
 //        System.out.println("adding installment history for farmer");
 //        Installment insstall1 = new Installment(10.50, new Date(), "MTN", "Joshua", f1);
 //        Installment insstall2 = new Installment(11.15, new Date(), "BANK", "Joshua", f1);
@@ -103,7 +86,6 @@ public class SeedDataFarmers implements CommandLineRunner
 //        f1.getInstallments().addAll(installments);
 
         clientRepo.saveAll(farmers);
-//        yieldRepo.saveAll(yields);
     }
 }
 

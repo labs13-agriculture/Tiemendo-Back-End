@@ -1,11 +1,10 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.OrganizationContact;
-import com.lambdaschool.tiemendo.model.OrganizationLocation;
-import com.lambdaschool.tiemendo.repository.OrganizationContactRepository;
-import com.lambdaschool.tiemendo.repository.OrganizationLocationRepository;
+import com.lambdaschool.tiemendo.model.OrganizationBranch;
+import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
 import com.lambdaschool.tiemendo.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +22,7 @@ public class OrganizationServiceImpl implements OrganizationService
     private OrganizationRepository organizationRepos;
 
     @Autowired
-    private OrganizationLocationRepository organizationLocationRepos;
-
-    @Autowired
-    private OrganizationContactRepository organizationContactRepos;
+    private OrganizationBranchRepository organizationContactRepos;
 
 
     @Override
@@ -38,20 +34,40 @@ public class OrganizationServiceImpl implements OrganizationService
     }
 
     @Override
-    public List<OrganizationContact> findAllContacts()
+    public List<OrganizationBranch> findAllBranches()
     {
-        List<OrganizationContact> list = new ArrayList<>();
+        List<OrganizationBranch> list = new ArrayList<>();
         organizationContactRepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
 
-
     @Override
-    public List<OrganizationLocation> findAllLocations()
+    public List<Organization> searchOrganizations(String name, String location, boolean lead) throws ResourceNotFoundException
     {
-        List<OrganizationLocation> list = new ArrayList<>();
-        organizationLocationRepos.findAll().iterator().forEachRemaining(list::add);
-        return list;
+        String wildcardName = "%" + name + "%";
+        String wildcardLocation = "%" + location + "%";
+
+        List<Organization> searchResults = organizationRepos.searchOrganizations(wildcardName, wildcardLocation, lead);
+        if(searchResults.size() == 0)
+        {
+            throw new ResourceNotFoundException("No Organizations found");
+        }
+
+        //Query still returns duplicates, for now will filter here, modifying query in future would propbably be more performant
+        List<Long> existing = new ArrayList<>();
+        List<Organization> filteredResults = new ArrayList<>();
+
+        for(Organization o : searchResults)
+        {
+            //If id hasn't been added to existing list
+            if(!existing.contains(o.getId()))
+            {
+                existing.add(o.getId());
+                filteredResults.add(o);
+            }
+        }
+
+        return filteredResults;
     }
 
     @Override
@@ -70,27 +86,17 @@ public class OrganizationServiceImpl implements OrganizationService
         newOrganization.setHeadquarters(organization.getHeadquarters());
 
         // ArrayList to hold new contacts
-        List<OrganizationContact> contactlist = new ArrayList<>();
+        List<OrganizationBranch> contactlist = new ArrayList<>();
         organization.getOrganizationcontacts().iterator().forEachRemaining(c ->
         {
         c.setOrganization(newOrganization);
         contactlist.add(c);
         });
 
-        List<OrganizationLocation> locationlist = new ArrayList<>();
-        organization.getOrganizationlocations().iterator().forEachRemaining(l ->
-        {
-            l.setOrganization(newOrganization);
-            locationlist.add(l);
-        });
-
         newOrganization.setOrganizationcontacts(organization.getOrganizationcontacts());
-        newOrganization.setOrganizationlocations(organization.getOrganizationlocations());
-
 
         Organization organizationSaved = organizationRepos.save(newOrganization);
         organizationContactRepos.saveAll(contactlist);
-        organizationLocationRepos.saveAll(locationlist);
 
         return organizationSaved;
     }
@@ -117,24 +123,11 @@ public class OrganizationServiceImpl implements OrganizationService
 
     @Transactional
     @Override
-    public void deleteContact(long id) throws EntityNotFoundException
+    public void deleteBranch(long id) throws EntityNotFoundException
     {
         if(organizationContactRepos.findById(id).isPresent())
         {
             organizationContactRepos.deleteById(id);
-        } else
-        {
-            throw new EntityNotFoundException(Long.toString(id));
-        }
-    }
-
-    @Transactional
-    @Override
-    public void deleteLocation(long id) throws EntityNotFoundException
-    {
-        if(organizationLocationRepos.findById(id).isPresent())
-        {
-            organizationLocationRepos.deleteById(id);
         } else
         {
             throw new EntityNotFoundException(Long.toString(id));

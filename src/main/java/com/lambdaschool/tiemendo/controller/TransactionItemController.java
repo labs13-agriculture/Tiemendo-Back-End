@@ -1,6 +1,5 @@
 package com.lambdaschool.tiemendo.controller;
 
-import com.lambdaschool.tiemendo.model.Transaction;
 import com.lambdaschool.tiemendo.model.TransactionItem;
 import com.lambdaschool.tiemendo.repository.TransactionItemRepository;
 import com.lambdaschool.tiemendo.service.TransactionItemService;
@@ -20,7 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/transaction-item")
 public class TransactionItemController {
-
+/*
+*
+*   I wonder if we even need this? when will be accessing a Transaction Item by itself
+*
+* */
 
 
     @Autowired

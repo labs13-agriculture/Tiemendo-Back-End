@@ -1,8 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.OrganizationContact;
-import com.lambdaschool.tiemendo.model.OrganizationLocation;
+import com.lambdaschool.tiemendo.model.OrganizationBranch;
 
 import java.util.List;
 
@@ -11,9 +10,9 @@ public interface OrganizationService
 
     List<Organization> findAll();
 
-    List<OrganizationContact> findAllContacts();
+    List<OrganizationBranch> findAllBranches();
 
-    List<OrganizationLocation> findAllLocations();
+    List<Organization> searchOrganizations(String name, String location, boolean lead);
 
     Organization findOrganizationById(long id);
 
@@ -23,8 +22,5 @@ public interface OrganizationService
 
     void delete(long id);
 
-    void deleteContact(long id);
-
-    void deleteLocation(long id);
-
+    void deleteBranch(long id);
 }

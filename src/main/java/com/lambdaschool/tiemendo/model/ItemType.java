@@ -1,6 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name="inventory_item")
-public class ItemType {
+public class ItemType extends Auditable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
@@ -27,8 +27,11 @@ public class ItemType {
     private String name;
     private Boolean active = true;
 
-    @OneToMany(mappedBy = "item")
-    @JsonIgnoreProperties("item")
+    // this helps with checking inventory
+    private int quantity;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<TransactionItem> transactions = new ArrayList<>();
 
     public ItemType() {
@@ -70,6 +73,11 @@ public class ItemType {
         this.transactions = transactions;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
 
-
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

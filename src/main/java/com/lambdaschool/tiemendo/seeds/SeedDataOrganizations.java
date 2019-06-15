@@ -1,9 +1,9 @@
 //package com.lambdaschool.tiemendo.seeds;
 //
 //import com.lambdaschool.tiemendo.model.Organization;
-//import com.lambdaschool.tiemendo.model.OrganizationContact;
+//import com.lambdaschool.tiemendo.model.OrganizationBranch;
 //import com.lambdaschool.tiemendo.model.OrganizationLocation;
-//import com.lambdaschool.tiemendo.repository.OrganizationContactRepository;
+//import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
 //import com.lambdaschool.tiemendo.repository.OrganizationLocationRepository;
 //import com.lambdaschool.tiemendo.repository.OrganizationRepository;
 //import org.springframework.boot.CommandLineRunner;
@@ -18,12 +18,12 @@
 //public class SeedDataOrganizations implements CommandLineRunner
 //{
 //    private OrganizationRepository organizationRepository;
-//    private OrganizationContactRepository organizationContactRepository;
+//    private OrganizationBranchRepository organizationContactRepository;
 //    private OrganizationLocationRepository organizationLocationRepository;
 //
 //
 //
-//    public SeedDataOrganizations(OrganizationRepository organizationRepository, OrganizationContactRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
+//    public SeedDataOrganizations(OrganizationRepository organizationRepository, OrganizationBranchRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
 //    {
 //        this.organizationRepository = organizationRepository;
 //        this.organizationContactRepository = organizationContactRepository;
@@ -36,8 +36,8 @@
 //    {
 //        System.out.println("Seeding Organizations Data");
 //        //ORGANIZATION TESTING BELOW
-//        OrganizationContact oc1 = new OrganizationContact("Denise", "111-555-1234", "email@example.com", "Fundraising director", new Organization());
-//        List<OrganizationContact> oc1list = new ArrayList<>();
+//        OrganizationBranch oc1 = new OrganizationBranch("Denise", "111-555-1234", "email@example.com", "Fundraising director", new Organization());
+//        List<OrganizationBranch> oc1list = new ArrayList<>();
 //        oc1list.add(oc1);
 //
 //        OrganizationLocation ol1 = new OrganizationLocation("555 Organization Road", "Org town", "North side", "4-way intersection", new Organization());

@@ -2,9 +2,13 @@ package com.lambdaschool.tiemendo.repository;
 
 
 import com.lambdaschool.tiemendo.model.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface UserRepository extends CrudRepository<User, Long>
+import java.util.List;
+
+public interface UserRepository extends PagingAndSortingRepository<User, Long>
 {
     User findByUsername(String username);
+
+    List<User> findUsersByUsernameIsLike(String username);
 }

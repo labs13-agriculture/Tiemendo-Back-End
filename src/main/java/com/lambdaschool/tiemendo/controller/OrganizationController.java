@@ -1,8 +1,7 @@
 package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.OrganizationContact;
-import com.lambdaschool.tiemendo.model.OrganizationLocation;
+import com.lambdaschool.tiemendo.model.OrganizationBranch;
 import com.lambdaschool.tiemendo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,16 +33,20 @@ public class OrganizationController
     @GetMapping(value = "/contacts-list", produces = {"application/json"})
     public ResponseEntity<?> listAllContacts()
     {
-        List<OrganizationContact> myContact = organizationService.findAllContacts();
+        List<OrganizationBranch> myContact = organizationService.findAllBranches();
         return new ResponseEntity<>(myContact, HttpStatus.OK);
     }
-    // GET ALL LOCATIONS
-    @GetMapping(value = "/locations-list", produces = {"application/json"})
-    public ResponseEntity<?> listAllLocations()
+
+    // SEARCH
+    @GetMapping(value = "/search", produces = {"application/json"})
+    public ResponseEntity<?> orgSearch(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue="") String location,
+            @RequestParam(defaultValue = "false") boolean lead)
     {
-        List<OrganizationLocation> myLocation = organizationService.findAllLocations();
-        return new ResponseEntity<>(myLocation, HttpStatus.OK);
+        return new ResponseEntity<>(organizationService.searchOrganizations(name, location, lead), HttpStatus.OK);
     }
+
     // GET ORGANIZATION BY ID
     @GetMapping(value = "/{organizationId}", produces = {"application/json"})
     public ResponseEntity<?> getOrganizationById(@PathVariable Long organizationId)
@@ -74,14 +77,7 @@ public class OrganizationController
     @DeleteMapping("/contact/{contactId}")
     public ResponseEntity<?> deleteContactById(@PathVariable Long contactId)
     {
-        organizationService.deleteContact(contactId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    // DELETE LOCATION BY ID
-    @DeleteMapping("/location/{locationId}")
-    public ResponseEntity<?> deleteLocationById(@PathVariable Long locationId)
-    {
-        organizationService.deleteLocation(locationId);
+        organizationService.deleteBranch(contactId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

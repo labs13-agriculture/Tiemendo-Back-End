@@ -7,8 +7,6 @@ import com.lambdaschool.tiemendo.model.UserRoles;
 import com.lambdaschool.tiemendo.repository.RoleRepository;
 import com.lambdaschool.tiemendo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -55,6 +53,11 @@ public class UserServiceImpl implements UserDetailsService, UserService
     }
 
     @Override
+    public List<User> findUsersByUsernameIsLike(String user) {
+        return userrepos.findUsersByUsernameIsLike(user);
+    }
+
+    @Override
     public void delete(long id)
     {
         if (userrepos.findById(id).isPresent())
@@ -83,6 +86,8 @@ public class UserServiceImpl implements UserDetailsService, UserService
         user.getUserRoles().iterator().forEachRemaining(u ->
         {
             u.setUser(newUser);
+            Role r = rolerepos.findRoleByName(u.getRole().getName());
+            u.setRole(r);
             roleslist.add(u);
         });
 
@@ -91,67 +96,39 @@ public class UserServiceImpl implements UserDetailsService, UserService
         User userSaved = userrepos.save(newUser);
         return userSaved;
 
-//        Role r = rolerepos.findRoleByName("user");
-//        newRoles.add(new UserRoles(newUser, r));
-//
-//        return userrepos.save(newUser);
-
     }
-
-        //        for (UserRoles ur : user.getUserRoles())
-//        {
-//            newRoles.add(new UserRoles(newUser, ur.getRole()));
-//        }
-//        newUser.setUserRoles(newRoles);
-//
-//        return userrepos.save(newUser);
 
     @Transactional
     @Override
     public User update(User user, long id)
     {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = userrepos.findByUsername(authentication.getName());
-
-        if (currentUser != null)
+        User currentUser = findUserById(id);
+        if (user.getUsername() != null)
         {
-            if (id == currentUser.getUserid())
+            currentUser.setUsername(user.getUsername());
+        }
+
+        if (user.getPassword() != null)
+        {
+            currentUser.setPasswordNoEncrypt(user.getPassword());
+        }
+
+        if (user.getUserRoles().size() > 0)
+        {
+            // with so many relationships happening, I decided to go
+            // with old school queries
+            // delete the old ones
+            rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
+
+            // add the new ones
+            for (UserRoles ur : user.getUserRoles())
             {
-                if (user.getUsername() != null)
-                {
-                    currentUser.setUsername(user.getUsername());
-                }
-
-                if (user.getPassword() != null)
-                {
-                    currentUser.setPasswordNoEncrypt(user.getPassword());
-                }
-
-                if (user.getUserRoles().size() > 0)
-                {
-                    // with so many relationships happening, I decided to go
-                    // with old school queries
-                    // delete the old ones
-                    rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
-
-                    // add the new ones
-                    for (UserRoles ur : user.getUserRoles())
-                    {
-                        rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
-                    }
-                }
-
-                return userrepos.save(currentUser);
-            }
-            else
-            {
-                throw new EntityNotFoundException(Long.toString(id) + " Not current user");
+                Role r = rolerepos.findRoleByName(ur.getRole().getName());
+                rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
             }
         }
-        else
-        {
-            throw new EntityNotFoundException(authentication.getName());
-        }
+
+        return userrepos.save(currentUser);
 
     }
 }

@@ -1,10 +1,12 @@
 package com.lambdaschool.tiemendo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Installment{
+public class Installment extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -18,8 +20,9 @@ public class Installment{
 //    Officer who logged the farmer’s payment
     private String officer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="client")
+    @JsonIgnore
     private Client client;
 
     public Installment() {
