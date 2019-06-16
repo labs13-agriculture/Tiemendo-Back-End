@@ -1,69 +1,58 @@
-package com.lambdaschool.tiemendo.seeds;
-
-import com.github.javafaker.Faker;
-import com.lambdaschool.tiemendo.model.Organization;
-import com.lambdaschool.tiemendo.model.OrganizationBranch;
-import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
-import com.lambdaschool.tiemendo.repository.OrganizationRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-
-@Transactional
-@Component
-public class SeedDataOrganizations implements CommandLineRunner
-{
-    private OrganizationRepository organizationRepository;
-    private OrganizationBranchRepository orgBranchRepo;
-
-
-
-    public SeedDataOrganizations(OrganizationRepository organizationRepository, OrganizationBranchRepository orgBranchRepo)
-    {
-        this.organizationRepository = organizationRepository;
-        this.orgBranchRepo = orgBranchRepo;
-
-    }
-
-    @Override
-    public void run(String[] args) throws Exception
-    {
-        System.out.println("Seeding Organizations Data");
-
-        var f = new Faker();
-
-        // no for Number Organizations
-        for (var no=0; no<10; no++){
-            var org = new Organization(
-                    f.company().name(),
-                    f.bool().bool(),
-                    f.address().fullAddress(),
-                    f.number().numberBetween(20,100)
-            );
-
-            org = organizationRepository.save(org);
-
-            // nb for number of branches
-            for(var nb=0; nb<5; nb++) {
-                var branch = new OrganizationBranch(
-                        f.harryPotter().character(),
-                        f.phoneNumber().cellPhone(),
-                        f.internet().emailAddress(),
-                        f.options().option("CEO", "Director", "Sales", "Organizer"),
-                        f.address().streetAddress(),
-                        f.address().city(),
-                        f.address().state(),
-                        f.harryPotter().location(),
-                        org
-                );
-
-                org.getBranches().add(orgBranchRepo.save(branch));
-            }
-        }
-
-    }
-}
-
+//package com.lambdaschool.tiemendo.seeds;
+//
+//import com.lambdaschool.tiemendo.model.Organization;
+//import com.lambdaschool.tiemendo.model.OrganizationBranch;
+//import com.lambdaschool.tiemendo.model.OrganizationLocation;
+//import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
+//import com.lambdaschool.tiemendo.repository.OrganizationLocationRepository;
+//import com.lambdaschool.tiemendo.repository.OrganizationRepository;
+//import org.springframework.boot.CommandLineRunner;
+//import org.springframework.stereotype.Component;
+//
+//import javax.transaction.Transactional;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//@Transactional
+//@Component
+//public class SeedDataOrganizations implements CommandLineRunner
+//{
+//    private OrganizationRepository organizationRepository;
+//    private OrganizationBranchRepository organizationContactRepository;
+//    private OrganizationLocationRepository organizationLocationRepository;
+//
+//
+//
+//    public SeedDataOrganizations(OrganizationRepository organizationRepository, OrganizationBranchRepository organizationContactRepository, OrganizationLocationRepository organizationLocationRepository)
+//    {
+//        this.organizationRepository = organizationRepository;
+//        this.organizationContactRepository = organizationContactRepository;
+//        this.organizationLocationRepository = organizationLocationRepository;
+//
+//    }
+//
+//    @Override
+//    public void run(String[] args) throws Exception
+//    {
+//        System.out.println("Seeding Organizations Data");
+//        //ORGANIZATION TESTING BELOW
+//        OrganizationBranch oc1 = new OrganizationBranch("Denise", "111-555-1234", "email@example.com", "Fundraising director", new Organization());
+//        List<OrganizationBranch> oc1list = new ArrayList<>();
+//        oc1list.add(oc1);
+//
+//        OrganizationLocation ol1 = new OrganizationLocation("555 Organization Road", "Org town", "North side", "4-way intersection", new Organization());
+//        List<OrganizationLocation> ol1list = new ArrayList<>();
+//        ol1list.add(ol1);
+//
+//        Organization o1 = new Organization("FarmersOnly", false, ol1list, "", 17, oc1list);
+//
+//        oc1.setOrganization(o1);
+//        ol1.setOrganization(o1);
+//
+//        organizationRepository.save(o1);
+//        organizationContactRepository.save(oc1);
+//        organizationLocationRepository.save(ol1);
+//
+//    }
+//}
+//

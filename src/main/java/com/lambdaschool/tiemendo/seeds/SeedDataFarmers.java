@@ -28,7 +28,7 @@ public class SeedDataFarmers implements CommandLineRunner
     public void run(String[] args)
     {
         Faker f = new Faker();
-        System.out.println("Seeding Farmer and Retailer Data");
+        System.out.println("Seeding Farmer Data");
         //Farmer SEEDING
 
         // create other objects needed for farmer seed data

@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Client extends Auditable {
     private long id;
     private boolean isLead;
     private String type;
+
     private long startyear;
 
     // Location Information
@@ -25,7 +27,7 @@ public class Client extends Auditable {
     private String community;
     private String landmark;
 
-    // Contact Information
+    // Contant Information
     private String title;
     private String name;
     private String gender;
@@ -36,7 +38,6 @@ public class Client extends Auditable {
     // todo passport picture
     private String phone;
     private String email;
-    // todo getOwed - calculates the totalOwed based on transactions and installments
 
     // Transactions
     @OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
