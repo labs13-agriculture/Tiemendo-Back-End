@@ -1,11 +1,6 @@
 package com.lambdaschool.tiemendo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-
-import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +20,17 @@ public class Organization extends Auditable
     private int beneficiaries;
     
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
-    @Cascade(SAVE_UPDATE)
     @JsonIgnore
     private List<OrganizationBranch> branches = new ArrayList<>();
 
     public Organization() {
     }
 
-    public Organization(String name, boolean isLead, String headquarters, int beneficiaries, List<OrganizationBranch> branches) {
+    public Organization(String name, boolean isLead, String headquarters, int beneficiaries) {
         this.name = name;
         this.isLead = isLead;
         this.headquarters = headquarters;
         this.beneficiaries = beneficiaries;
-        this.branches = branches;
     }
 
     public long getId() {
@@ -80,11 +73,11 @@ public class Organization extends Auditable
         this.beneficiaries = beneficiaries;
     }
 
-    public List<OrganizationBranch> getOrganizationcontacts() {
+    public List<OrganizationBranch> getBranches() {
         return branches;
     }
 
-    public void setOrganizationcontacts(List<OrganizationBranch> branches) {
+    public void setBranches(List<OrganizationBranch> branches) {
         this.branches = branches;
     }
 }

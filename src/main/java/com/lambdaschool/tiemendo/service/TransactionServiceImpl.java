@@ -3,13 +3,17 @@ package com.lambdaschool.tiemendo.service;
 
 
 import com.lambdaschool.tiemendo.model.Client;
+import com.lambdaschool.tiemendo.model.ItemType;
 import com.lambdaschool.tiemendo.model.Transaction;
 
 import com.lambdaschool.tiemendo.model.TransactionItem;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +26,16 @@ public class TransactionServiceImpl implements TransactionService
 {
     @Autowired
     TransactionRepository transactionRepository;
-
     @Autowired
     ClientRepository clientRepository;
+    @Autowired
+    ItemTypeRepository itemRepo;
 
 
     @Override
-    public List<Transaction> findAll(Pageable pageable)
+    public ArrayList<Transaction> findAll(Pageable pageable)
     {
-        List<Transaction> list = new ArrayList<>();
+        ArrayList<Transaction> list = new ArrayList<>();
         transactionRepository.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
@@ -53,29 +58,20 @@ public class TransactionServiceImpl implements TransactionService
 
     @Transactional
     @Override
-    public Client save(Transaction transaction,long id) {
-        Transaction newTransaction = new Transaction();
+    public ArrayList<Transaction> save(Transaction transaction,long id) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        transaction.setClient(client);
 
-
-        //this seemed to be a necessary work around. Changing the result of getInput to ArrayList in Transaction threw error about mapping to a non collection
-
-        ArrayList necessaryArrayList = new ArrayList();
-        List<TransactionItem> originalInputs = transaction.getInputs();
-
-        for(TransactionItem i: originalInputs) {
-            necessaryArrayList.add(i);
+        // Im thinking that by doing this we wont create any new Item types unnecessarily
+        for(TransactionItem ti: transaction.getInputs()) {
+            ItemType item = itemRepo.findByNameIgnoreCase(ti.getItem().getName());
+            ti.setItem(item);
         }
 
-        newTransaction.setInputs(necessaryArrayList);
-        newTransaction.setType(transaction.getType());
-        newTransaction.setPersonnel(transaction.getPersonnel());
-        newTransaction.setDate(transaction.getDate());
-        newTransaction.setClient(client);
+        transactionRepository.save(transaction);
 
-        client.getTransactions().add(newTransaction);
-
-        return clientRepository.save(client);
+        Pageable p = PageRequest.of(0, 25, Sort.Direction.ASC, "date");
+        return findAll(p);
 
     }
 

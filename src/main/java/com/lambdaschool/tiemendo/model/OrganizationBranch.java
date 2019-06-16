@@ -94,7 +94,47 @@ public class OrganizationBranch extends Auditable
     {
         this.position = position;
     }
-    
+
+    public long getBranch_id() {
+        return branch_id;
+    }
+
+    public void setBranch_id(long branch_id) {
+        this.branch_id = branch_id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getLandmark() {
+        return landmark;
+    }
+
+    public void setLandmark(String landmark) {
+        this.landmark = landmark;
+    }
+
     public Organization getOrganization()
     {
         return organization;

@@ -1,0 +1,9 @@
+Test endpoints
+
+Make every endpoints pageable
+Organization search
+Client search
+
+make sure we have all endpoints
+
+Adding tests and better documentation could be helpful to add in the future
