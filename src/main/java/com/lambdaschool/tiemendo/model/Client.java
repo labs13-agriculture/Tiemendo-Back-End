@@ -27,7 +27,8 @@ public class Client extends Auditable {
 
     // Contact Information
     private String title;
-    private String name;
+    private String firstName;
+    private String secondName;
     private String gender;
     private String nationality;
     private String dateofbirth;
@@ -55,11 +56,11 @@ public class Client extends Auditable {
     }
 
     public Client(String name) {
-        this.name = name;
+        this.firstName = name;
     }
 
     public Client(String name, boolean isLead) {
-        this.name = name;
+        this.firstName = name;
         this.isLead = isLead;
     }
 
@@ -68,7 +69,7 @@ public class Client extends Auditable {
         this.startyear = startyear;
         this.address = address;
         this.landmark = landmark;
-        this.name = name;
+        this.firstName = name;
         this.phone = phone;
         this.email = email;
     }
@@ -153,12 +154,20 @@ public class Client extends Auditable {
         this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getGender() {

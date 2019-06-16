@@ -3,11 +3,13 @@ package com.lambdaschool.tiemendo.controller;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/farmers")
@@ -26,15 +28,18 @@ public class FarmerController {
     }
 
     // Get all Farmers by Search
-    @PostMapping(value = "/search", consumes = "application/json", produces = "application/json")
+    @GetMapping(value = "/search", produces = "application/json")
     public ResponseEntity<?> searchFarmers(
+            @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String location,
             @RequestParam(defaultValue = "false") String lead
     ) {
         // todo: Figure out how this search is going to work.
-        // Needs to be pageable and search withing the contact and location objects
-        return new ResponseEntity<>("This feature not implemented", HttpStatus.OK);
+        var search = new HashMap<String, String>();
+        if (name != null && !name.equals("")) search.put("name", name);
+        if (location != null && !location.equals("")) search.put("location", location);
+        return new ResponseEntity<>(farmerService.search(pageable, search), HttpStatus.OK);
     }
 
     // Add Farmer

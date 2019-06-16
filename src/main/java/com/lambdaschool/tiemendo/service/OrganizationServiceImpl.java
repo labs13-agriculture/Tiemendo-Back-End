@@ -80,31 +80,28 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Organization save(Organization organization)
     {
-        Organization newOrganization = new Organization();
-
-        newOrganization.setBeneficiaries(organization.getBeneficiaries());
-        newOrganization.setHeadquarters(organization.getHeadquarters());
-
-        // ArrayList to hold new contacts
-        List<OrganizationBranch> contactlist = new ArrayList<>();
-        organization.getOrganizationcontacts().iterator().forEachRemaining(c ->
-        {
-        c.setOrganization(newOrganization);
-        contactlist.add(c);
-        });
-
-        newOrganization.setOrganizationcontacts(organization.getOrganizationcontacts());
-
-        Organization organizationSaved = organizationRepos.save(newOrganization);
-        organizationContactRepos.saveAll(contactlist);
-
-        return organizationSaved;
+        return organizationRepos.save(organization);
     }
 
     @Override
-    public Organization update(Organization organization, long id)
+    public Organization update(Organization org, long id)
     {
-        return organizationRepos.save(organization);
+        var current = findOrganizationById(id);
+
+        if (org.getName() != null) {
+            current.setName(org.getName());
+        }
+        if (org.isLead() != current.isLead()) {
+            current.setLead(org.isLead());
+        }
+        if (org.getBeneficiaries() != current.getBeneficiaries()) {
+            current.setBeneficiaries(org.getBeneficiaries());
+        }
+        if (org.getHeadquarters() != null) {
+            current.setHeadquarters(org.getHeadquarters());
+        }
+
+        return organizationRepos.save(current);
     }
 
 

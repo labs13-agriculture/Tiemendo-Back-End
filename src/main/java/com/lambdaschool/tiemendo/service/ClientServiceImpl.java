@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 @Service(value = "clientService")
@@ -23,12 +24,28 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ArrayList<Client> findAll(Pageable pageable) {
-        return null;
+        var clients = new ArrayList<Client>();
+        clientRepository.findAll(pageable).iterator().forEachRemaining(clients::add);
+        return clients;
     }
 
     @Override
     public ArrayList<Client> search(Pageable pageable, HashMap<String, String> searchFields) {
-        return null;
+        var results = new ArrayList<Client>();
+        var keys = searchFields.keySet();
+
+        if (keys.contains("name") && keys.contains("location")){
+            String loc = searchFields.get("location");
+            String name = searchFields.get("name");
+            clientRepository.searchByNameAndLocationFields(name, loc).iterator().forEachRemaining(results::add);
+        } else if (keys.contains("name")) {
+            String name = searchFields.get("name");
+            clientRepository.searchByNameFields(name).iterator().forEachRemaining(results::add);
+        } else if (keys.contains("location")) {
+            String loc = searchFields.get("location");
+            clientRepository.searchByLocationFields(loc).iterator().forEachRemaining(results::add);
+        }
+        return results;
     }
 
     @Override
@@ -40,20 +57,27 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client add(Client client) {
-        return null;
+        return clientRepository.save(client);
     }
 
     @Override
     public Client update(Client client) {
         Client current = findById(client.getId());
 
+
+        // TODO: Pull this logic out into an object util class for reusability
         // REFLECTION API!!!! THIS IS AMAZING
         // get names of all fields of given class
         var fields = Client.class.getDeclaredFields();
+        var ignore = new ArrayList<String>(Arrays.asList("transactions", "installments"));
         // iterate over the field names
         for(int i=0; i<fields.length; i++) {
             //save field name
             var field = fields[i].getName();
+
+            //If field name is in ignore list, continue to next field;
+            if (ignore.contains(field)) continue;
+
             try {
                 // get the property descriptor and of the class based on field name
                 PropertyDescriptor pd = new PropertyDescriptor(field, Client.class);
@@ -61,8 +85,7 @@ public class ClientServiceImpl implements ClientService {
                 Method getter = pd.getReadMethod();
                 // invokes the method on the given instance of a class
                 // after the class is the list of arguments if any
-                // if farmer.getField != null
-                // TODO make an array of field names to ignore?
+                // similar to if object.getField != null
                 if (getter.invoke(client) != null){
                     // get the setter method
                     Method setter = pd.getWriteMethod();
