@@ -10,6 +10,8 @@ public interface InstallmentService
 
     List<Installment> findAll();
 
+    List<Installment> findAllByClient(long id);
+
     Installment findInstallmentById(long id);
 
     Client save (Installment installment, Long id);
