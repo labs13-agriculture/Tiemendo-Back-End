@@ -18,6 +18,7 @@ public class Organization extends Auditable
     private boolean isLead;
     private String headquarters;
     private int beneficiaries;
+    // Todo: Organization Logo
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
     @JsonIgnore

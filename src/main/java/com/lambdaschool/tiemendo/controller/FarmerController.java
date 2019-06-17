@@ -35,10 +35,12 @@ public class FarmerController {
             @RequestParam(defaultValue = "") String location,
             @RequestParam(defaultValue = "false") String lead
     ) {
-        // todo: Figure out how this search is going to work.
         var search = new HashMap<String, String>();
         if (name != null && !name.equals("")) search.put("name", name);
         if (location != null && !location.equals("")) search.put("location", location);
+        // take this out and hardcode farmer
+        search.put("type", "FARMER");
+        search.put("lead", lead);
         return new ResponseEntity<>(farmerService.search(pageable, search), HttpStatus.OK);
     }
 

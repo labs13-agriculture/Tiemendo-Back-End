@@ -33,17 +33,29 @@ public class ClientServiceImpl implements ClientService {
     public ArrayList<Client> search(Pageable pageable, HashMap<String, String> searchFields) {
         var results = new ArrayList<Client>();
         var keys = searchFields.keySet();
+        var lead = false;
+        var type = "";
+
+        // TODO - add in implementation for pageable and sort
+
+        if (keys.contains("isLead") && searchFields.get("isLead") != null) {
+            lead = Boolean.valueOf(searchFields.get("isLead"));
+        }
+
+        if (keys.contains("type") && searchFields.get("type") != null) {
+            type = searchFields.get("isLead");
+        }
 
         if (keys.contains("name") && keys.contains("location")){
             String loc = searchFields.get("location");
             String name = searchFields.get("name");
-            clientRepository.searchByNameAndLocationFields(name, loc).iterator().forEachRemaining(results::add);
+            clientRepository.searchByNameAndLocationFields(name, loc, lead, type).iterator().forEachRemaining(results::add);
         } else if (keys.contains("name")) {
             String name = searchFields.get("name");
-            clientRepository.searchByNameFields(name).iterator().forEachRemaining(results::add);
+            clientRepository.searchByNameFields(name, lead, type).iterator().forEachRemaining(results::add);
         } else if (keys.contains("location")) {
             String loc = searchFields.get("location");
-            clientRepository.searchByLocationFields(loc).iterator().forEachRemaining(results::add);
+            clientRepository.searchByLocationFields(loc, lead, type).iterator().forEachRemaining(results::add);
         }
         return results;
     }

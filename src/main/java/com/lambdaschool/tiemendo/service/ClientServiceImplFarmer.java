@@ -12,7 +12,7 @@ public class ClientServiceImplFarmer extends ClientServiceImpl {
 
     /*
         Only overrides methods that have type specific implementation,
-        look in ClientServiceImpl for those methods
+        look in ClientServiceImpl for inherited methods
      */
 
     public ClientServiceImplFarmer(ClientRepository clientRepository) {

@@ -9,27 +9,22 @@ import java.util.List;
 
 public interface ClientRepository extends PagingAndSortingRepository<Client, Long>
 {
-    /*
-    List<Client> findClientsByFirstNameContainsOrSecondNameContainsIgnoreCase(String first, String second);
-    List<Client> findClientsByAddressContainsOrRegionContainsOrDistrictContainsOrCommunityContainsOrLandmarkContainsIgnoreCase(
-            String address, String region, String district, String community, String landmark
-    );
-    List<Client> findClientsByAddressContainsOrRegionContainsOrDistrictContainsOrCommunityContainsOrLandmarkContainsAndFirstNameContainsOrSecondNameContainsIgnoreCase(
-            String address, String region, String district, String community, String landmark, String first, String second
-    );
-    */
+    // uses JPQL instead of native to make request. resource https://thoughts-on-java.org/jpql/
+    @Query("SELECT c FROM Client c WHERE (" +
+                   "upper(c.firstName) LIKE upper(CONCAT('%',:name,'%')) " +
+                   "OR upper(c.secondName) LIKE upper(CONCAT('%',:name,'%'))" +
+                   ") AND (c.isLead = :isLead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
+    )
+    List<Client> searchByNameFields(String name, boolean isLead, String type);
 
-    // uses JPQL instead of native to make request
-    @Query("SELECT c FROM Client c WHERE upper(c.firstName) LIKE upper(CONCAT('%',:name,'%')) OR upper(c.secondName) LIKE upper(CONCAT('%',:name,'%'))")
-    List<Client> searchByNameFields(String name);
-
-    @Query("SELECT c FROM Client c WHERE " +
+    @Query("SELECT c FROM Client c WHERE (" +
                    "upper(c.address) LIKE upper(CONCAT('%',:location,'%')) " +
                    "OR upper(c.community) LIKE upper(CONCAT('%',:location,'%')) " +
                    "OR upper(c.region) LIKE upper(CONCAT('%',:location,'%')) " +
-                   "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%'))"
+                   "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%'))" +
+                   ") AND (c.isLead = :isLead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
     )
-    List<Client> searchByLocationFields(String location);
+    List<Client> searchByLocationFields(String location, boolean isLead, String type);
 
     @Query("SELECT c FROM Client c WHERE " +
                    "(upper(c.firstName) LIKE upper(CONCAT('%',:name,'%')) " +
@@ -37,9 +32,10 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
                    ") AND (upper(c.address) LIKE upper(CONCAT('%',:location,'%')) " +
                    "OR upper(c.community) LIKE upper(CONCAT('%',:location,'%')) " +
                    "OR upper(c.region) LIKE upper(CONCAT('%',:location,'%')) " +
-                   "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%')))"
+                   "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%'))" +
+                   ") AND (c.isLead = :isLead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
     )
-    List<Client> searchByNameAndLocationFields(String name, String location);
+    List<Client> searchByNameAndLocationFields(String name, String location, boolean isLead, String type);
 
     List<Client> findClientsByTypeIgnoreCase(Pageable pageable, String type);
 }
