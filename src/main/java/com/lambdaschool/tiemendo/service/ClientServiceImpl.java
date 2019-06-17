@@ -114,6 +114,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void delete(long id) {
-
+        // TODO: Get this in there
     }
 }
