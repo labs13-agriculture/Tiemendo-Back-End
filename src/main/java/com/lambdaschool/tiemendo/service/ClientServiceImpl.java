@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         if (keys.contains("type") && searchFields.get("type") != null) {
-            type = searchFields.get("isLead");
+            type = searchFields.get("type");
         }
 
         if (keys.contains("name") && keys.contains("location")){

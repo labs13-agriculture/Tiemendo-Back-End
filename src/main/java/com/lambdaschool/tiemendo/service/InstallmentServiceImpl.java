@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.service;
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Installment;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
@@ -31,6 +32,14 @@ public class InstallmentServiceImpl implements InstallmentService
         List<Installment> list = new ArrayList<>();
         installmentrepos.findAll().iterator().forEachRemaining(list::add);
         return list;
+    }
+
+    @Override
+    public List<Installment> findAllByClient(long id) {
+        var client = clientRepos.findById(id).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Could not find Client with id: " + id);
+        });
+        return installmentrepos.findAllByClient(client);
     }
 
     @Override

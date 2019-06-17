@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class SeedDataFarmers implements CommandLineRunner
     public void run(String[] args)
     {
         Faker f = new Faker();
-        System.out.println("Seeding Farmer Data");
+        System.out.println("Seeding Farmer And Reatiler Data");
         //Farmer SEEDING
 
         // create other objects needed for farmer seed data
@@ -73,6 +74,22 @@ public class SeedDataFarmers implements CommandLineRunner
             }
             // add transaction to farmer
             farmer.setTransactions(transactions);
+
+            var installments = new ArrayList<Installment>();
+
+            for (var ni=0; ni<5; ni++){
+                var installment = new Installment(
+                        f.number().randomDouble(2, 5, 15),
+                        new Date(),
+                        f.options().option("MTN", "CASH", "BANK"),
+                        f.starTrek().character(),
+                        farmer
+                );
+
+                installments.add(installment);
+            }
+
+            farmer.setInstallments(installments);
             // add farmer to list
             farmers.add(farmer);
         }
