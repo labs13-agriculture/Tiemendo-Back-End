@@ -25,7 +25,7 @@ public class Transaction extends Auditable {
 //    Inputs bought:
 //    Item name + Quantity
     @OneToMany(mappedBy="transaction", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    //@JsonIgnore
+    @JsonIgnore
     private List<TransactionItem> inputs = new ArrayList<>();
 //    Sales personnel (officer who make the payments for the farmer)
     private String personnel;
