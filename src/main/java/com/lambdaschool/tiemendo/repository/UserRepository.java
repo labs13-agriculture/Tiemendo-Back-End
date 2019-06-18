@@ -9,5 +9,6 @@ import java.util.List;
 public interface UserRepository extends PagingAndSortingRepository<User, Long>
 {
     User findByUsername(String username);
-    List<User> findUsersByUsernameIsLike(String username);
+    List<User> findUsersByUsernameContainsIgnoreCaseOrderByUsernameAsc(String username);
+    List<User> findUsersByUsernameIsStartingWithIgnoreCaseOrderByUsernameAsc(String username);
 }
