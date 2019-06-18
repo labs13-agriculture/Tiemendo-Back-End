@@ -52,16 +52,17 @@ public class InstallmentController
     @PutMapping(value = "/update-installment/{installmentId}", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<?> updateInstallmentById(@RequestBody Installment installment, @PathVariable Long installmentId)
     {
-        installmentService.update(installment, installmentId);
-        return new ResponseEntity<>(installment, HttpStatus.OK);
+        Installment i = installmentService.update(installment, installmentId);
+        return new ResponseEntity<>(installmentService.findAllByClient(i.getClient().getId()), HttpStatus.OK);
     }
 
 
     @DeleteMapping("/installment/{installmentId}")
     public ResponseEntity<?> deleteTransactionById(@PathVariable Long installmentId)
     {
+        Client c = installmentService.findInstallmentById(installmentId).getClient();
         installmentService.delete(installmentId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(installmentService.findAllByClient(c.getId()), HttpStatus.OK);
     }
 
 
