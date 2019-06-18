@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        com.lambdaschool.tiemendo.model.User user = userrepos.findByUsername(username);
+        User user = userrepos.findByUsername(username);
         if (user == null)
         {
             throw new UsernameNotFoundException("Invalid username or password.");
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserDetailsService, UserService
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthority());
     }
 
-    public com.lambdaschool.tiemendo.model.User findUserById(long id) throws EntityNotFoundException
+    public User findUserById(long id) throws EntityNotFoundException
     {
         return userrepos.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 
-    public List<com.lambdaschool.tiemendo.model.User> findAll()
+    public List<User> findAll()
     {
         List<User> list = new ArrayList<>();
         userrepos.findAll().iterator().forEachRemaining(list::add);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
     @Override
     public List<User> findUsersByUsernameIsLike(String user) {
-        return userrepos.findUsersByUsernameIsLike(user);
+        return userrepos.findUsersByUsernameIsStartingWithIgnoreCaseOrderByUsernameAsc(user);
     }
 
     @Override
