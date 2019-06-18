@@ -63,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService
         ArrayList necessaryArrayList = new ArrayList();
         List<TransactionItem> originalInputs = transaction.getInputs();
 
-        for(TransactionItem i: originalInputs) {
+        for(TransactionItem i: originalInputs) {System.out.println("In the loop");
             necessaryArrayList.add(i);
             i.setTransaction(newTransaction);
         }
