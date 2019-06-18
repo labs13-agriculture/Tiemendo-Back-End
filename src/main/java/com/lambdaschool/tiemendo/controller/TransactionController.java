@@ -62,7 +62,8 @@ public class TransactionController {
             @Valid @RequestBody Transaction transaction,
             @PathVariable Long clientid
     ) {
-        return new ResponseEntity<>(transactionService.save(transaction, clientid), HttpStatus.OK);
+        Client c = transactionService.save(transaction, clientid);
+        return new ResponseEntity<>(c.getTransactions(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/update/{transactionId}")
