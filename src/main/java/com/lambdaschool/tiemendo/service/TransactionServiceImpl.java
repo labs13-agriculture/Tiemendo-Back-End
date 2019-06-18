@@ -65,6 +65,7 @@ public class TransactionServiceImpl implements TransactionService
 
         for(TransactionItem i: originalInputs) {
             necessaryArrayList.add(i);
+            i.setTransaction(newTransaction);
         }
 
         newTransaction.setInputs(necessaryArrayList);
