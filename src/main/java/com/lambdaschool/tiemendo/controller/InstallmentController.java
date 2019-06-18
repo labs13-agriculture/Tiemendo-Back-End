@@ -45,7 +45,7 @@ public class InstallmentController
     public ResponseEntity<?> addNewInstallment(@PathVariable Long clientId, @Valid @RequestBody Installment newInstallment) throws URISyntaxException
     {
         Client client = installmentService.save(newInstallment, clientId);
-        return new ResponseEntity<>(client, HttpStatus.OK);
+        return new ResponseEntity<>(installmentService.findAllByClient(client.getId()), HttpStatus.OK);
     }
 
 
