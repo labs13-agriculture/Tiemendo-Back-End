@@ -96,6 +96,7 @@ public class TransactionServiceImpl implements TransactionService
 
             for(TransactionItem i: originalInputs) {
                 necessaryArrayList.add(i);
+                i.setTransaction(currentTransaction);//setting current transaction in updated transaction-items constructor
             }
 
             currentTransaction.setInputs(necessaryArrayList);
