@@ -71,8 +71,8 @@ public class TransactionController {
             @RequestBody Transaction updateTransaction,
             @PathVariable long transactionId
     ) {
-        transactionService.update(updateTransaction, transactionId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Transaction t = transactionService.update(updateTransaction, transactionId);
+        return new ResponseEntity<>(t,HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletes transaction based on transaction id.", response = Transaction.class)
