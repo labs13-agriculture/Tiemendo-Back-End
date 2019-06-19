@@ -17,6 +17,6 @@ public interface TransactionService {
     void delete(long id);
 
     Client save(Transaction transaction,long id);
-
-    Transaction update(Transaction transaction, long id);
+    
+    List<Transaction> update(Transaction transaction, long id);
 }
