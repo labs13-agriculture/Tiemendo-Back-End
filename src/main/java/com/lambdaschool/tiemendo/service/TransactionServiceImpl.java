@@ -83,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService
 
     @Override
     @Transactional
-    public Transaction update(Transaction transaction, long id) {
+    public List<Transaction> update(Transaction transaction, long id) {
         Transaction currentTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
 
@@ -126,7 +126,7 @@ public class TransactionServiceImpl implements TransactionService
 
 
 
-        return transactionRepository.save(currentTransaction);
+        return transactionRepository.save(currentTransaction).getClient().getTransactions();
 
     }
 }
