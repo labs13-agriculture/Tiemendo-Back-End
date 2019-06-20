@@ -40,7 +40,7 @@ public class OrganizationServiceImpl implements OrganizationService
         organizationContactRepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
-
+    
     @Override
     public List<Organization> searchOrganizations(String name, String location, boolean lead) throws ResourceNotFoundException
     {
@@ -74,6 +74,12 @@ public class OrganizationServiceImpl implements OrganizationService
     public Organization findOrganizationById(long id) throws EntityNotFoundException
     {
         return organizationRepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+    }
+    
+    @Override
+    public List<OrganizationBranch> findBranchesByOrganization(long id) throws ResourceNotFoundException
+    {
+        return organizationContactRepos.findAllByOrganization(findOrganizationById(id));
     }
 
     @Transactional
