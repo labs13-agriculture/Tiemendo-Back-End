@@ -145,33 +145,9 @@ public class OrganizationServiceImpl implements OrganizationService
     public List<OrganizationBranch> saveBranch(long id, OrganizationBranch newBranch)
     {
         Organization org = findOrganizationById(id);
-        OrganizationBranch branch = new OrganizationBranch();
-        
-        // set org
-        branch.setOrganization(org);
-        
-        // set location deets
-        branch.setAddress(newBranch.getAddress());
-        branch.setDistrict(newBranch.getDistrict());
-        branch.setRegion(newBranch.getRegion());
-        branch.setLandmark(newBranch.getLandmark());
-        
-        branch.setName(newBranch.getName());
-        branch.setPhone(newBranch.getPhone());
-        branch.setEmail(newBranch.getEmail());
-        branch.setPosition(newBranch.getPosition());
-        
-        //make sure org has branch added to it
-        branch = organizationContactRepos.save(branch);
-        
-        List<OrganizationBranch> list = org.getBranches();
-        list.add(branch);
-        
-        org.setBranches(list);
-        
-        organizationContactRepos.save(branch);
-        
-        //save returns the new org info, we want to get the list of branches
-        return organizationRepos.save(org).getBranches();
+        newBranch.setOrganization(org);
+        organizationContactRepos.save(newBranch);
+
+        return findOrganizationById(id).getBranches();
     }
 }
