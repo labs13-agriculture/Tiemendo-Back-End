@@ -11,6 +11,8 @@ public interface OrganizationService
     List<Organization> findAll();
 
     List<OrganizationBranch> findAllBranches();
+    
+    List<OrganizationBranch> findBranchesByOrganization(long id);
 
     List<Organization> searchOrganizations(String name, String location, boolean lead);
 

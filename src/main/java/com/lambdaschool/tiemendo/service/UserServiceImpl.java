@@ -63,11 +63,13 @@ public class UserServiceImpl implements UserDetailsService, UserService
         if (userrepos.findById(id).isPresent())
         {
             userrepos.deleteById(id);
+
         }
         else
         {
             throw new EntityNotFoundException(Long.toString(id));
         }
+
     }
 
     @Transactional
@@ -124,7 +126,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
             for (UserRoles ur : user.getUserRoles())
             {
                 Role r = rolerepos.findRoleByName(ur.getRole().getName());
-                rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
+                rolerepos.insertUserRoles(id, r.getRoleid());
             }
         }
 

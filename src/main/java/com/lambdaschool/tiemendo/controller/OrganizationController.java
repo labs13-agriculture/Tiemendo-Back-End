@@ -36,6 +36,13 @@ public class OrganizationController
         List<OrganizationBranch> myContact = organizationService.findAllBranches();
         return new ResponseEntity<>(myContact, HttpStatus.OK);
     }
+    
+    // GET CONTACTS BY ORGANIZATION ID
+    @GetMapping(value = "/contacts/{id}", produces = {"application/json"})
+    public ResponseEntity<?> listContactsByOrganization(@PathVariable long id)
+    {
+        return new ResponseEntity<>(organizationService.findBranchesByOrganization(id), HttpStatus.OK);
+    }
 
     // SEARCH
     @GetMapping(value = "/search", produces = {"application/json"})
