@@ -72,6 +72,13 @@ public class OrganizationController
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
+    
+    // CREATE NEW BRANCH
+    @PostMapping(value = "/branch/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> addNewBranch(@PathVariable long id, @RequestBody OrganizationBranch newBranch)
+    {
+        return new ResponseEntity<>(organizationService.saveBranch(id, newBranch), HttpStatus.OK);
+    }
 
     // DELETE ORGANIZATION BY ID
     @DeleteMapping("/organization/{organizationId}")
