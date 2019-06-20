@@ -101,5 +101,13 @@ public class OrganizationController
         organizationService.update(organization, organizationId);
         return new ResponseEntity<>(organization, HttpStatus.OK);
     }
+    
+    // UPDATE BRANCH BY ID
+    
+    @PutMapping(value = "/branch/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> updateBranchById(@PathVariable long id, @RequestBody OrganizationBranch branch)
+    {
+        return new ResponseEntity<>(organizationService.updateBranch(id, branch), HttpStatus.OK);
+    }
 
 }

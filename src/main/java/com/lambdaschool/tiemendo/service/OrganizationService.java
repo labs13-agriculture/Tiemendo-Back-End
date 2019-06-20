@@ -27,4 +27,6 @@ public interface OrganizationService
     List<OrganizationBranch> deleteBranch(long id);
     
     List<OrganizationBranch> saveBranch(long id, OrganizationBranch newBranch);
+    
+    List<OrganizationBranch> updateBranch(long id, OrganizationBranch branch);
 }
