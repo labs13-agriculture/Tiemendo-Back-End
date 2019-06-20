@@ -18,8 +18,11 @@ import java.util.List;
 public class RetailerController
 {
 
-    @Autowired()
+    @Autowired
     private ClientService retailerService;
+    
+    @Autowired
+    private ClientService clientService;
 
     @GetMapping(value = "/retailers", produces = {"application/json"})
     public ResponseEntity<?> listAllRetailers(Pageable pageable)
@@ -67,7 +70,7 @@ public class RetailerController
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteRetailer(@PathVariable long id)
     {
-        retailerService.delete(id);
+        clientService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -20,7 +20,7 @@ public class Organization extends Auditable
     private int beneficiaries;
     // Todo: Organization Logo
 
-    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private List<OrganizationBranch> branches = new ArrayList<>();
 
