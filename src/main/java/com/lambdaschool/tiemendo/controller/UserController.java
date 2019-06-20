@@ -58,7 +58,7 @@ public class UserController
                 .toUri();
         responseHeaders.setLocation(newUserURI);
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(newuser, HttpStatus.CREATED);
     }
 
 
@@ -66,7 +66,7 @@ public class UserController
     public ResponseEntity<?> updateUserById(@RequestBody User user, @PathVariable Long userId)
     {
         userService.update(user, userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
     }
 
 
