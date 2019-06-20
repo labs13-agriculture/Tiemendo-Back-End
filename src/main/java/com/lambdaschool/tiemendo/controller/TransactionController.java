@@ -71,15 +71,16 @@ public class TransactionController {
             @RequestBody Transaction updateTransaction,
             @PathVariable long transactionId
     ) {
-        Transaction t = transactionService.update(updateTransaction, transactionId);
-        return new ResponseEntity<>(t,HttpStatus.OK);
+        return new ResponseEntity<>(transactionService.update(updateTransaction, transactionId),HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletes transaction based on transaction id.", response = Transaction.class)
     @DeleteMapping("/delete/{transactionId}")
     public ResponseEntity<?> deleteTransactionById(@PathVariable Long transactionId)
     {
+        Client c = transactionService.findTransactionById(transactionId).getClient();
+        
         transactionService.delete(transactionId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(c.getTransactions(), HttpStatus.OK);
     }
 }
