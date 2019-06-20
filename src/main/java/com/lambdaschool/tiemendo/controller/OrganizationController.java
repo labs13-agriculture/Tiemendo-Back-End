@@ -72,6 +72,13 @@ public class OrganizationController
 
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
+    
+    // CREATE NEW BRANCH
+    @PostMapping(value = "/branch/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> addNewBranch(@PathVariable long id, @RequestBody OrganizationBranch newBranch)
+    {
+        return new ResponseEntity<>(organizationService.saveBranch(id, newBranch), HttpStatus.OK);
+    }
 
     // DELETE ORGANIZATION BY ID
     @DeleteMapping("/organization/{organizationId}")
@@ -84,8 +91,7 @@ public class OrganizationController
     @DeleteMapping("/contact/{contactId}")
     public ResponseEntity<?> deleteContactById(@PathVariable Long contactId)
     {
-        organizationService.deleteBranch(contactId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(organizationService.deleteBranch(contactId), HttpStatus.OK);
     }
 
     // UPDATE ORGANIZATION BY ID
@@ -94,6 +100,14 @@ public class OrganizationController
     {
         organizationService.update(organization, organizationId);
         return new ResponseEntity<>(organization, HttpStatus.OK);
+    }
+    
+    // UPDATE BRANCH BY ID
+    
+    @PutMapping(value = "/branch/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> updateBranchById(@PathVariable long id, @RequestBody OrganizationBranch branch)
+    {
+        return new ResponseEntity<>(organizationService.updateBranch(id, branch), HttpStatus.OK);
     }
 
 }

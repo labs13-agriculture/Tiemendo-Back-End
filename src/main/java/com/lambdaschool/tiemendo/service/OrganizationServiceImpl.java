@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service(value = "organizationService")
 public class OrganizationServiceImpl implements OrganizationService
@@ -126,14 +128,56 @@ public class OrganizationServiceImpl implements OrganizationService
 
     @Transactional
     @Override
-    public void deleteBranch(long id) throws EntityNotFoundException
+    public List<OrganizationBranch> deleteBranch(long id) throws EntityNotFoundException
     {
         if(organizationContactRepos.findById(id).isPresent())
         {
+            //Need to find a better way to do this... Need Org so we can return list of it's branches.. Need org contact so we can find org
+            Organization org = organizationRepos.findByBranches(organizationContactRepos.getOrganizationBranchBy(id));
             organizationContactRepos.deleteById(id);
+            //need to return list of remaining organizations
+            return findBranchesByOrganization(org.getId());
         } else
         {
             throw new EntityNotFoundException(Long.toString(id));
+        }
+    }
+    
+    @Override
+    public List<OrganizationBranch> saveBranch(long id, OrganizationBranch newBranch)
+    {
+        Organization org = findOrganizationById(id);
+        newBranch.setOrganization(org);
+        organizationContactRepos.save(newBranch);
+
+        return findOrganizationById(id).getBranches();
+    }
+    
+    @Override
+    public List<OrganizationBranch> updateBranch(long id, OrganizationBranch branch) throws ResourceNotFoundException
+    {
+        Optional<OrganizationBranch> branchOptional = organizationContactRepos.findById(id);
+        if(branchOptional.isPresent())
+        {
+            OrganizationBranch original = branchOptional.get();
+            original.setName(branch.getName());
+            original.setPosition(branch.getPosition());
+            original.setEmail(branch.getEmail());
+            original.setPhone(branch.getPhone());
+    
+            original.setAddress(branch.getAddress());
+            original.setDistrict(branch.getDistrict());
+            original.setLandmark(branch.getLandmark());
+            original.setRegion(branch.getRegion());
+            
+            organizationContactRepos.save(original);
+            
+            return organizationRepos.findByBranches(original).getBranches();
+            
+        }
+        else
+        {
+            throw new ResourceNotFoundException("Could not find branch with id: " + id);
         }
     }
 }
