@@ -16,9 +16,11 @@ import java.util.HashMap;
 public class FarmerController {
 
     private ClientService farmerService;
+    private ClientService clientService;
 
-    public FarmerController(ClientService farmerService) {
+    public FarmerController(ClientService farmerService, ClientService clientService) {
         this.farmerService = farmerService;
+        this.clientService = clientService;
     }
 
     // Get all Farmers Pageable
@@ -70,7 +72,7 @@ public class FarmerController {
     // Delete Farmer
     @DeleteMapping(value="/farmer/{id}", produces = "application/json")
     public ResponseEntity<?> deleteFarmerWithId(@PathVariable long id){
-        farmerService.delete(id);
+        clientService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
