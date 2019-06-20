@@ -126,11 +126,15 @@ public class OrganizationServiceImpl implements OrganizationService
 
     @Transactional
     @Override
-    public void deleteBranch(long id) throws EntityNotFoundException
+    public List<OrganizationBranch> deleteBranch(long id) throws EntityNotFoundException
     {
         if(organizationContactRepos.findById(id).isPresent())
         {
+            //Need to find a better way to do this... Need Org so we can return list of it's branches.. Need org contact so we can find org
+            Organization org = organizationRepos.findByBranches(organizationContactRepos.getOrganizationBranchBy(id));
             organizationContactRepos.deleteById(id);
+            //need to return list of remaining organizations
+            return findBranchesByOrganization(org.getId());
         } else
         {
             throw new EntityNotFoundException(Long.toString(id));

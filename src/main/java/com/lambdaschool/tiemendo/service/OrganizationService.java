@@ -24,5 +24,5 @@ public interface OrganizationService
 
     void delete(long id);
 
-    void deleteBranch(long id);
+    List<OrganizationBranch> deleteBranch(long id);
 }

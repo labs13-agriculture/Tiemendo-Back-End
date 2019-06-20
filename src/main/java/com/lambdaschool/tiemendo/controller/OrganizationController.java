@@ -84,8 +84,7 @@ public class OrganizationController
     @DeleteMapping("/contact/{contactId}")
     public ResponseEntity<?> deleteContactById(@PathVariable Long contactId)
     {
-        organizationService.deleteBranch(contactId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(organizationService.deleteBranch(contactId), HttpStatus.OK);
     }
 
     // UPDATE ORGANIZATION BY ID
