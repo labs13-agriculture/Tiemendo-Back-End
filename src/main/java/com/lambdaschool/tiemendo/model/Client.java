@@ -241,4 +241,24 @@ public class Client extends Auditable {
     public void setInstallments(List<Installment> installments) {
         this.installments = installments;
     }
+
+
+    public Double getTotalOwed() {
+        // Get total Credit
+        var totalCredit = 0.0;
+        for (Transaction t: transactions) {
+            if (t.getType().equalsIgnoreCase("credit")) {
+                totalCredit += t.getTotal();
+            }
+        }
+
+        // Get total Paid
+        var totalPaid = 0.0;
+        for (Installment i: installments) {
+            totalPaid += i.getAmountPaid();
+        }
+
+        // AmountOwed = totalCredit - totalPaid
+        return totalCredit - totalPaid;
+    }
 }
