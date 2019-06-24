@@ -23,7 +23,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ArrayList<Client> findAll(Pageable pageable) {
+    public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
+        // the default find all doesnt do anything with isLead
+        // Check type specific implementation
         var clients = new ArrayList<Client>();
         clientRepository.findAll(pageable).iterator().forEachRemaining(clients::add);
         return clients;

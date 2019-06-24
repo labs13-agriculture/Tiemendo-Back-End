@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public interface ClientService {
 
-    ArrayList<Client> findAll(Pageable pageable);
+    ArrayList<Client> findAll(Pageable pageable, Boolean isLead);
     ArrayList<Client> search(Pageable pageable, HashMap<String, String> searchFields);
     Client findById(long id);
     Client add(Client client);

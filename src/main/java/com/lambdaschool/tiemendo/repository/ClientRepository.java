@@ -37,5 +37,5 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
     )
     List<Client> searchByNameAndLocationFields(String name, String location, boolean isLead, String type);
 
-    List<Client> findClientsByTypeIgnoreCase(Pageable pageable, String type);
+    List<Client> findClientsByTypeAndLeadIgnoreCase(Pageable pageable, String type, Boolean lead);
 }

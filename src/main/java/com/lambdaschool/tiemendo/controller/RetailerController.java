@@ -25,9 +25,11 @@ public class RetailerController
     private ClientService clientService;
 
     @GetMapping(value = "/retailers", produces = {"application/json"})
-    public ResponseEntity<?> listAllRetailers(Pageable pageable)
-    {
-        List<Client> myRetailers = retailerService.findAll(pageable);
+    public ResponseEntity<?> listAllRetailers(
+            @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
+            @RequestParam(defaultValue = "false") Boolean isLead
+    ) {
+        List<Client> myRetailers = retailerService.findAll(pageable, isLead);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
 
