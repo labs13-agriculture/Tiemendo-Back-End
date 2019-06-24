@@ -59,7 +59,14 @@ public class ClientServiceImpl implements ClientService {
             String loc = searchFields.get("location");
             clientRepository.searchByLocationFields(loc, lead, type).iterator().forEachRemaining(results::add);
         }
-        return results;
+
+        int start = pageable.getPageSize() * pageable.getPageNumber();
+        int end = pageable.getPageSize() * (pageable.getPageNumber() + 1);
+        if (end < results.size()) {
+            end = results.size();
+        }
+
+        return new ArrayList<>(results.subList(start, end));
     }
 
     @Override

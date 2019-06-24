@@ -22,7 +22,7 @@ public class ClientServiceImplFarmer extends ClientServiceImpl {
     @Override
     public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
         var farmers = new ArrayList<Client>();
-        clientRepository.findClientsByTypeAndLeadIgnoreCase(pageable, "FARMER", isLead).iterator()
+        clientRepository.findClientsByTypeAndLead(pageable, "FARMER", isLead).iterator()
                 .forEachRemaining(farmers::add);
         return farmers;
     }

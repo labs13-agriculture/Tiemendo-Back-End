@@ -14,7 +14,7 @@ public class Client extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private boolean isLead;
+    private boolean lead;
     private String type;
     private long startyear;
 
@@ -59,13 +59,13 @@ public class Client extends Auditable {
         this.firstName = name;
     }
 
-    public Client(String name, boolean isLead) {
+    public Client(String name, boolean lead) {
         this.firstName = name;
-        this.isLead = isLead;
+        this.lead = lead;
     }
 
-    public Client(boolean isLead, long startyear, String address, String landmark, String name, String phone, String email) {
-        this.isLead = isLead;
+    public Client(boolean lead, long startyear, String address, String landmark, String name, String phone, String email) {
+        this.lead = lead;
         this.startyear = startyear;
         this.address = address;
         this.landmark = landmark;
@@ -83,11 +83,11 @@ public class Client extends Auditable {
     }
 
     public boolean isLead() {
-        return isLead;
+        return lead;
     }
 
     public void setLead(boolean lead) {
-        isLead = lead;
+        lead = lead;
     }
 
     public String getType() {

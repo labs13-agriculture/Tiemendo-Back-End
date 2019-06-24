@@ -22,7 +22,7 @@ public class ClientServiceImplRetailer extends ClientServiceImpl {
     @Override
     public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
         var retailers = new ArrayList<Client>();
-        clientRepository.findClientsByTypeAndLeadIgnoreCase(pageable, "RETAILER", isLead).iterator()
+        clientRepository.findClientsByTypeAndLead(pageable, "RETAILER", isLead).iterator()
                 .forEachRemaining(retailers::add);
         return retailers;
     }
