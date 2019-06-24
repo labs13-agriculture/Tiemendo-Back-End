@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ClientServiceImplFarmer extends ClientServiceImpl {
 
     /*
-        Only overrides methods that have type specific implementation,
+        Only overrides methods that have type specific implementation here,
         look in ClientServiceImpl for inherited methods
      */
 
@@ -20,9 +20,9 @@ public class ClientServiceImplFarmer extends ClientServiceImpl {
     }
 
     @Override
-    public ArrayList<Client> findAll(Pageable pageable) {
+    public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
         var farmers = new ArrayList<Client>();
-        clientRepository.findClientsByTypeIgnoreCase(pageable, "FARMER").iterator()
+        clientRepository.findClientsByTypeAndLeadIgnoreCase(pageable, "FARMER", isLead).iterator()
                 .forEachRemaining(farmers::add);
         return farmers;
     }

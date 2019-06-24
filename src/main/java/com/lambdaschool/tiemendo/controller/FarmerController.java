@@ -25,8 +25,14 @@ public class FarmerController {
 
     // Get all Farmers Pageable
     @GetMapping(value= "/all", produces = "application/json")
-    public ResponseEntity<?> getAllFarmers(Pageable pageable) {
-        return new ResponseEntity<>(farmerService.findAll(pageable), HttpStatus.OK);
+    public ResponseEntity<?> getAllFarmers(
+            @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
+            @RequestParam(defaultValue = "false") Boolean isLead
+    ) {
+        // defaults to
+        // /farmers/all?isLead=false
+
+        return new ResponseEntity<>(farmerService.findAll(pageable, isLead), HttpStatus.OK);
     }
 
     // Get all Farmers by Search
