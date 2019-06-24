@@ -43,7 +43,7 @@ public class RetailerController
         var search = new HashMap<String, String>();
         if (name != null && !name.equals("")) search.put("name", name);
         if (location != null && !location.equals("")) search.put("location", location);
-        // take this out and hardcode farmer
+
         search.put("type", "RETAILER");
         search.put("lead", lead);
         return new ResponseEntity<>(retailerService.search(pageable, search), HttpStatus.OK);

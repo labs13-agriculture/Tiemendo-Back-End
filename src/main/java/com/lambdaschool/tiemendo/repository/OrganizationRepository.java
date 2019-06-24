@@ -9,7 +9,36 @@ import java.util.List;
 
 public interface OrganizationRepository extends PagingAndSortingRepository<Organization, Long>
 {
-    @Query(value = "SELECT * FROM organizations o, client c INNER JOIN organizationlocations l ON l.organizationid=c.id WHERE c.id = o.id AND o.id = l.organizationid AND c.is_lead=:isLead AND c.name ILIKE :name AND (l.address ILIKE :location OR l.district ILIKE :location OR l.community ILIKE :location OR l.landmark ILIKE :location OR l.region ILIKE :location)", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.name) LIKE upper(concat('%', :name, '%')) " +
+            "or upper(b.name) LIKE upper(concat('%', :name, '%'))) " +
+            " AND (o.lead = :lead)"
+    )
+    List<Organization> searchOrganizationsByName(String name, boolean lead);
+
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.headquarters) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.address) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.district) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.region) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.landmark) LIKE upper(concat('%', :loc, '%'))" +
+            ") AND (o.lead = :lead)"
+    )
+    List<Organization> searchOrganizationsByLocation(String loc, boolean lead);
+
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.name) LIKE upper(concat('%', :name, '%')) " +
+            "or upper(b.name) LIKE upper(concat('%', :name, '%'))" +
+            ") AND (upper(o.headquarters) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.address) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.district) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.region) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.landmark) LIKE upper(concat('%', :loc, '%'))" +
+            ") AND (o.lead = :lead)"
+    )
+    List<Organization> searchOrganizationsByNameAndLocation(String name, String loc, boolean lead);
+
+
     List<Organization> searchOrganizations(String name, String location, boolean isLead);
     
     Organization findByBranches(OrganizationBranch branch);

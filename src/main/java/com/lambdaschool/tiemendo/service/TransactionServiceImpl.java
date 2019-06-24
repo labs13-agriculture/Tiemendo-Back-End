@@ -2,6 +2,8 @@ package com.lambdaschool.tiemendo.service;
 
 
 
+import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
+import com.lambdaschool.tiemendo.exception.ValidationError;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Transaction;
 
@@ -63,7 +65,17 @@ public class TransactionServiceImpl implements TransactionService
         ArrayList necessaryArrayList = new ArrayList();
         List<TransactionItem> originalInputs = transaction.getInputs();
 
+        if (originalInputs.size() <= 0) {
+            // a transaction must have inputs
+            throw new ResourceNotFoundException("Transaction Must Have Items");
+        }
+
         for(TransactionItem i: originalInputs) {System.out.println("In the loop");
+            if (i.getItem() == null || i.getItem().getName() == null) {
+                // Items can not be null
+                throw new ResourceNotFoundException("Transaction Must Have valid Items");
+            }
+
             necessaryArrayList.add(i);
             i.setTransaction(newTransaction);
         }
