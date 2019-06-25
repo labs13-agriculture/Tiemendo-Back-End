@@ -3,6 +3,7 @@ package com.lambdaschool.tiemendo.service;
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,18 @@ public class ClientServiceImpl implements ClientService {
         this.clientRepository = clientRepository;
     }
 
+//    @Override
+//    public ArrayList<Client> findAll(Pageable pageable) {
+//        var clients = new ArrayList<Client>();
+//        clientRepository.findAll(pageable).iterator().forEachRemaining(clients::add);
+//        return clients;
+//    }
+
     @Override
-    public ArrayList<Client> findAll(Pageable pageable) {
-        var clients = new ArrayList<Client>();
-        clientRepository.findAll(pageable).iterator().forEachRemaining(clients::add);
-        return clients;
+    public Page findAll(Pageable pageable) {
+//        var clients = new ArrayList<Client>();
+
+        return clientRepository.findAll(pageable);
     }
 
     @Override

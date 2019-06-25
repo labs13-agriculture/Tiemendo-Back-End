@@ -2,8 +2,11 @@ package com.lambdaschool.tiemendo.controller;
 
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +28,9 @@ public class FarmerController {
 
     // Get all Farmers Pageable
     @GetMapping(value= "/all", produces = "application/json")
-    public ResponseEntity<?> getAllFarmers(Pageable pageable) {
-        return new ResponseEntity<>(farmerService.findAll(pageable), HttpStatus.OK);
+    public ResponseEntity<PagedResources> getAllFarmers(@PageableDefault(size=3, sort={"firstName"}) Pageable pageable, PagedResourcesAssembler assembler) {
+        Page p = farmerService.findAll(pageable);
+        return new ResponseEntity<>(assembler.toResource(p), HttpStatus.OK);
     }
 
     // Get all Farmers by Search

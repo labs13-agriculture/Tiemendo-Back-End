@@ -4,6 +4,7 @@ package com.lambdaschool.tiemendo.controller;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,10 @@ public class RetailerController
     @GetMapping(value = "/retailers", produces = {"application/json"})
     public ResponseEntity<?> listAllRetailers(Pageable pageable)
     {
-        List<Client> myRetailers = retailerService.findAll(pageable);
+//        List<Client> myRetailers = retailerService.findAll(pageable);
+//        return new ResponseEntity<>(myRetailers, HttpStatus.OK);
+
+        Page<Client> myRetailers = retailerService.findAll(pageable);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
 
