@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "organizationcontacts")
+@Table(name = "branches")
 public class OrganizationBranch extends Auditable
 {
     @Id

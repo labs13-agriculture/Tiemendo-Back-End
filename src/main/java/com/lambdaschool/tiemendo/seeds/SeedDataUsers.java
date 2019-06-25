@@ -56,7 +56,7 @@ public class SeedDataUsers implements CommandLineRunner
 
         //adding 25 seeded admin users, all with password "password"
         ArrayList<User> seedAdmins = new ArrayList<>();
-        for(int i = 0; i < 25; i++)
+        for(int i = 0; i < 5; i++)
         {
             ArrayList<UserRoles> admin = new ArrayList<>();
             admin.add(new UserRoles(new User(), role1));
@@ -68,7 +68,7 @@ public class SeedDataUsers implements CommandLineRunner
 
         //adding 475 seeded users, all with password "password"
         ArrayList<User> seedUsers = new ArrayList<>();
-        for(int i = 0; i < 25; i++)
+        for(int i = 0; i < 45; i++)
         {
             ArrayList<UserRoles> user = new ArrayList<>();
             user.add(new UserRoles(new User(), role2));

@@ -2,6 +2,7 @@ package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class ClientServiceImplFarmer extends ClientServiceImpl {
 
     /*
-        Only overrides methods that have type specific implementation,
+        Only overrides methods that have type specific implementation here,
         look in ClientServiceImpl for inherited methods
      */
 
@@ -20,11 +21,8 @@ public class ClientServiceImplFarmer extends ClientServiceImpl {
     }
 
     @Override
-    public ArrayList<Client> findAll(Pageable pageable) {
-        var farmers = new ArrayList<Client>();
-        clientRepository.findClientsByTypeIgnoreCase(pageable, "FARMER").iterator()
-                .forEachRemaining(farmers::add);
-        return farmers;
+    public Page<Client> findAll(Pageable pageable, Boolean isLead) {
+        return clientRepository.findClientsByTypeAndLead(pageable, "FARMER", isLead);
     }
 
     @Override

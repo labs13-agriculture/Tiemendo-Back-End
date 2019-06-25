@@ -4,6 +4,7 @@ package com.lambdaschool.tiemendo.controller;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,12 @@ public class RetailerController
     private ClientService clientService;
 
     @GetMapping(value = "/retailers", produces = {"application/json"})
-    public ResponseEntity<?> listAllRetailers(Pageable pageable)
-    {
-        List<Client> myRetailers = retailerService.findAll(pageable);
+    public ResponseEntity<?> listAllRetailers(
+            @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
+            @RequestParam(defaultValue = "false") boolean lead
+    ) {
+        // todo: this needs to be updated to use paged resource assembler
+        Page<Client> myRetailers = retailerService.findAll(pageable, lead);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
 
@@ -41,7 +45,7 @@ public class RetailerController
         var search = new HashMap<String, String>();
         if (name != null && !name.equals("")) search.put("name", name);
         if (location != null && !location.equals("")) search.put("location", location);
-        // take this out and hardcode farmer
+
         search.put("type", "RETAILER");
         search.put("lead", lead);
         return new ResponseEntity<>(retailerService.search(pageable, search), HttpStatus.OK);

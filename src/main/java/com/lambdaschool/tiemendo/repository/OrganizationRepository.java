@@ -2,6 +2,8 @@ package com.lambdaschool.tiemendo.repository;
 
 import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationBranch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -9,8 +11,34 @@ import java.util.List;
 
 public interface OrganizationRepository extends PagingAndSortingRepository<Organization, Long>
 {
-    @Query(value = "SELECT * FROM organizations o, client c INNER JOIN organizationlocations l ON l.organizationid=c.id WHERE c.id = o.id AND o.id = l.organizationid AND c.is_lead=:isLead AND c.name ILIKE :name AND (l.address ILIKE :location OR l.district ILIKE :location OR l.community ILIKE :location OR l.landmark ILIKE :location OR l.region ILIKE :location)", nativeQuery = true)
-    List<Organization> searchOrganizations(String name, String location, boolean isLead);
-    
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.name) LIKE upper(concat('%', :name, '%')) " +
+            "or upper(b.name) LIKE upper(concat('%', :name, '%'))) " +
+            " AND (o.lead = :lead)"
+    )
+    Page<Organization> searchOrganizationsByName(Pageable pageable, String name, boolean lead);
+
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.headquarters) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.address) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.district) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.region) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.landmark) LIKE upper(concat('%', :loc, '%'))" +
+            ") AND (o.lead = :lead)"
+    )
+    Page<Organization> searchOrganizationsByLocation(Pageable pageable, String loc, boolean lead);
+
+    @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
+            "(upper(o.name) LIKE upper(concat('%', :name, '%')) " +
+            "or upper(b.name) LIKE upper(concat('%', :name, '%'))" +
+            ") AND (upper(o.headquarters) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.address) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.district) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.region) LIKE upper(concat('%', :loc, '%')) " +
+            "or upper(b.landmark) LIKE upper(concat('%', :loc, '%'))" +
+            ") AND (o.lead = :lead)"
+    )
+    Page<Organization> searchOrganizationsByNameAndLocation(Pageable pageable, String name, String loc, boolean lead);
+
     Organization findByBranches(OrganizationBranch branch);
 }

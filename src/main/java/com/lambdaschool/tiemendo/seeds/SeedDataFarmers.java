@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -32,32 +33,49 @@ public class SeedDataFarmers implements CommandLineRunner
         System.out.println("Seeding Farmer And Reatiler Data");
         //Farmer SEEDING
 
-        // create other objects needed for farmer seed data
+        // create other objects needed for client seed data
         // create ItemTypes for Transaction data
         ItemType sack = itemRepo.findByNameIgnoreCase("Knapsack");
         ItemType urea = itemRepo.findByNameIgnoreCase("Urea");
         ItemType cutlass = itemRepo.findByNameIgnoreCase("Cutlasses");
         ArrayList<ItemType> items = new ArrayList<>(Arrays.asList(sack, urea, cutlass));
 
-        // make an array of 10 farmers type clients
-        var farmers = new ArrayList<Client>();
+        // make an array of 200 clients
+        var clients = new ArrayList<Client>();
         String[] types = {"FARMER", "RETAILER"};
 
-        for (var i=0; i++<20;) {
-            // Create a farmer
-            Client farmer = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
-                    f.address().fullAddress(), f.gameOfThrones().house(), f.gameOfThrones().character(),
+        for (var i=0; i++<400;) {
+            // Create a client
+            Client client = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
+                    f.address().streetAddress(), f.gameOfThrones().house(), f.name().firstName(),
                     f.phoneNumber().phoneNumber(), f.internet().emailAddress());
-            farmer.setType(types[(int)Math.floor(Math.random() * 2)]);
-            // Add Transactions to farmer
+
+            client.setType(types[(int)Math.floor(Math.random() * 2)]);
+
+            // Set address info
+            client.setSecondName(f.name().lastName());
+            client.setCommunity(f.address().streetName());
+            client.setRegion(f.address().city());
+            client.setDistrict(f.address().state());
+            client.setNationality(f.address().country());
+
+            // this seems like theres got to be a better way to do this
+            client.setDateofbirth(LocalDate.ofInstant(f.date().birthday(16, 40).toInstant(), ZoneId.systemDefault()));
+            client.setGender(f.options().option("male", "female"));
+            client.setEducationlevel(f.options().option("None", "Primary", "Secondary", "Trade", "Degree"));
+            client.setTitle(f.options().option("CEO", "Director", "Sales", "Organizer", "Mr.", "Sir"));
+
+            // This variable adds a multiplier to transactions and installments
+            var extra = (int) Math.floor(Math.random() * 20);
+            // Add Transactions to client
             // create list of transactions
             var transactions = new ArrayList<Transaction>();
-            // loop to create 5 transaction
-            for (var nt=0; nt++<5;) {
+            // loop to create 5 transactions
+            for (var nt=0; nt++<10+extra;) {
                 // create list on inputs
                 var inputs = new ArrayList<TransactionItem>();
                 // create transaction
-                var transaction = new Transaction("CREDIT", new Date(), new ArrayList<>(), "Joshua", farmer);
+                var transaction = new Transaction(f.options().option("CASH", "CREDIT", "CREDIT", "CREDIT"), new Date(), new ArrayList<>(), "Joshua", client);
                 // generate inputs to add to list
                 for (var ni=0; ni++<3;) {
                     TransactionItem ti = new TransactionItem(
@@ -72,37 +90,29 @@ public class SeedDataFarmers implements CommandLineRunner
                 transaction.setInputs(inputs);
                 transactions.add(transaction);
             }
-            // add transaction to farmer
-            farmer.setTransactions(transactions);
+            // add transaction to client
+            client.setTransactions(transactions);
 
             var installments = new ArrayList<Installment>();
 
-            for (var ni=0; ni<5; ni++){
+            for (var ni=0; ni<5+extra; ni++){
                 var installment = new Installment(
                         f.number().randomDouble(2, 5, 15),
                         new Date(),
                         f.options().option("MTN", "CASH", "BANK"),
                         f.starTrek().character(),
-                        farmer
+                        client
                 );
 
                 installments.add(installment);
             }
 
-            farmer.setInstallments(installments);
-            // add farmer to list
-            farmers.add(farmer);
+            client.setInstallments(installments);
+            // add client to list
+            clients.add(client);
         }
 
-//        System.out.println("adding installment history for farmer");
-//        Installment insstall1 = new Installment(10.50, new Date(), "MTN", "Joshua", f1);
-//        Installment insstall2 = new Installment(11.15, new Date(), "BANK", "Joshua", f1);
-//        Installment insstall3 = new Installment(10.25, new Date(), "CASH", "Joshua", f1);
-//
-//        ArrayList<Installment> installments = new ArrayList<>(Arrays.asList(insstall1, insstall2, insstall3));
-//        f1.getInstallments().addAll(installments);
-
-        clientRepo.saveAll(farmers);
+        clientRepo.saveAll(clients);
     }
 }
 

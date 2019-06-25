@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Transactional
@@ -29,7 +30,15 @@ public class SeedData implements CommandLineRunner
         ItemType i5 = new ItemType("Cutlasses");
         ItemType i6 = new ItemType("Atrazine");
         ItemType i7 = new ItemType("Kondem");
-        itemRepo.saveAll(Arrays.asList(i1, i2, i3, i4, i5, i6, i7));
+        ItemType i8 = new ItemType("Maize Seed");
+        ItemType i9 = new ItemType("Sorghum Seed");
+        ItemType i10 = new ItemType("Fertilizer");
+
+
+        ArrayList<ItemType> items = new ArrayList<>(Arrays.asList(i1, i2, i3, i4, i5, i6, i7, i8, i9, i10));
+        items.forEach(item -> item.setQuantity((int) Math.floor(Math.random() * 200)));
+
+        itemRepo.saveAll(items);
 
     }
 }

@@ -34,7 +34,7 @@ public class TransactionController {
                                      "Default sort order is ascending. Multiple sort criteria are supported.")})
     @GetMapping(value = "/all", produces = {"application/json"})
     public ResponseEntity<?> listAllTransactions(
-            @PageableDefault(page = 0, size = 3) Pageable pageable
+            @PageableDefault(page = 0, size = 25) Pageable pageable
     ) {
         List<Transaction> transactions = transactionService.findAll(pageable);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
