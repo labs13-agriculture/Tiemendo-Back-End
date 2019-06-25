@@ -4,6 +4,7 @@ package com.lambdaschool.tiemendo.controller;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,8 @@ public class RetailerController
             @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
             @RequestParam(defaultValue = "false") boolean lead
     ) {
-        List<Client> myRetailers = retailerService.findAll(pageable, lead);
+        // todo: this needs to be updated to use paged resource assembler
+        Page<Client> myRetailers = retailerService.findAll(pageable, lead);
         return new ResponseEntity<>(myRetailers, HttpStatus.OK);
     }
 

@@ -3,6 +3,7 @@ package com.lambdaschool.tiemendo.service;
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
+    public Page<Client> findAll(Pageable pageable, Boolean isLead) {
         // the default find all doesnt do anything with isLead
         // Check type specific implementation
-        var clients = new ArrayList<Client>();
-        clientRepository.findAll(pageable).iterator().forEachRemaining(clients::add);
-        return clients;
+
+        return clientRepository.findAll(pageable);
     }
 
     @Override
@@ -62,16 +62,11 @@ public class ClientServiceImpl implements ClientService {
             // if no search critieria return find all
             // its super cool that this returns the find all of the subtypes
             // if an instance is a subtype
-            return findAll(pageable, lead);
-        }
+            // todo: rework this to use pages
+            //return findAll(pageable, lead);
 
-        int start = pageable.getPageSize() * pageable.getPageNumber();
-        int end = pageable.getPageSize() * (pageable.getPageNumber() + 1);
-        if (end < results.size()) {
-            end = results.size();
         }
-
-        return new ArrayList<>(results.subList(start, end));
+        return results;
     }
 
     @Override

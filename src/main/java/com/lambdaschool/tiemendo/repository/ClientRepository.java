@@ -1,6 +1,7 @@
 package com.lambdaschool.tiemendo.repository;
 
 import com.lambdaschool.tiemendo.model.Client;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -37,5 +38,5 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
     )
     List<Client> searchByNameAndLocationFields(String name, String location, boolean lead, String type);
 
-    List<Client> findClientsByTypeAndLead(Pageable pageable, String type, boolean lead);
+    Page<Client> findClientsByTypeAndLead(Pageable pageable, String type, boolean lead);
 }

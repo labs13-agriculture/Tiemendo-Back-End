@@ -2,6 +2,7 @@ package com.lambdaschool.tiemendo.service;
 
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,8 @@ public class ClientServiceImplRetailer extends ClientServiceImpl {
     }
 
     @Override
-    public ArrayList<Client> findAll(Pageable pageable, Boolean isLead) {
-        var retailers = new ArrayList<Client>();
-        clientRepository.findClientsByTypeAndLead(pageable, "RETAILER", isLead).iterator()
-                .forEachRemaining(retailers::add);
-        return retailers;
+    public Page<Client> findAll(Pageable pageable, Boolean isLead) {
+        return clientRepository.findClientsByTypeAndLead(pageable, "RETAILER", isLead);
     }
 
     @Override
