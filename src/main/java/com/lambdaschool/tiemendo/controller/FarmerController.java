@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/farmers")
-public class FarmerController {
+public class FarmerController extends AbstractController {
 
     private ClientService farmerService;
     private ClientService clientService;
@@ -55,7 +55,8 @@ public class FarmerController {
             @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String location,
-            @RequestParam(defaultValue = "false") String lead
+            @RequestParam(defaultValue = "false") String lead,
+            PagedResourcesAssembler<Client> assembler
     ) {
         var search = new HashMap<String, String>();
         if (name != null && !name.equals("")) search.put("name", name);

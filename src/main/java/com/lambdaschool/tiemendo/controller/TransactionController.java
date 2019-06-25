@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transaction")
-public class TransactionController {
+public class TransactionController extends AbstractController {
     @Autowired
     TransactionService transactionService;
     @Autowired
@@ -34,7 +35,8 @@ public class TransactionController {
                                      "Default sort order is ascending. Multiple sort criteria are supported.")})
     @GetMapping(value = "/all", produces = {"application/json"})
     public ResponseEntity<?> listAllTransactions(
-            @PageableDefault(page = 0, size = 25) Pageable pageable
+            @PageableDefault(page = 0, size = 25) Pageable pageable,
+            PagedResourcesAssembler<Transaction> assembler
     ) {
         List<Transaction> transactions = transactionService.findAll(pageable);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
@@ -49,8 +51,11 @@ public class TransactionController {
 
     @ApiOperation(value = "Returns transaction based on client id.", response = Transaction.class)
     @GetMapping(value = "/client/{id}", produces = {"application/json"})
-    public ResponseEntity<?> findTransactionsByClientId(@PathVariable long id)
-    {
+    public ResponseEntity<?> findTransactionsByClientId(
+            @PathVariable long id,
+            @PageableDefault(page = 0, size = 25) Pageable pageable,
+            PagedResourcesAssembler<Transaction> assembler
+    ) {
         Client client = clientService.findById(id);
         return new ResponseEntity<>(client.getTransactions(), HttpStatus.OK);
     }
@@ -60,7 +65,9 @@ public class TransactionController {
     @PostMapping(value = "/add/{clientid}")
     public ResponseEntity<?> addNewTransaction(
             @Valid @RequestBody Transaction transaction,
-            @PathVariable Long clientid
+            @PathVariable Long clientid,
+            @PageableDefault(page = 0, size = 25) Pageable pageable,
+            PagedResourcesAssembler<Transaction> assembler
     ) {
         Client c = transactionService.save(transaction, clientid);
         return new ResponseEntity<>(c.getTransactions(), HttpStatus.OK);
@@ -69,15 +76,20 @@ public class TransactionController {
     @PutMapping(value = "/update/{transactionId}")
     public ResponseEntity<?> updateTransaction(
             @RequestBody Transaction updateTransaction,
-            @PathVariable long transactionId
+            @PathVariable long transactionId,
+            @PageableDefault(page = 0, size = 25) Pageable pageable,
+            PagedResourcesAssembler<Transaction> assembler
     ) {
         return new ResponseEntity<>(transactionService.update(updateTransaction, transactionId),HttpStatus.OK);
     }
 
     @ApiOperation(value = "Deletes transaction based on transaction id.", response = Transaction.class)
     @DeleteMapping("/delete/{transactionId}")
-    public ResponseEntity<?> deleteTransactionById(@PathVariable Long transactionId)
-    {
+    public ResponseEntity<?> deleteTransactionById(
+            @PathVariable Long transactionId,
+            @PageableDefault(page = 0, size = 25) Pageable pageable,
+            PagedResourcesAssembler<Transaction> assembler
+    ) {
         Client c = transactionService.findTransactionById(transactionId).getClient();
         
         transactionService.delete(transactionId);

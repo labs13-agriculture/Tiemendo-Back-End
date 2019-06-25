@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/retailer")
-public class RetailerController
+public class RetailerController extends AbstractController
 {
 
     @Autowired
@@ -28,7 +29,8 @@ public class RetailerController
     @GetMapping(value = "/retailers", produces = {"application/json"})
     public ResponseEntity<?> listAllRetailers(
             @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
-            @RequestParam(defaultValue = "false") boolean lead
+            @RequestParam(defaultValue = "false") boolean lead,
+            PagedResourcesAssembler<Client> assembler
     ) {
         // todo: this needs to be updated to use paged resource assembler
         Page<Client> myRetailers = retailerService.findAll(pageable, lead);
@@ -40,7 +42,8 @@ public class RetailerController
             @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String location,
-            @RequestParam(defaultValue = "false") String lead
+            @RequestParam(defaultValue = "false") String lead,
+            PagedResourcesAssembler<Client> assembler
     ) {
         var search = new HashMap<String, String>();
         if (name != null && !name.equals("")) search.put("name", name);

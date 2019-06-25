@@ -6,6 +6,7 @@ import com.lambdaschool.tiemendo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/organizations")
-public class OrganizationController
+public class OrganizationController extends AbstractController
 {
     @Autowired
     private OrganizationService organizationService;
@@ -28,26 +29,12 @@ public class OrganizationController
     @GetMapping(value = "/organizations-list", produces = {"application/json"})
     public ResponseEntity<?> listAllOrganizations(
             // todo: change this back to 25
-            @PageableDefault(size=5, sort={"name"}) Pageable pageable,
-            @RequestParam(defaultValue = "false") boolean lead
-    )
-    {
+            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
+            @RequestParam(defaultValue = "false") boolean lead,
+            PagedResourcesAssembler<Organization> assembler
+    ) {
         List<Organization> myOrganization = organizationService.findAll(pageable, lead);
         return new ResponseEntity<>(myOrganization, HttpStatus.OK);
-    }
-    // GET ALL CONTACTS
-    @GetMapping(value = "/contacts-list", produces = {"application/json"})
-    public ResponseEntity<?> listAllContacts()
-    {
-        List<OrganizationBranch> myContact = organizationService.findAllBranches();
-        return new ResponseEntity<>(myContact, HttpStatus.OK);
-    }
-    
-    // GET CONTACTS BY ORGANIZATION ID
-    @GetMapping(value = "/contacts/{id}", produces = {"application/json"})
-    public ResponseEntity<?> listContactsByOrganization(@PathVariable long id)
-    {
-        return new ResponseEntity<>(organizationService.findBranchesByOrganization(id), HttpStatus.OK);
     }
 
     // SEARCH
@@ -56,8 +43,9 @@ public class OrganizationController
             @PageableDefault(size=25, sort={"name"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue="") String location,
-            @RequestParam(defaultValue = "false") boolean lead)
-    {
+            @RequestParam(defaultValue = "false") boolean lead,
+            PagedResourcesAssembler<Organization> assembler
+    ) {
         return new ResponseEntity<>(organizationService.searchOrganizations(pageable, name, location, lead), HttpStatus.OK);
     }
 
@@ -79,13 +67,6 @@ public class OrganizationController
 
         return new ResponseEntity<>(newOrganization, responseHeaders, HttpStatus.CREATED);
     }
-    
-    // CREATE NEW BRANCH
-    @PostMapping(value = "/branch/{id}", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<?> addNewBranch(@PathVariable long id, @RequestBody OrganizationBranch newBranch)
-    {
-        return new ResponseEntity<>(organizationService.saveBranch(id, newBranch), HttpStatus.OK);
-    }
 
     // DELETE ORGANIZATION BY ID
     @DeleteMapping("/organization/{organizationId}")
@@ -94,27 +75,67 @@ public class OrganizationController
         organizationService.delete(organizationId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    // DELETE CONTACT BY ID
-    @DeleteMapping("/contact/{contactId}")
-    public ResponseEntity<?> deleteContactById(@PathVariable Long contactId)
-    {
-        return new ResponseEntity<>(organizationService.deleteBranch(contactId), HttpStatus.OK);
-    }
 
     // UPDATE ORGANIZATION BY ID
     @PutMapping(value = "/update-organization/{organizationId}", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<?> updateOrganizationById(@RequestBody Organization organization, @PathVariable Long organizationId)
-    {
+    public ResponseEntity<?> updateOrganizationById(
+            @RequestBody Organization organization,
+            @PathVariable Long organizationId
+    ) {
         organizationService.update(organization, organizationId);
         return new ResponseEntity<>(organization, HttpStatus.OK);
     }
-    
+
+    /*
+    *
+    *
+    *  These Are the Endpoints For Branches
+    *
+    *
+    *
+    */
+
+    // GET CONTACTS BY ORGANIZATION ID
+    @GetMapping(value = "/contacts/{id}", produces = {"application/json"})
+    public ResponseEntity<?> getBranchesByOrganization(
+            @PathVariable long id,
+            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            PagedResourcesAssembler<OrganizationBranch> assembler
+    ) {
+        return new ResponseEntity<>(organizationService.findBranchesByOrganization(id), HttpStatus.OK);
+    }
+
+    // CREATE NEW BRANCH
+    @PostMapping(value = "/branch/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    public ResponseEntity<?> addNewBranch(
+            @PathVariable long id,
+            @RequestBody OrganizationBranch newBranch,
+            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            PagedResourcesAssembler<OrganizationBranch> assembler
+    ) {
+        return new ResponseEntity<>(organizationService.saveBranch(id, newBranch), HttpStatus.OK);
+    }
+
     // UPDATE BRANCH BY ID
     
     @PutMapping(value = "/branch/update/{id}", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<?> updateBranchById(@PathVariable long id, @RequestBody OrganizationBranch branch)
-    {
+    public ResponseEntity<?> updateBranchById(
+            @PathVariable long id,
+            @RequestBody OrganizationBranch branch,
+            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            PagedResourcesAssembler<OrganizationBranch> assembler
+    ) {
         return new ResponseEntity<>(organizationService.updateBranch(id, branch), HttpStatus.OK);
+    }
+
+    // DELETE CONTACT BY ID
+    @DeleteMapping("/contact/{contactId}")
+    public ResponseEntity<?> deleteBranchById(
+            @PathVariable Long contactId,
+            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            PagedResourcesAssembler<OrganizationBranch> assembler
+    ) {
+        return new ResponseEntity<>(organizationService.deleteBranch(contactId), HttpStatus.OK);
     }
 
 }
