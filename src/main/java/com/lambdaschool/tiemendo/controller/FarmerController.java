@@ -29,10 +29,11 @@ public class FarmerController {
     // Get all Farmers Pageable
     @GetMapping(value= "/all", produces = "application/json")
     public ResponseEntity<PagedResources> getAllFarmers(@PageableDefault(size=3, sort={"firstName"}) Pageable pageable, PagedResourcesAssembler assembler) {
-        Page p = farmerService.findAll(pageable);
+        Page  p = farmerService.findAll(pageable);
         return new ResponseEntity<>(assembler.toResource(p), HttpStatus.OK);
     }
 
+    //https://stackoverflow.com/questions/21346387/how-to-correctly-use-pagedresourcesassembler-from-spring-data
     // Get all Farmers by Search
     @GetMapping(value = "/search", produces = "application/json")
     public ResponseEntity<?> searchFarmers(
