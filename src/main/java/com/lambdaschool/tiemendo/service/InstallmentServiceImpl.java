@@ -7,6 +7,8 @@ import com.lambdaschool.tiemendo.model.Installment;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.repository.InstallmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,19 +29,17 @@ public class InstallmentServiceImpl implements InstallmentService
 
 
     @Override
-    public List<Installment> findAll()
+    public Page<Installment> findAll(Pageable pageable)
     {
-        List<Installment> list = new ArrayList<>();
-        installmentrepos.findAll().iterator().forEachRemaining(list::add);
-        return list;
+        return installmentrepos.findAll(pageable);
     }
 
     @Override
-    public List<Installment> findAllByClient(long id) {
+    public Page<Installment> findAllByClient(Pageable pageable, long id) {
         var client = clientRepos.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException("Could not find Client with id: " + id);
         });
-        return installmentrepos.findAllByClient(client);
+        return installmentrepos.findAllByClient(pageable, client);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class InstallmentServiceImpl implements InstallmentService
 
 
     @Override
-    public Client save(Installment installment, Long id)
+    public Page<Installment> save(Pageable pageable, Installment installment, Long id)
     {
         Installment newInstallment = new Installment();
         Client client = clientRepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
@@ -61,13 +61,15 @@ public class InstallmentServiceImpl implements InstallmentService
         newInstallment.setOfficer(installment.getOfficer());
         newInstallment.setClient(client);
 
+        // This previously returned a client not a list of installments
         client.getInstallments().add(newInstallment);
+        clientRepos.save(client);
 
-        return clientRepos.save(client);
+        return findAllByClient(pageable, client.getId());
     }
 
     @Override
-    public Installment update(Installment installment, Long id)
+    public Page<Installment> update(Pageable pageable, Installment installment, Long id)
     {
         Installment oldInstallment = findInstallmentById(id);
 
@@ -76,23 +78,24 @@ public class InstallmentServiceImpl implements InstallmentService
         oldInstallment.setMode(installment.getMode());
         oldInstallment.setDatePaid(new Date());
         oldInstallment.setOfficer(installment.getOfficer());
+        installmentrepos.save(oldInstallment);
 
-
-
-        return installmentrepos.save(oldInstallment);
+        return findAllByClient(pageable, oldInstallment.getClient().getId());
     }
 
 
     @Transactional
     @Override
-    public void delete(long id)
-    {
-    if (installmentrepos.findById(id).isPresent())
-    {
-        installmentrepos.deleteById(id);
-    }else
-    {
-        throw new EntityNotFoundException(Long.toString(id));
-    }
+    public Page<Installment> delete(Pageable pageable, long id) {
+        long clientId;
+        if (installmentrepos.findById(id).isPresent()) {
+            clientId = installmentrepos.findById(id).get().getClient().getId();
+            installmentrepos.deleteById(id);
+
+        } else {
+            throw new EntityNotFoundException(Long.toString(id));
+        }
+
+        return findAllByClient(pageable, clientId);
     }
 }

@@ -5,6 +5,7 @@ import com.lambdaschool.tiemendo.model.ItemType;
 
 import com.lambdaschool.tiemendo.repository.ItemTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +22,9 @@ public class ItemTypeServiceImpl implements ItemTypeService
 
     @Transactional
     @Override
-    public List<ItemType> findAll(Pageable pageable)
+    public Page<ItemType> findAll(Pageable pageable)
     {
-        List<ItemType> list = new ArrayList<>();
-        itemTypeRepository.findAll(pageable).iterator().forEachRemaining(list::add);
-        return list;
+        return itemTypeRepository.findAll(pageable);
     }
 
     @Override
@@ -41,8 +40,7 @@ public class ItemTypeServiceImpl implements ItemTypeService
 
     @Override
     public ItemType save(ItemType itemType) {
-            return itemTypeRepository.save(itemType);
-
+        return itemTypeRepository.save(itemType);
     }
 
     @Override

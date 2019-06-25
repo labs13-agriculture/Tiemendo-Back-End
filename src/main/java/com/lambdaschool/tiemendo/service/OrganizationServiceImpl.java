@@ -7,13 +7,12 @@ import com.lambdaschool.tiemendo.model.OrganizationBranch;
 import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
 import com.lambdaschool.tiemendo.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service(value = "organizationService")
@@ -28,58 +27,34 @@ public class OrganizationServiceImpl implements OrganizationService
 
 
     @Override
-    public List<Organization> findAll(Pageable pageable, boolean lead)
+    public Page<Organization> findAll(Pageable pageable, boolean lead)
     {
-        List<Organization> list = new ArrayList<>();
-        organizationRepos.findAll().iterator().forEachRemaining(list::add);
-        return list;
+        return organizationRepos.findAllByLead(pageable, lead);
     }
 
     @Override
-    public List<OrganizationBranch> findAllBranches()
+    public Page<Organization> searchOrganizations(Pageable pageable, String name, String location, boolean lead) throws ResourceNotFoundException
     {
-        List<OrganizationBranch> list = new ArrayList<>();
-        organizationContactRepos.findAll().iterator().forEachRemaining(list::add);
-        return list;
-    }
-
-    @Override
-    public List<Organization> searchOrganizations(Pageable pageable, String name, String location, boolean lead) throws ResourceNotFoundException
-    {
-        var results = new ArrayList<Organization>();
+        Page<Organization> results;
 
         if (name != null && !name.equals("") && location != null && !location.equals("")){
-            organizationRepos.searchOrganizationsByNameAndLocation(pageable, name, location, lead).iterator().forEachRemaining(results::add);
+            results = organizationRepos.searchOrganizationsByNameAndLocation(pageable, name, location, lead);
         } else if (name != null && !name.equals("")) {
-            organizationRepos.searchOrganizationsByName(pageable, name, lead).iterator().forEachRemaining(results::add);
+            results = organizationRepos.searchOrganizationsByName(pageable, name, lead);
         } else if (location != null && !location.equals("")) {
-            organizationRepos.searchOrganizationsByLocation(pageable, location, lead).iterator().forEachRemaining(results::add);
+            results = organizationRepos.searchOrganizationsByLocation(pageable, location, lead);
         } else {
             // if no search critieria return find all
             return findAll(pageable, lead);
         }
 
-//        // todo: make this a utility or find better way to make pageable.
-//        int start = pageable.getPageSize() * pageable.getPageNumber();
-//        int end = pageable.getPageSize() * (pageable.getPageNumber() + 1);
-//        if (end < results.size()) {
-//            end = results.size();
-//        }
-
-        return new ArrayList<>(results/*.subList(start, end)*/);
+        return results;
     }
-
 
     @Override
     public Organization findOrganizationById(long id) throws EntityNotFoundException
     {
         return organizationRepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
-    }
-    
-    @Override
-    public List<OrganizationBranch> findBranchesByOrganization(long id) throws ResourceNotFoundException
-    {
-        return organizationContactRepos.findAllByOrganization(findOrganizationById(id));
     }
 
     @Transactional
@@ -124,9 +99,27 @@ public class OrganizationServiceImpl implements OrganizationService
         }
     }
 
+    /*
+    *
+    *  After This is Methods for OrganizationBranches
+    *
+    * */
+
+    @Override
+    public Page<OrganizationBranch> findAllBranches(Pageable pageable)
+    {
+        return organizationContactRepos.findAll(pageable);
+    }
+
+    @Override
+    public Page<OrganizationBranch> findBranchesByOrganization(Pageable pageable, long id)
+    {
+        return organizationContactRepos.findAllByOrganization(pageable, findOrganizationById(id));
+    }
+
     @Transactional
     @Override
-    public List<OrganizationBranch> deleteBranch(long id) throws EntityNotFoundException
+    public Page<OrganizationBranch> deleteBranch(Pageable pageable, long id)
     {
         if(organizationContactRepos.findById(id).isPresent())
         {
@@ -134,7 +127,7 @@ public class OrganizationServiceImpl implements OrganizationService
             Organization org = organizationRepos.findByBranches(organizationContactRepos.getOrganizationBranchBy(id));
             organizationContactRepos.deleteById(id);
             //need to return list of remaining organizations
-            return findBranchesByOrganization(org.getId());
+            return findBranchesByOrganization(pageable, org.getId());
         } else
         {
             throw new EntityNotFoundException(Long.toString(id));
@@ -142,17 +135,17 @@ public class OrganizationServiceImpl implements OrganizationService
     }
     
     @Override
-    public List<OrganizationBranch> saveBranch(long id, OrganizationBranch newBranch)
+    public Page<OrganizationBranch> saveBranch (Pageable pageable, long id, OrganizationBranch newBranch)
     {
         Organization org = findOrganizationById(id);
         newBranch.setOrganization(org);
         organizationContactRepos.save(newBranch);
 
-        return findOrganizationById(id).getBranches();
+        return findBranchesByOrganization(pageable, id);
     }
     
     @Override
-    public List<OrganizationBranch> updateBranch(long id, OrganizationBranch branch) throws ResourceNotFoundException
+    public Page<OrganizationBranch> updateBranch(Pageable pageable, long id, OrganizationBranch branch)
     {
         Optional<OrganizationBranch> branchOptional = organizationContactRepos.findById(id);
         if(branchOptional.isPresent())
@@ -170,7 +163,7 @@ public class OrganizationServiceImpl implements OrganizationService
             
             organizationContactRepos.save(original);
             
-            return organizationRepos.findByBranches(original).getBranches();
+            return findBranchesByOrganization(pageable, original.getOrganization().getId());
             
         }
         else

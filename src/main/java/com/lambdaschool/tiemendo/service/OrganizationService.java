@@ -7,28 +7,33 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface OrganizationService
-{
+public interface OrganizationService {
 
-    List<Organization> findAll(Pageable pageable, boolean lead);
+    Page<Organization> findAll(Pageable pageable, boolean lead);
 
-    List<OrganizationBranch> findAllBranches();
-    
-    List<OrganizationBranch> findBranchesByOrganization(long id);
-
-    List<Organization> searchOrganizations(Pageable pageable, String name, String location, boolean lead);
+    Page<Organization> searchOrganizations(Pageable pageable, String name, String location, boolean lead);
 
     Organization findOrganizationById(long id);
 
-    Organization save (Organization organization);
+    Organization save(Organization organization);
 
     Organization update(Organization organization, long id);
 
     void delete(long id);
 
-    List<OrganizationBranch> deleteBranch(long id);
-    
-    List<OrganizationBranch> saveBranch(long id, OrganizationBranch newBranch);
-    
-    List<OrganizationBranch> updateBranch(long id, OrganizationBranch branch);
+    /*
+    *
+    *  This all deals with branches
+    *
+    * */
+
+    Page<OrganizationBranch> findAllBranches(Pageable pageable);
+
+    Page<OrganizationBranch> findBranchesByOrganization(Pageable pageable, long id);
+
+    Page<OrganizationBranch> deleteBranch(Pageable pageable, long id);
+
+    Page<OrganizationBranch> saveBranch(Pageable pageable, long id, OrganizationBranch newBranch);
+
+    Page<OrganizationBranch> updateBranch(Pageable pageable, long id, OrganizationBranch branch);
 }

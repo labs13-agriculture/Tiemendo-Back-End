@@ -3,7 +3,6 @@ package com.lambdaschool.tiemendo.service;
 
 
 import com.lambdaschool.tiemendo.exception.ResourceNotFoundException;
-import com.lambdaschool.tiemendo.exception.ValidationError;
 import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Transaction;
 
@@ -11,6 +10,7 @@ import com.lambdaschool.tiemendo.model.TransactionItem;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +30,9 @@ public class TransactionServiceImpl implements TransactionService
 
 
     @Override
-    public List<Transaction> findAll(Pageable pageable)
+    public Page<Transaction> findAll(Pageable pageable)
     {
-        List<Transaction> list = new ArrayList<>();
-        transactionRepository.findAll().iterator().forEachRemaining(list::add);
-        return list;
+        return transactionRepository.findAll(pageable);
     }
 
 
@@ -95,7 +93,7 @@ public class TransactionServiceImpl implements TransactionService
 
     @Override
     @Transactional
-    public List<Transaction> update(Transaction transaction, long id) {
+    public Page<Transaction> update(Pageable pageable, Transaction transaction, long id) {
         Transaction currentTransaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
 
@@ -138,7 +136,9 @@ public class TransactionServiceImpl implements TransactionService
 
 
 
-        return transactionRepository.save(currentTransaction).getClient().getTransactions();
+        transactionRepository.save(currentTransaction);
+
+        return transactionRepository.findAllByClient(pageable, currentTransaction.getClient());
 
     }
 }
