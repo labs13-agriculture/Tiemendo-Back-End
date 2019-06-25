@@ -7,11 +7,11 @@ import com.lambdaschool.tiemendo.model.OrganizationBranch;
 import com.lambdaschool.tiemendo.repository.OrganizationBranchRepository;
 import com.lambdaschool.tiemendo.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class OrganizationServiceImpl implements OrganizationService
 
 
     @Override
-    public List<Organization> findAll()
+    public List<Organization> findAll(Pageable pageable, boolean lead)
     {
         List<Organization> list = new ArrayList<>();
         organizationRepos.findAll().iterator().forEachRemaining(list::add);
@@ -42,35 +42,33 @@ public class OrganizationServiceImpl implements OrganizationService
         organizationContactRepos.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
-    
+
     @Override
-    public List<Organization> searchOrganizations(String name, String location, boolean lead) throws ResourceNotFoundException
+    public List<Organization> searchOrganizations(Pageable pageable, String name, String location, boolean lead) throws ResourceNotFoundException
     {
-        String wildcardName = "%" + name + "%";
-        String wildcardLocation = "%" + location + "%";
+        var results = new ArrayList<Organization>();
 
-        List<Organization> searchResults = organizationRepos.searchOrganizations(wildcardName, wildcardLocation, lead);
-        if(searchResults.size() == 0)
-        {
-            throw new ResourceNotFoundException("No Organizations found");
+        if (name != null && !name.equals("") && location != null && !location.equals("")){
+            organizationRepos.searchOrganizationsByNameAndLocation(pageable, name, location, lead).iterator().forEachRemaining(results::add);
+        } else if (name != null && !name.equals("")) {
+            organizationRepos.searchOrganizationsByName(pageable, name, lead).iterator().forEachRemaining(results::add);
+        } else if (location != null && !location.equals("")) {
+            organizationRepos.searchOrganizationsByLocation(pageable, location, lead).iterator().forEachRemaining(results::add);
+        } else {
+            // if no search critieria return find all
+            return findAll(pageable, lead);
         }
 
-        //Query still returns duplicates, for now will filter here, modifying query in future would propbably be more performant
-        List<Long> existing = new ArrayList<>();
-        List<Organization> filteredResults = new ArrayList<>();
+//        // todo: make this a utility or find better way to make pageable.
+//        int start = pageable.getPageSize() * pageable.getPageNumber();
+//        int end = pageable.getPageSize() * (pageable.getPageNumber() + 1);
+//        if (end < results.size()) {
+//            end = results.size();
+//        }
 
-        for(Organization o : searchResults)
-        {
-            //If id hasn't been added to existing list
-            if(!existing.contains(o.getId()))
-            {
-                existing.add(o.getId());
-                filteredResults.add(o);
-            }
-        }
-
-        return filteredResults;
+        return new ArrayList<>(results/*.subList(start, end)*/);
     }
+
 
     @Override
     public Organization findOrganizationById(long id) throws EntityNotFoundException

@@ -58,6 +58,11 @@ public class ClientServiceImpl implements ClientService {
         } else if (keys.contains("location")) {
             String loc = searchFields.get("location");
             clientRepository.searchByLocationFields(loc, lead, type).iterator().forEachRemaining(results::add);
+        } else {
+            // if no search critieria return find all
+            // its super cool that this returns the find all of the subtypes
+            // if an instance is a subtype
+            return findAll(pageable, lead);
         }
 
         int start = pageable.getPageSize() * pageable.getPageNumber();

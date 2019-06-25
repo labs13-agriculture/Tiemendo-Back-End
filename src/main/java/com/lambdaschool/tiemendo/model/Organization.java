@@ -15,7 +15,7 @@ public class Organization extends Auditable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    private boolean isLead;
+    private boolean lead;
     private String headquarters;
     private int beneficiaries;
     // Todo: Organization Logo
@@ -27,9 +27,9 @@ public class Organization extends Auditable
     public Organization() {
     }
 
-    public Organization(String name, boolean isLead, String headquarters, int beneficiaries) {
+    public Organization(String name, boolean lead, String headquarters, int beneficiaries) {
         this.name = name;
-        this.isLead = isLead;
+        this.lead = lead;
         this.headquarters = headquarters;
         this.beneficiaries = beneficiaries;
     }
@@ -51,11 +51,11 @@ public class Organization extends Auditable
     }
 
     public boolean isLead() {
-        return isLead;
+        return lead;
     }
 
     public void setLead(boolean lead) {
-        isLead = lead;
+        lead = lead;
     }
 
     public String getHeadquarters() {

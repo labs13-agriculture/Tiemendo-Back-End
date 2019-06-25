@@ -4,6 +4,8 @@ import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationBranch;
 import com.lambdaschool.tiemendo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,13 @@ public class OrganizationController
 
     // GET ALL ORGANIZATIONS
     @GetMapping(value = "/organizations-list", produces = {"application/json"})
-    public ResponseEntity<?> listAllOrganizations()
+    public ResponseEntity<?> listAllOrganizations(
+            // todo: change this back to 25
+            @PageableDefault(size=5, sort={"name"}) Pageable pageable,
+            @RequestParam(defaultValue = "false") boolean lead
+    )
     {
-        List<Organization> myOrganization = organizationService.findAll();
+        List<Organization> myOrganization = organizationService.findAll(pageable, lead);
         return new ResponseEntity<>(myOrganization, HttpStatus.OK);
     }
     // GET ALL CONTACTS
@@ -47,11 +53,12 @@ public class OrganizationController
     // SEARCH
     @GetMapping(value = "/search", produces = {"application/json"})
     public ResponseEntity<?> orgSearch(
+            @PageableDefault(size=5, sort={"name"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue="") String location,
             @RequestParam(defaultValue = "false") boolean lead)
     {
-        return new ResponseEntity<>(organizationService.searchOrganizations(name, location, lead), HttpStatus.OK);
+        return new ResponseEntity<>(organizationService.searchOrganizations(pageable, name, location, lead), HttpStatus.OK);
     }
 
     // GET ORGANIZATION BY ID
@@ -70,7 +77,7 @@ public class OrganizationController
         URI newOrganizationURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{organizationid}").buildAndExpand(newOrganization).toUri();
         responseHeaders.setLocation(newOrganizationURI);
 
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(newOrganization, responseHeaders, HttpStatus.CREATED);
     }
     
     // CREATE NEW BRANCH
