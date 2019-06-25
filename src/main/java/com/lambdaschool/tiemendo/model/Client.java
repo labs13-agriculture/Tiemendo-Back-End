@@ -3,6 +3,7 @@ package com.lambdaschool.tiemendo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Client extends Auditable {
     private String secondName;
     private String gender;
     private String nationality;
-    private String dateofbirth;
+    private LocalDate dateofbirth;
     private String educationlevel;
     private String position;
     // todo passport picture
@@ -186,11 +187,11 @@ public class Client extends Auditable {
         this.nationality = nationality;
     }
 
-    public String getDateofbirth() {
+    public LocalDate getDateofbirth() {
         return dateofbirth;
     }
 
-    public void setDateofbirth(String dateofbirth) {
+    public void setDateofbirth(LocalDate dateofbirth) {
         this.dateofbirth = dateofbirth;
     }
 

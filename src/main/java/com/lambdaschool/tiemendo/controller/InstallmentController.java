@@ -26,7 +26,7 @@ public class InstallmentController
 
     @GetMapping(value = "/installment-list/{clientid}", produces = {"application/json"})
     public ResponseEntity<?> listAllInstallments(
-            @PageableDefault(size=50, sort={"date"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"date"}) Pageable pageable,
             @PathVariable Long clientid
     ) {
         List<Installment> myInstallment = installmentService.findAllByClient(clientid);

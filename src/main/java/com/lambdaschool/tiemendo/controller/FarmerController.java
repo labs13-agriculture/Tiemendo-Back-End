@@ -31,7 +31,7 @@ public class FarmerController {
     // Get all Farmers Pageable
     @GetMapping(value= "/all", produces = "application/json")
     public ResponseEntity<?> getAllFarmers(
-            @PageableDefault(size=3, sort={"firstName"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"firstName"}) Pageable pageable,
             @RequestParam(defaultValue = "false") boolean lead,
             PagedResourcesAssembler<Client> assembler
     ) {

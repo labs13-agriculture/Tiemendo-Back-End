@@ -53,7 +53,7 @@ public class OrganizationController
     // SEARCH
     @GetMapping(value = "/search", produces = {"application/json"})
     public ResponseEntity<?> orgSearch(
-            @PageableDefault(size=5, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue="") String location,
             @RequestParam(defaultValue = "false") boolean lead)
