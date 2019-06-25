@@ -9,6 +9,8 @@ public interface UserService
 
     List<User> findAll();
     List<User> findUsersByUsernameIsLike(String user);
+    
+    User findUserByName(String name);
 
     User findUserById(long id);
 

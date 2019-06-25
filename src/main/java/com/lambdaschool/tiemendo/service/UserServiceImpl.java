@@ -56,7 +56,13 @@ public class UserServiceImpl implements UserDetailsService, UserService
     public List<User> findUsersByUsernameIsLike(String user) {
         return userrepos.findUsersByUsernameIsStartingWithIgnoreCaseOrderByUsernameAsc(user);
     }
-
+    
+    @Override
+    public User findUserByName(String name)
+    {
+        return userrepos.findByUsername(name);
+    }
+    
     @Override
     public void delete(long id)
     {
