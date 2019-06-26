@@ -123,37 +123,18 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Page<OrganizationBranch> deleteBranch(Pageable pageable, long id)
     {
-        if(branchRepo.findById(id).isPresent())
-        Optional<OrganizationBranch> organizationBranch = organizationContactRepos.findById(id);
+        
+        Optional<OrganizationBranch> organizationBranch = branchRepo.findById(id);
         if(organizationBranch.isPresent()) // see if the organization branch exists
         {
-            Organization org = organizationRepos.findOrgByBranchId(id);
-            if (org == null) {
-                throw new ResourceNotFoundException("Could not find Organization belonging to branch with id: " + id);
-            }
-            branchRepo.deleteById(id);
-            return findBranchesByOrganization(pageable, org.getId());
-        } else {
-            //get the organization off the branch
-            Organization org = organizationBranch.get().getOrganization();
-            org.getBranches().forEach(branch -> System.out.println("ID: " + branch.getBranch_id() + " name: " + branch.getName()));
-            //delete the branch
-            organizationContactRepos.delete(organizationBranch.get());
-            //return remaining branches
-            List<OrganizationBranch> branchList = new ArrayList<>();
-            for (OrganizationBranch ob : org.getBranches())
-            {
-                //looping through once seems faster than another database call - need to make sure branch is removed from list
-                if(ob.getBranch_id() != id)
-                {
-                    branchList.add(ob);
-                }
-            }
-            return branchList;
+            long orgId = organizationBranch.get().getOrganization().getId();
+            branchRepo.delete(organizationBranch.get());
+            return findBranchesByOrganization(pageable, orgId);
         } else
         {
-            throw new EntityNotFoundException(Long.toString(id));
+            throw new ResourceNotFoundException("Could not find branch with ID: " + id);
         }
+        
     }
     
     @Override
