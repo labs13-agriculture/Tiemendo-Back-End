@@ -11,6 +11,9 @@ import java.util.List;
 
 public interface OrganizationRepository extends PagingAndSortingRepository<Organization, Long>
 {
+
+    Page<Organization> findAllByLead(Pageable pageable, boolean isLead);
+
     @Query(value = "SELECT DISTINCT o from Organization o JOIN o.branches b WHERE " +
             "(upper(o.name) LIKE upper(concat('%', :name, '%')) " +
             "or upper(b.name) LIKE upper(concat('%', :name, '%'))) " +
@@ -41,4 +44,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
     Page<Organization> searchOrganizationsByNameAndLocation(Pageable pageable, String name, String loc, boolean lead);
 
     Organization findByBranches(OrganizationBranch branch);
+
+    @Query(value = "SELECT o from Organization o JOIN o.branches b WHERE b.branch_id = :id")
+    Organization findOrgByBranchId(long id);
 }

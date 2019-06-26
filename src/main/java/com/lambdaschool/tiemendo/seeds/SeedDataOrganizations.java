@@ -34,7 +34,7 @@ public class SeedDataOrganizations implements CommandLineRunner
         var f = new Faker();
 
         // no for Number Organizations
-        for (var no=0; no<100; no++){
+        for (var no=0; no<50; no++){
             var org = new Organization(
                     f.company().name(),
                     f.bool().bool(),

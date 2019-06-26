@@ -18,6 +18,8 @@ import java.util.List;
 @Service(value = "transactionItemService")
 public class TransactionItemServiceImpl implements TransactionItemService
 {
+
+    // Do we ever use these?
     @Autowired
     TransactionItemRepository transactionItemRepository;
 

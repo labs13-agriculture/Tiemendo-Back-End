@@ -16,7 +16,7 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
                    "OR upper(c.secondName) LIKE upper(CONCAT('%',:name,'%'))" +
                    ") AND (c.lead = :lead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
     )
-    List<Client> searchByNameFields(String name, boolean lead, String type);
+    Page<Client> searchByNameFields(Pageable pageable, String name, boolean lead, String type);
 
     @Query("SELECT c FROM Client c WHERE (" +
                    "upper(c.address) LIKE upper(CONCAT('%',:location,'%')) " +
@@ -25,7 +25,7 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
                    "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%'))" +
                    ") AND (c.lead = :lead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
     )
-    List<Client> searchByLocationFields(String location, boolean lead, String type);
+    Page<Client> searchByLocationFields(Pageable pageable, String location, boolean lead, String type);
 
     @Query("SELECT c FROM Client c WHERE " +
                    "(upper(c.firstName) LIKE upper(CONCAT('%',:name,'%')) " +
@@ -36,7 +36,7 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Lon
                    "OR upper(c.landmark) LIKE upper(CONCAT('%',:location,'%'))" +
                    ") AND (c.lead = :lead) AND (upper(c.type) like upper(CONCAT('%',:type,'%')))"
     )
-    List<Client> searchByNameAndLocationFields(String name, String location, boolean lead, String type);
+    Page<Client> searchByNameAndLocationFields(Pageable pageable, String name, String location, boolean lead, String type);
 
     Page<Client> findClientsByTypeAndLead(Pageable pageable, String type, boolean lead);
 }

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 
 @Service(value = "retailerService")
 public class ClientServiceImplRetailer extends ClientServiceImpl {
