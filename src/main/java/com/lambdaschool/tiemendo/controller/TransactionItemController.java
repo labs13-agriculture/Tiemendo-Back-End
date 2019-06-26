@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transaction-item")
-public class TransactionItemController {
+public class TransactionItemController extends AbstractController {
 /*
 *
 *   I wonder if we even need this? when will be accessing a Transaction Item by itself

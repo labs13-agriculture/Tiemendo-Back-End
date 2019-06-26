@@ -32,8 +32,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ArrayList<Client> search(Pageable pageable, HashMap<String, String> searchFields) {
-        var results = new ArrayList<Client>();
+    public Page<Client> search(Pageable pageable, HashMap<String, String> searchFields) {
+        Page<Client> results;
         var keys = searchFields.keySet();
         var lead = false;
         var type = "";
@@ -51,21 +51,20 @@ public class ClientServiceImpl implements ClientService {
         if (keys.contains("name") && keys.contains("location")){
             String loc = searchFields.get("location");
             String name = searchFields.get("name");
-            clientRepository.searchByNameAndLocationFields(name, loc, lead, type).iterator().forEachRemaining(results::add);
+            results = clientRepository.searchByNameAndLocationFields(pageable, name, loc, lead, type);
         } else if (keys.contains("name")) {
             String name = searchFields.get("name");
-            clientRepository.searchByNameFields(name, lead, type).iterator().forEachRemaining(results::add);
+            results = clientRepository.searchByNameFields(pageable, name, lead, type);
         } else if (keys.contains("location")) {
             String loc = searchFields.get("location");
-            clientRepository.searchByLocationFields(loc, lead, type).iterator().forEachRemaining(results::add);
+            results = clientRepository.searchByLocationFields(pageable, loc, lead, type);
         } else {
             // if no search critieria return find all
             // its super cool that this returns the find all of the subtypes
             // if an instance is a subtype
-            // todo: rework this to use pages
-            //return findAll(pageable, lead);
-
+            return findAll(pageable, lead);
         }
+
         return results;
     }
 
