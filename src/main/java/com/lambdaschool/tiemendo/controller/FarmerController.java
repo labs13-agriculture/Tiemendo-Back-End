@@ -6,9 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,16 +33,12 @@ public class FarmerController extends AbstractController {
             PagedResourcesAssembler<Client> assembler
     ) {
         Page<Client>  p = farmerService.findAll(pageable, lead);
-        PagedResources<Resource<Client>> res = assembler.toResource(p);
 
-        HttpHeaders headers = new HttpHeaders();
-        res.getLinks().forEach(link -> headers.set(link.getRel(), link.getHref()));
-        var metadata = res.getMetadata();
-        headers.set("total_pages", String.valueOf(metadata.getTotalPages()));
-        headers.set("number", String.valueOf(metadata.getNumber()));
-        headers.set("results", String.valueOf(metadata.getTotalElements()));
+        // Check the Abstract Controller for these
+        var content = getContents(p, assembler);
+        var headers = getHeaders(p, assembler);
 
-        return new ResponseEntity<>(res.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     //https://stackoverflow.com/questions/21346387/how-to-correctly-use-pagedresourcesassembler-from-spring-data
@@ -64,7 +57,14 @@ public class FarmerController extends AbstractController {
 
         search.put("type", "FARMER");
         search.put("lead", lead);
-        return new ResponseEntity<>(farmerService.search(pageable, search), HttpStatus.OK);
+
+        Page<Client>  p = farmerService.search(pageable, search);
+
+        // Check the Abstract Controller for these
+        var content = getContents(p, assembler);
+        var headers = getHeaders(p, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // Add Farmer

@@ -35,6 +35,14 @@ public class TransactionServiceImpl implements TransactionService
         return transactionRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<Transaction> findAllByClientId(Pageable pageable, long id) {
+        Client c = clientRepository.findById(id).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Could not find client with id: " + id);
+        });
+
+        return transactionRepository.findAllByClient(pageable, c);
+    }
 
     @Override
     public Transaction findTransactionById(long id)

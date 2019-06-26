@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface TransactionService {
 
     Page<Transaction> findAll(Pageable pageable);
+    Page<Transaction> findAllByClientId(Pageable pageable, long id);
 
     Transaction findTransactionById(long id);
 

@@ -4,9 +4,12 @@ import com.lambdaschool.tiemendo.model.Client;
 import com.lambdaschool.tiemendo.model.Installment;
 import com.lambdaschool.tiemendo.service.InstallmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +29,15 @@ public class InstallmentController extends AbstractController
     // Lists all installments for a given client
     @GetMapping(value = "/installment-list/{clientid}", produces = {"application/json"})
     public ResponseEntity<?> listAllInstallments(
-            @PageableDefault(size=25, sort={"date"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
             @PathVariable Long clientid,
             PagedResourcesAssembler<Installment> assembler
     ) {
-        List<Installment> myInstallment = installmentService.findAllByClient(clientid);
-        return new ResponseEntity<>(myInstallment, HttpStatus.OK);
+        Page<Installment> p = installmentService.findAllByClient(pageable, clientid);
+        var content = getContents(p, assembler);
+        var headers = getHeaders(p, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 
@@ -46,11 +52,15 @@ public class InstallmentController extends AbstractController
     public ResponseEntity<?> addNewInstallment(
             @PathVariable Long clientId,
             @Valid @RequestBody Installment newInstallment,
-            @PageableDefault(size=25, sort={"date"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
-        Client client = installmentService.save(newInstallment, clientId);
-        return new ResponseEntity<>(installmentService.findAllByClient(client.getId()), HttpStatus.OK);
+
+        Page<Installment> p = installmentService.save(pageable, newInstallment, clientId);
+        var content = getContents(p, assembler);
+        var headers = getHeaders(p, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 
@@ -58,23 +68,29 @@ public class InstallmentController extends AbstractController
     public ResponseEntity<?> updateInstallmentById(
             @RequestBody Installment installment,
             @PathVariable Long installmentId,
-            @PageableDefault(size=25, sort={"date"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
-        Installment i = installmentService.update(installment, installmentId);
-        return new ResponseEntity<>(installmentService.findAllByClient(i.getClient().getId()), HttpStatus.OK);
+        Page<Installment> page = installmentService.update(pageable, installment, installmentId);
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 
     @DeleteMapping("/installment/{installmentId}")
     public ResponseEntity<?> deleteTransactionById(
             @PathVariable Long installmentId,
-            @PageableDefault(size=25, sort={"date"}) Pageable pageable,
+            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
-        Client c = installmentService.findInstallmentById(installmentId).getClient();
-        installmentService.delete(installmentId);
-        return new ResponseEntity<>(installmentService.findAllByClient(c.getId()), HttpStatus.OK);
+        Page<Installment> page = installmentService.delete(pageable, installmentId);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 

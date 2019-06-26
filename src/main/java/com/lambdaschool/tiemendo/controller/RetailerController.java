@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/retailer")
@@ -33,8 +32,12 @@ public class RetailerController extends AbstractController
             PagedResourcesAssembler<Client> assembler
     ) {
         // todo: this needs to be updated to use paged resource assembler
-        Page<Client> myRetailers = retailerService.findAll(pageable, lead);
-        return new ResponseEntity<>(myRetailers, HttpStatus.OK);
+        Page<Client> page = retailerService.findAll(pageable, lead);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "/search", produces = "application/json")
@@ -51,7 +54,13 @@ public class RetailerController extends AbstractController
 
         search.put("type", "RETAILER");
         search.put("lead", lead);
-        return new ResponseEntity<>(retailerService.search(pageable, search), HttpStatus.OK);
+
+        Page<Client> page = retailerService.search(pageable, search);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
     
     @GetMapping(value = "/{id}", produces = {"application/json"})

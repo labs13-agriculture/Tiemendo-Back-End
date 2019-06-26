@@ -1,9 +1,11 @@
 package com.lambdaschool.tiemendo.controller;
 
+import com.lambdaschool.tiemendo.model.ItemType;
 import com.lambdaschool.tiemendo.model.Organization;
 import com.lambdaschool.tiemendo.model.OrganizationBranch;
 import com.lambdaschool.tiemendo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -33,8 +35,12 @@ public class OrganizationController extends AbstractController
             @RequestParam(defaultValue = "false") boolean lead,
             PagedResourcesAssembler<Organization> assembler
     ) {
-        List<Organization> myOrganization = organizationService.findAll(pageable, lead);
-        return new ResponseEntity<>(myOrganization, HttpStatus.OK);
+        Page<Organization> page = organizationService.findAll(pageable, lead);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // SEARCH
@@ -46,7 +52,11 @@ public class OrganizationController extends AbstractController
             @RequestParam(defaultValue = "false") boolean lead,
             PagedResourcesAssembler<Organization> assembler
     ) {
-        return new ResponseEntity<>(organizationService.searchOrganizations(pageable, name, location, lead), HttpStatus.OK);
+        Page<Organization> page = organizationService.searchOrganizations(pageable, name, location, lead);
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // GET ORGANIZATION BY ID
@@ -102,7 +112,12 @@ public class OrganizationController extends AbstractController
             @PageableDefault(size=10, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
-        return new ResponseEntity<>(organizationService.findBranchesByOrganization(id), HttpStatus.OK);
+        Page<OrganizationBranch> page = organizationService.findBranchesByOrganization(pageable, id);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // CREATE NEW BRANCH
@@ -113,7 +128,12 @@ public class OrganizationController extends AbstractController
             @PageableDefault(size=10, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
-        return new ResponseEntity<>(organizationService.saveBranch(id, newBranch), HttpStatus.OK);
+        Page<OrganizationBranch> page = organizationService.saveBranch(pageable, id, newBranch);
+
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // UPDATE BRANCH BY ID
@@ -125,7 +145,11 @@ public class OrganizationController extends AbstractController
             @PageableDefault(size=10, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
-        return new ResponseEntity<>(organizationService.updateBranch(id, branch), HttpStatus.OK);
+        Page<OrganizationBranch> page = organizationService.updateBranch(pageable, id, branch);
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     // DELETE CONTACT BY ID
@@ -135,7 +159,12 @@ public class OrganizationController extends AbstractController
             @PageableDefault(size=10, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
-        return new ResponseEntity<>(organizationService.deleteBranch(contactId), HttpStatus.OK);
+
+        Page<OrganizationBranch> page = organizationService.deleteBranch(pageable, contactId);
+        var content = getContents(page, assembler);
+        var headers = getHeaders(page, assembler);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
 }
