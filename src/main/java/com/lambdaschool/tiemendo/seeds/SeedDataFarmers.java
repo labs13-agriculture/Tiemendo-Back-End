@@ -44,7 +44,7 @@ public class SeedDataFarmers implements CommandLineRunner
         var clients = new ArrayList<Client>();
         String[] types = {"FARMER", "RETAILER"};
 
-        for (var i=0; i++<400;) {
+        for (var i=0; i++<100;) {
             // Create a client
             Client client = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
                     f.address().streetAddress(), f.gameOfThrones().house(), f.name().firstName(),
@@ -71,7 +71,7 @@ public class SeedDataFarmers implements CommandLineRunner
             // create list of transactions
             var transactions = new ArrayList<Transaction>();
             // loop to create 5 transactions
-            for (var nt=0; nt++<10+extra;) {
+            for (var nt=0; nt++<5+extra;) {
                 // create list on inputs
                 var inputs = new ArrayList<TransactionItem>();
                 // create transaction
@@ -95,7 +95,7 @@ public class SeedDataFarmers implements CommandLineRunner
 
             var installments = new ArrayList<Installment>();
 
-            for (var ni=0; ni<5+extra; ni++){
+            for (var ni=0; ni<1+extra; ni++){
                 var installment = new Installment(
                         f.number().randomDouble(2, 5, 15),
                         new Date(),
