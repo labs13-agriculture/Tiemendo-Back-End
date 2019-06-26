@@ -128,13 +128,25 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public List<OrganizationBranch> deleteBranch(long id) throws EntityNotFoundException
     {
-        if(organizationContactRepos.findById(id).isPresent())
+        Optional<OrganizationBranch> organizationBranch = organizationContactRepos.findById(id);
+        if(organizationBranch.isPresent()) // see if the organization branch exists
         {
-            //Need to find a better way to do this... Need Org so we can return list of it's branches.. Need org contact so we can find org
-            Organization org = organizationRepos.findByBranches(organizationContactRepos.getOrganizationBranchBy(id));
-            organizationContactRepos.deleteById(id);
-            //need to return list of remaining organizations
-            return findBranchesByOrganization(org.getId());
+            //get the organization off the branch
+            Organization org = organizationBranch.get().getOrganization();
+            org.getBranches().forEach(branch -> System.out.println("ID: " + branch.getBranch_id() + " name: " + branch.getName()));
+            //delete the branch
+            organizationContactRepos.delete(organizationBranch.get());
+            //return remaining branches
+            List<OrganizationBranch> branchList = new ArrayList<>();
+            for (OrganizationBranch ob : org.getBranches())
+            {
+                //looping through once seems faster than another database call - need to make sure branch is removed from list
+                if(ob.getBranch_id() != id)
+                {
+                    branchList.add(ob);
+                }
+            }
+            return branchList;
         } else
         {
             throw new EntityNotFoundException(Long.toString(id));
