@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service(value = "organizationService")
@@ -121,17 +123,18 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Page<OrganizationBranch> deleteBranch(Pageable pageable, long id)
     {
-        if(branchRepo.findById(id).isPresent())
+        
+        Optional<OrganizationBranch> organizationBranch = branchRepo.findById(id);
+        if(organizationBranch.isPresent()) // see if the organization branch exists
         {
-            Organization org = organizationRepos.findOrgByBranchId(id);
-            if (org == null) {
-                throw new ResourceNotFoundException("Could not find Organization belonging to branch with id: " + id);
-            }
-            branchRepo.deleteById(id);
-            return findBranchesByOrganization(pageable, org.getId());
-        } else {
-            throw new EntityNotFoundException(Long.toString(id));
+            long orgId = organizationBranch.get().getOrganization().getId();
+            branchRepo.delete(organizationBranch.get());
+            return findBranchesByOrganization(pageable, orgId);
+        } else
+        {
+            throw new ResourceNotFoundException("Could not find branch with ID: " + id);
         }
+        
     }
     
     @Override
