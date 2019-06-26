@@ -23,7 +23,7 @@ public class OrganizationServiceImpl implements OrganizationService
     private OrganizationRepository organizationRepos;
 
     @Autowired
-    private OrganizationBranchRepository organizationContactRepos;
+    private OrganizationBranchRepository branchRepo;
 
 
     @Override
@@ -108,28 +108,28 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Page<OrganizationBranch> findAllBranches(Pageable pageable)
     {
-        return organizationContactRepos.findAll(pageable);
+        return branchRepo.findAll(pageable);
     }
 
     @Override
     public Page<OrganizationBranch> findBranchesByOrganization(Pageable pageable, long id)
     {
-        return organizationContactRepos.findAllByOrganization(pageable, findOrganizationById(id));
+        return branchRepo.findAllByOrganization(pageable, findOrganizationById(id));
     }
 
     @Transactional
     @Override
     public Page<OrganizationBranch> deleteBranch(Pageable pageable, long id)
     {
-        if(organizationContactRepos.findById(id).isPresent())
+        if(branchRepo.findById(id).isPresent())
         {
-            //Need to find a better way to do this... Need Org so we can return list of it's branches.. Need org contact so we can find org
-            Organization org = organizationRepos.findByBranches(organizationContactRepos.getOrganizationBranchBy(id));
-            organizationContactRepos.deleteById(id);
-            //need to return list of remaining organizations
+            Organization org = organizationRepos.findOrgByBranchId(id);
+            if (org == null) {
+                throw new ResourceNotFoundException("Could not find Organization belonging to branch with id: " + id);
+            }
+            branchRepo.deleteById(id);
             return findBranchesByOrganization(pageable, org.getId());
-        } else
-        {
+        } else {
             throw new EntityNotFoundException(Long.toString(id));
         }
     }
@@ -139,7 +139,7 @@ public class OrganizationServiceImpl implements OrganizationService
     {
         Organization org = findOrganizationById(id);
         newBranch.setOrganization(org);
-        organizationContactRepos.save(newBranch);
+        branchRepo.save(newBranch);
 
         return findBranchesByOrganization(pageable, id);
     }
@@ -147,7 +147,7 @@ public class OrganizationServiceImpl implements OrganizationService
     @Override
     public Page<OrganizationBranch> updateBranch(Pageable pageable, long id, OrganizationBranch branch)
     {
-        Optional<OrganizationBranch> branchOptional = organizationContactRepos.findById(id);
+        Optional<OrganizationBranch> branchOptional = branchRepo.findById(id);
         if(branchOptional.isPresent())
         {
             OrganizationBranch original = branchOptional.get();
@@ -161,7 +161,7 @@ public class OrganizationServiceImpl implements OrganizationService
             original.setLandmark(branch.getLandmark());
             original.setRegion(branch.getRegion());
             
-            organizationContactRepos.save(original);
+            branchRepo.save(original);
             
             return findBranchesByOrganization(pageable, original.getOrganization().getId());
             
