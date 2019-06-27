@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class TransactionController extends AbstractController {
                                      "Default sort order is ascending. Multiple sort criteria are supported.")})
     @GetMapping(value = "/all", produces = {"application/json"})
     public ResponseEntity<?> listAllTransactions(
-            @PageableDefault(page = 0, size = 25, sort={"date"}) Pageable pageable,
+            @PageableDefault(page = 0, size=Integer.MAX_VALUE, sort={"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             PagedResourcesAssembler<Transaction> assembler
     ) {
         Page<Transaction> page = transactionService.findAll(pageable);
@@ -57,7 +58,7 @@ public class TransactionController extends AbstractController {
     @GetMapping(value = "/client/{id}", produces = {"application/json"})
     public ResponseEntity<?> findTransactionsByClientId(
             @PathVariable long id,
-            @PageableDefault(page = 0, size = 25, sort={"date"}) Pageable pageable,
+            @PageableDefault(page = 0, size=Integer.MAX_VALUE, sort={"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             PagedResourcesAssembler<Transaction> assembler
     ) {
 
@@ -75,7 +76,7 @@ public class TransactionController extends AbstractController {
     public ResponseEntity<?> addNewTransaction(
             @Valid @RequestBody Transaction transaction,
             @PathVariable Long clientid,
-            @PageableDefault(page = 0, size = 25, sort={"date"}) Pageable pageable,
+            @PageableDefault(page = 0, size=Integer.MAX_VALUE, sort={"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             PagedResourcesAssembler<Transaction> assembler
     ) {
         transactionService.save(transaction, clientid);
@@ -92,7 +93,7 @@ public class TransactionController extends AbstractController {
     public ResponseEntity<?> updateTransaction(
             @RequestBody Transaction updateTransaction,
             @PathVariable long transactionId,
-            @PageableDefault(page = 0, size = 25, sort={"date"}) Pageable pageable,
+            @PageableDefault(page = 0, size=Integer.MAX_VALUE, sort={"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             PagedResourcesAssembler<Transaction> assembler
     ) {
         Page<Transaction> page = transactionService.update(pageable, updateTransaction, transactionId);
@@ -107,7 +108,7 @@ public class TransactionController extends AbstractController {
     @DeleteMapping("/delete/{transactionId}")
     public ResponseEntity<?> deleteTransactionById(
             @PathVariable Long transactionId,
-            @PageableDefault(page = 0, size = 25, sort={"date"}) Pageable pageable,
+            @PageableDefault(page = 0, size=Integer.MAX_VALUE, sort={"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             PagedResourcesAssembler<Transaction> assembler
     ) {
         long id = transactionService.findTransactionById(transactionId).getClient().getId();

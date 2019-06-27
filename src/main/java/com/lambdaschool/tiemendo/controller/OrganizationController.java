@@ -109,7 +109,7 @@ public class OrganizationController extends AbstractController
     @GetMapping(value = "/contacts/{id}", produces = {"application/json"})
     public ResponseEntity<?> getBranchesByOrganization(
             @PathVariable long id,
-            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
         Page<OrganizationBranch> page = organizationService.findBranchesByOrganization(pageable, id);
@@ -125,7 +125,7 @@ public class OrganizationController extends AbstractController
     public ResponseEntity<?> addNewBranch(
             @PathVariable long id,
             @RequestBody OrganizationBranch newBranch,
-            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
         Page<OrganizationBranch> page = organizationService.saveBranch(pageable, id, newBranch);
@@ -142,7 +142,7 @@ public class OrganizationController extends AbstractController
     public ResponseEntity<?> updateBranchById(
             @PathVariable long id,
             @RequestBody OrganizationBranch branch,
-            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
         Page<OrganizationBranch> page = organizationService.updateBranch(pageable, id, branch);
@@ -156,7 +156,7 @@ public class OrganizationController extends AbstractController
     @DeleteMapping("/contact/{contactId}")
     public ResponseEntity<?> deleteBranchById(
             @PathVariable Long contactId,
-            @PageableDefault(size=10, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<OrganizationBranch> assembler
     ) {
 

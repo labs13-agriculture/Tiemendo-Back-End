@@ -6,6 +6,7 @@ import com.lambdaschool.tiemendo.service.InstallmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
@@ -29,7 +30,7 @@ public class InstallmentController extends AbstractController
     // Lists all installments for a given client
     @GetMapping(value = "/installment-list/{clientid}", produces = {"application/json"})
     public ResponseEntity<?> listAllInstallments(
-            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
+            @PageableDefault(sort={"datePaid"}, direction = Sort.Direction.DESC, size = Integer.MAX_VALUE) Pageable pageable,
             @PathVariable Long clientid,
             PagedResourcesAssembler<Installment> assembler
     ) {
@@ -52,7 +53,7 @@ public class InstallmentController extends AbstractController
     public ResponseEntity<?> addNewInstallment(
             @PathVariable Long clientId,
             @Valid @RequestBody Installment newInstallment,
-            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
+            @PageableDefault(sort={"datePaid"}, direction = Sort.Direction.DESC, size = Integer.MAX_VALUE) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
 
@@ -68,7 +69,7 @@ public class InstallmentController extends AbstractController
     public ResponseEntity<?> updateInstallmentById(
             @RequestBody Installment installment,
             @PathVariable Long installmentId,
-            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
+            @PageableDefault(sort={"datePaid"}, direction = Sort.Direction.DESC, size = Integer.MAX_VALUE) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
         Page<Installment> page = installmentService.update(pageable, installment, installmentId);
@@ -82,7 +83,7 @@ public class InstallmentController extends AbstractController
     @DeleteMapping("/installment/{installmentId}")
     public ResponseEntity<?> deleteTransactionById(
             @PathVariable Long installmentId,
-            @PageableDefault(size=25, sort={"datePaid"}) Pageable pageable,
+            @PageableDefault(sort={"datePaid"}, direction = Sort.Direction.DESC, size = Integer.MAX_VALUE) Pageable pageable,
             PagedResourcesAssembler<Installment> assembler
     ) {
         Page<Installment> page = installmentService.delete(pageable, installmentId);
