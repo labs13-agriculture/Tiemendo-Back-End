@@ -27,7 +27,7 @@ public class ItemTypeController extends AbstractController {
     @ApiImplicitParam(name = "itemtype object", dataType = "ItemType", paramType = "body", value = "item-type object")
     @PostMapping(value = "/add")
     public ResponseEntity<?> addNewItemType(
-            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             @Valid @RequestBody ItemType itemType,
             PagedResourcesAssembler<ItemType> assembler
     ) {
@@ -43,7 +43,7 @@ public class ItemTypeController extends AbstractController {
     @ApiOperation(value = "Returns all item-types.", response = ItemType.class, responseContainer = "List")
     @GetMapping(value = "/all", produces = {"application/json"})
     public ResponseEntity<?> listAllItemTypes(
-            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             PagedResourcesAssembler<ItemType> assembler
     ) {
         Page<ItemType> page = itemTypeService.findAll(pageable);
@@ -56,7 +56,7 @@ public class ItemTypeController extends AbstractController {
     @ApiOperation(value = "Deletes item-type based on item-type id.", response = ItemType.class)
     @DeleteMapping("/delete/{itemtypeid}")
     public ResponseEntity<?> deleteItemTypeById(
-            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             @PathVariable Long itemtypeid,
             PagedResourcesAssembler<ItemType> assembler
     ) {
@@ -71,7 +71,7 @@ public class ItemTypeController extends AbstractController {
 
     @PutMapping(value = "/update/{itemtypeid}")
     public ResponseEntity<?> updateItemType(
-            @PageableDefault(size=25, sort={"name"}) Pageable pageable,
+            @PageableDefault(size=Integer.MAX_VALUE, sort={"name"}) Pageable pageable,
             @RequestBody ItemType updateItemType,
             @PathVariable long itemtypeid,
             PagedResourcesAssembler<ItemType> assembler
