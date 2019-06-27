@@ -8,6 +8,7 @@ import com.lambdaschool.tiemendo.model.Transaction;
 
 import com.lambdaschool.tiemendo.model.TransactionItem;
 import com.lambdaschool.tiemendo.repository.ClientRepository;
+import com.lambdaschool.tiemendo.repository.TransactionItemRepository;
 import com.lambdaschool.tiemendo.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,8 @@ public class TransactionServiceImpl implements TransactionService
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    TransactionItemRepository transactionItemRepository;
 
     @Override
     public Page<Transaction> findAll(Pageable pageable)
@@ -112,11 +115,15 @@ public class TransactionServiceImpl implements TransactionService
             ArrayList necessaryArrayList = new ArrayList();
             List<TransactionItem> originalInputs = transaction.getInputs();
 
-            for(TransactionItem i: originalInputs) {
+            for(TransactionItem i: originalInputs)
+            {
                 necessaryArrayList.add(i);
                 i.setTransaction(currentTransaction);//setting current transaction in updated transaction-items constructor
             }
-
+            //need to remove existing items, since full list including old items will be added in
+            //orphan removal was causing error, have to delete all manually and replace
+            transactionItemRepository.deleteAll(currentTransaction.getInputs());
+            currentTransaction.getInputs().clear();
             currentTransaction.setInputs(necessaryArrayList);
         }
 
