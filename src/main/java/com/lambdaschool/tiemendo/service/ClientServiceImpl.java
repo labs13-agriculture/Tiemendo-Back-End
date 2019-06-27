@@ -40,8 +40,8 @@ public class ClientServiceImpl implements ClientService {
 
         // TODO - add in implementation for pageable and sort
 
-        if (keys.contains("isLead") && searchFields.get("isLead") != null) {
-            lead = Boolean.valueOf(searchFields.get("isLead"));
+        if (keys.contains("lead") && searchFields.get("lead") != null) {
+            lead = Boolean.valueOf(searchFields.get("lead"));
         }
 
         if (keys.contains("type") && searchFields.get("type") != null) {
