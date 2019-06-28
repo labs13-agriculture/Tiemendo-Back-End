@@ -44,7 +44,7 @@ public class SeedDataFarmers implements CommandLineRunner
         var clients = new ArrayList<Client>();
         String[] types = {"FARMER", "RETAILER"};
 
-        for (var i=0; i++<100;) {
+        for (var i=0; i++<40;) {
             // Create a client
             Client client = new Client(f.bool().bool(), (long) Math.ceil(Math.random() * 20) + 2000,
                     f.address().streetAddress(), f.gameOfThrones().house(), f.name().firstName(),
