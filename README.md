@@ -21,24 +21,28 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ## Endpoints
 
+All Endpoints that return lists take pageable query paramaters `page, size, & sort`
+
 #### User Routes
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/users/users`                | Admin               | Returns paginated list of all users                |
 | GET    | `/users/users/:userId`        | Admin               | Returns info for a single user.                    |
+| GET    | `/users/usertype`        | Admin               | Returns roles of current user.                    |
+| GET    | `/users/username/:username`        | Admin               | Returns a list of users with name starting with :username   |
 | POST   | `/users/newuser`              | Admin               | Creates a new user                                 |
 | PUT    | `/users/update-user/:userId`  | Admin               | Updates user with given id                         |
 | DELETE | `/users/users/:userId`        | Admin               | Deletes user with given id                         |
 
-#### Farmer Routes
+#### Farmer Routes - refers to client model with type "farmer"
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
 | GET    | `/farmers/all`          | all users      | Returns a paginated list of all farmers      |
-| GET    | `/farmers/farmer/{id}`  | all users      | Returns Famer object with given ID           |
+| GET   | `/farmers/search`       | all users      | Returns paginated list of farmers with given criteria, takes query params `page, size, sort, name, location` |
+| GET    | `/farmers/farmer/{id}`  | all users      | Returns farmer object with given ID           |
 | POST   | `/farmers/add`  | all users      | Creates and returns a new farmer object |
-| POST   | `/farmers/search`       | all users      | Returns paginated list of farmers with given criteria |
 | PUT    | `/farmers/farmer/{id}`       | all users      | Modify and return updated farmer object with given id             |
 | DELETE | `/farmers/farmer/{id}`       | all users      | Delete a farmer with given id.                      |
 
@@ -46,27 +50,29 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                                     | Access Control | Description                                    |
 | ------ | -------------------------------------------- | -------------- | ---------------------------------------------- |
-| GET    | `/organizations/:orgId`                      | all users      | Returns the information for an organization.   |
-| GET    | `/organizations/contact-list`                | all users      | Returns the information for a contact.         |
-| GET    | `/organizations/locations-list`              | all users      | Returns the information for a location.        |
-| GET    | `/organizations/:organizations-list`         | all users      | Returns the information for all organizations. |
-| PUT    | `/organizations/:update-organization/:orgId` | all users      | Modify an existing organization.               |
-| POST   | `/organizations/new-organization`            | all users      | Creates a new organization.                    |
-| DELETE | `/organizations/:orgId`                      | all users      | Delete an organization.                        |
-| DELETE | `/organizations/:contact/:contactId`         | all users      | Delete a contact.                              |
-| DELETE | `/organizations/:location/:locationId`       | all users      | Delete a location.                             |
+| GET    | `/organizations/:orgId`                       | all users      | Returns the information for an organization.   |
+| GET    | `/organizations/organizations-list`         | all users      | Returns the information for all organizations. |
+| GET   | `/organizations/search`       | all users      | Returns paginated list of organizations with given criteria, takes query params `page, size, sort, name, location` |
+| PUT    | `/organizations/update-organization/:orgId` | all users      | Modify an existing organization.               |
+| POST   | `/organizations/new-organization`             | all users      | Creates a new organization.                    |
+| DELETE | `/organizations/:orgId`                       | all users      | Delete an organization.                        |
+|Branches|
+| GET    | `/organizations/contacts/:orgId`                | all users      | Returns a list of all branches for given organization|
+| POST   | `/organizations/branch/:orgId`             | all users      | Adds a new branch to given organization. |
+| PUT   | `/organizations/branch/:id`             | all users      | Updates branch with given :id   |
+| DELETE | `/organizations/contact/:contactId`         | all users      | Delete a branch.  |
 
 #### Installment Routes
 
 | Method | Endpoint                             | Access Control | Description                                   |
 | ------ | ------------------------------------ | -------------- | --------------------------------------------- |
 | GET    | `/installment/:installmentId`        | all users      | Returns the information for an installment.   |
-| GET    | `/installment/installment-list`      | all users      | Returns the information for all installments. |
-| PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment.               |
-| POST   | `/new-installment/:clientId`         | all users      | Creates a new installment.                    |
-| DELETE | `/installment/:installmentId`        | all users      | Delete an installment.                        |
+| GET    | `/installment/installment-list`      | all users      | Returns a list of all installments. |
+| PUT    | `/update-installment/:installmentId` | all users      | Modify an existing installment. Returns a list of all installments.   |
+| POST   | `/new-installment/:clientId`         | all users      | Creates a new installment. Returns a list of all installments. |
+| DELETE | `/installment/:installmentId`        | all users      | Delete an installment. Returns a list of all installments. |
 
-#### Retailer Routes
+#### Retailer Routes - refers to client model with type "retailer"
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
@@ -81,20 +87,10 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/itemtype/all` | all users      | Returns the information for an organization. |
-| POST    | `/itemtype/add` | all users      | Returns and creates an ItemType with given information. |
-| PUT    | `/itemtype/update/{itemtypeid}` | all users      | Modify and return an existing ItemType with id matching {itemtypeid}. |
-| DELETE | `/itemtype/delete/{itemtypeid}` | all users      | Delete item type with id matching {itemtypeid}|
-
-#### Crop-Type Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/croptypes/all` | all users      | Returns a list of all CropTypes |
-| GET    | `/croptypes/crop/{id}` | all users      | Returns the information for CropType with given {id}, also takes a boolean queary param `yields` that includes yields of given crop |
-| POST   | `/croptypes/new/{id}/` | all users      | Returns and creates a CropType with given information |
-| PUT    | `/croptypes/update/{id}/` | all users      | Modify and return an existing CropType with given {id}.|
-| DELETE | `/croptypes/delete/{id}` | all users      | Delete CropType with given id.  |
+| GET    | `/itemtype/all` | all users      | Returns A list of all Items sorted alphabetically |
+| POST    | `/itemtype/add` | all users      | Creates an ItemType with given information. Returns A list of all Items sorted alphabetically |
+| PUT    | `/itemtype/update/{itemtypeid}` | all users      | Modify an existing ItemType with id matching {itemtypeid}. Returns A list of all Items sorted alphabetically |
+| DELETE | `/itemtype/delete/{itemtypeid}` | all users      | Delete item type with id matching {itemtypeid}. Returns A list of all Items sorted alphabetically |
 
 #### Transaction Routes
 
@@ -103,62 +99,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 | GET    | `/transaction/all` | all users | Returns a pageable list of all transaction |
 | GET    | `/transaction/{id}` | all users | Returns the transaction with given id |
 | GET    | `/transaction/client/{id}` | all users | Returns a list of transactions for client with given id |
-| POST   | `/transaction/add/{clientId}` | all users | Adds a new transaction to client with given id |
-| PUT    | `/transaction/update/{transactionId}` | all users | Modify an existing transaction.  |
-| DELETE | `/transaction/delete/{transactionId}` | all users | Delete an existing transaction.     |
-
-#### Transaction-Item Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/transaction-item/all` | all users  | Returns a pageable list of all Transaction-Items |
-| GET    | `/transaction-item/{id}`| all users  | Returns Transaction Item with given Id |
-| POST   | `/transaction-item/add` | all users  | Adds a new Transaction Item with given Info |
-| PUT    | `/transaction-item/update/{titemId}` | all users | Modify an existing Transaction Item. |
-| DELETE | `/transaction-item/delete/{titemId}` | all users | Delete a Transaction Item. |
-
-#### Yield Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/yield/all` | all users | Returns a pagable list of all Yields |
-| GET    | `/yield/{farmerid}/{cropname}` | all users | Returns a list of all Yields belonging to a given farmer of croptype|
-| GET    | `/yield/{farmerid}` | all users | Returns a list of all yields for a given farmer |
-| POST   | `/yield/add/{farmerid}` | all users | Adds a new Yield to a given farmer |
-| PUT    | `/yield/update/{yieldid}` | all users | Modify an existing Yield. |
-| DELETE | `/yield/delete/{yieldid}` | all users | Delete an existing Yield. |
-
+| POST   | `/transaction/add/{clientId}` | all users | Adds a new transaction to client with given id, Returns a list of transactions |
+| PUT    | `/transaction/update/{transactionId}` | all users | Modify an existing transaction. Returns a list of transactions  |
+| DELETE | `/transaction/delete/{transactionId}` | all users | Delete an existing transaction. Returns a list of transactions  |
 
 
 # Data Model
-
-🚫 List is not comprehensive and still a WIP
-
-#### CROPTYPE
-
----
-
-```
-{
-    id: long (generated value)
-    cropName: string
-    yields: [yield, ...]
-    active: boolean
-}
-```
-
-#### ITEMTYPE
-
----
-
-```
-{
-    id: long (generated value)
-    name: string
-    transactions: [transactionItem, ...]
-    active: boolean
-}
-```
 
 #### CLIENT
 
@@ -167,158 +113,69 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 ```
 {
     id: long, // (generated value) maps directly to id of subclasses
+    type: string, // ["FARMER", "RETAILER"] 
+    startyear: long,
+    lead: boolean,
+    transactions: [transaction, ...],
+    installments: [installment, ...],
+    
+    // Client Contact and Demographic Info
+    title: string,
     name: string,
-    isLead: boolean,
-    type: string,
-    transactions: [transaction, ...]
-    installments: [installment, ...]
+    gender: string,
+    nationality: string,
+    dateofbirth: string,
+    educationlevel: string,
+    position: string,
+    phone: string,
+    email: string,
+    
+    // Client location Info
+    address: string,
+    region: string,
+    district: string,
+    community: string,
+    landmark: string,
 }
 ```
 
 
-#### ORGANIZATION (extends CLIENT)
+#### ORGANIZATION
 
 ---
 
 ```
 {
-  id: long (generated value) relates directly to id of associated client
-  beneficiaries: int
-  headquarters: string
-  organizationcontacts: [organizationcontact, ...]
-  organizationlocations: [organizationlocations, ...]
+  id: long, // (generated value) relates directly to id of associated client
+  beneficiaries: int,
+  headquarters: string,
+  name: string,
+  lead: boolean,
+  organizationbranches: [organizationbranch, ...]
 }
 ```
 
-#### ORGANIZATIONLOCATION
+#### ORGANIZATIONBRANCH
 
 ---
 
 ```
 {
-  ogranizationlocationid: long, // (generated value)
-  address: string,
-  district: string,
-  landmark: string,
+  id: long, // (generated value)
   organization: organization,
-  region: string,
-}
-```
-
-#### ORGANIZATIONCONTACTS
-
----
-
-```
-{
-    organizationcontactid: long, // (generated value)
-    email: string,
-    name: string,
-    organization: Organization,
-    phone: string,
-    position: string
-}
-```
-
-#### FARMER (extends CLIENT)
-
----
-
-```
-{
-  id: long, // (generated value) relates directly to id of associated client
-  startyear: long,
-  farmercontact: farmercontact, 
-  farmerlocation: farmerlocation,
-  yieldHistory: [yield, ...]
-}
-```
-
-#### FARMERLOCATION
-
----
-
-```
-{
-  farmerlocationid: long, // (Generated Value)
-  address: string,
-  region: string,
-  district: string,
-  community: string,
-  landmark: string,
-  farmer: farmer
   
-}
-```
-
-#### FARMERCONTACTS
-
----
-
-```
-{
-    farmercontactid: long, // (generated value)
-    title: string,
-    name: string,
-    gender: string,
-    nationality: string,
-    dateofbirth: string,
-    educationlevel: string,
-    position: string,
-    phone: string,
-    email: string,
-    farmer: farmer
-}
-```
-
-#### RETAILER (extends CLIENT)
-
----
-
-```
-{
-  id: long, // (generated value) relates directly to id of associated client
-  startyear: long,
-  retailercontact: retailercontact, 
-  retailerlocation: retailerlocation,
-  yieldHistory: [yield, ...]
-}
-```
-
-#### RETAILERLOCATION
-
----
-
-```
-{
-  retailerlocationid: long, // (Generated Value)
+  // Branch Location Info
   address: string,
-  region: string,
   district: string,
-  community: string,
   landmark: string,
-  retailer: retailer
+  region: string,
   
-}
-```
-
-#### RETAILERCONTACTS
-
----
-
-```
-{
-    retailercontactid: long, // (generated value)
-    title: string,
-    name: string,
-    gender: string,
-    nationality: string,
-    dateofbirth: string,
-    educationlevel: string,
-    position: string,
-    phone: string,
-    email: string,
-    retailer: retailer
+  // Branch Contact Info
+  email: string,
+  name: string,
+  organization: Organization,
+  phone: string,
+  position: string
 }
 ```
 
@@ -328,12 +185,12 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 
 ```
 {
-    id: long (generated value)
-    amountPaid: double
-    datePaid: Date
-    mode: string
-    officer: string
-    client: Client
+    id: long, // (generated value)
+    amountPaid: double,
+    datePaid: Date,
+    mode: string,
+    officer: string,
+    client: Client,
 }
 ```
 
@@ -367,16 +224,20 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
 }
 ```
 
-#### YIELD
+#### ITEMTYPE
 
 ---
 
 ```
+// This is used for keeping track of inventory as well as generating the drop downs for transactions
 {
-  key: value, // comment
+    id: long, // (generated value)
+    name: string,
+    transactions: [transactionItem, ...],
+    active: boolean,
+    quantity: int,
 }
 ```
-
 
 #### USERS
 
@@ -389,19 +250,6 @@ Java Rest Api Built with Spring Framework on a postgres database deployed to Her
   authority: ["ADMIN", "USER", ...]
 }
 ```
-
-## 3️⃣ Environment Variables
-
-🚫 Currently no environment variables need to be set, keeping this in case that changes
-
-In order for the app to function correctly, the user must set up their own environment variables.
-create a .env file that includes the following:
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
     
 ## Contributing
 
@@ -439,5 +287,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/labs13-agriculture/front-end) for details on the fronend of our project.

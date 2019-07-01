@@ -22,7 +22,7 @@ public class TransactionItem extends Auditable {
     private Double unitPrice;
 
     @ManyToOne
-    @JoinColumn(name="item")
+    @JoinColumn(name="item", nullable = false)
     @JsonIgnoreProperties("transactions")
     private ItemType item;
 

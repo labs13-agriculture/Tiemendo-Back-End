@@ -66,7 +66,7 @@ public class SeedDataFarmers implements CommandLineRunner
             client.setTitle(f.options().option("CEO", "Director", "Sales", "Organizer", "Mr.", "Sir"));
 
             // This variable adds a multiplier to transactions and installments
-            var extra = (int) Math.floor(Math.random() * 20);
+            var extra = (int) Math.floor(Math.random() * 7);
             // Add Transactions to client
             // create list of transactions
             var transactions = new ArrayList<Transaction>();
