@@ -34,7 +34,7 @@ public class SeedDataOrganizations implements CommandLineRunner
         var f = new Faker();
 
         // no for Number Organizations
-        for (var no=0; no<20; no++){
+        for (var no=0; no<8; no++){
             var org = new Organization(
                     f.company().name(),
                     f.bool().bool(),
@@ -45,7 +45,7 @@ public class SeedDataOrganizations implements CommandLineRunner
             org = organizationRepository.save(org);
 
             // nb for number of branches
-            for(var nb=0; nb<1 + (int) Math.floor(Math.random() * 12); nb++) {
+            for(var nb=0; nb<1 + (int) Math.floor(Math.random() * 8); nb++) {
                 var branch = new OrganizationBranch(
                         f.harryPotter().character(),
                         f.phoneNumber().cellPhone(),
