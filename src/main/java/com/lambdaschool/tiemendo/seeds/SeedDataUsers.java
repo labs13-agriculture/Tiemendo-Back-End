@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class SeedDataUsers implements CommandLineRunner
 {
     private RoleRepository rolerepos;

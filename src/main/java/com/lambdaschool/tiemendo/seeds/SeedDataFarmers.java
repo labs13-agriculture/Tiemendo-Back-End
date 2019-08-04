@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class SeedDataFarmers implements CommandLineRunner
 {
     private ClientRepository clientRepo;
