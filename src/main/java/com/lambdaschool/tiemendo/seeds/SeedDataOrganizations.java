@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class SeedDataOrganizations implements CommandLineRunner
 {
     private OrganizationRepository organizationRepository;

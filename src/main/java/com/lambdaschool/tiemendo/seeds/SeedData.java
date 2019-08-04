@@ -9,8 +9,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class SeedData implements CommandLineRunner
 {
     ItemTypeRepository itemRepo;
